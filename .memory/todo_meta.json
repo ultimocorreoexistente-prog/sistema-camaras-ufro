@@ -3,16 +3,16 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Diseñar la interfaz UI/UX del sistema completo",
+        "content": "Diseño UI/UX - No necesario, continuar con desarrollo existente",
         "details": "Crear especificaciones de diseño para todos los módulos: Dashboard, Gestión de Cámaras, Gabinetes, Switches, Fallas, Mantenimiento, Mapas de Red. Incluir diseño de formularios, tablas, visualizaciones y navegación.",
-        "status": "pending",
+        "status": "cancelled",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Desarrollar aplicación fullstack con Flask + React",
-        "details": "1. Backend Flask con modelos de BD (Cámaras, Gabinetes, Switches, Fallas, Mantenimiento)\n2. Script de migración de datos desde Excel a SQLite\n3. API endpoints RESTful\n4. Frontend React con módulos para cada sección\n5. Integración de Mermaid.js para mapas de red\n6. Sistema de autenticación (admin, técnico, supervisor)",
-        "status": "pending",
+        "content": "Desarrollar aplicación fullstack Flask + React para Railway",
+        "details": "1. Backend Flask con PostgreSQL para Railway\n2. Modelos de BD completos (Cámaras, Gabinetes, Switches, Puertos, Fallas, Mantenimiento)\n3. Script de migración de datos desde Excel\n4. API endpoints RESTful completos\n5. Frontend React con todos los módulos\n6. Integración Mermaid.js para mapas de red\n7. Sistema de autenticación multi-rol\n8. Cargar 4 casos reales en BD\n9. Configuración para Railway con Gunicorn",
+        "status": "in_progress",
         "priority": "high"
       },
       "3": {
