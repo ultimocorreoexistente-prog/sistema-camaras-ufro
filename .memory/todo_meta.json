@@ -1,0 +1,34 @@
+{
+  "todos": {
+    "Coordinator": {
+      "1": {
+        "id": "1",
+        "content": "Diseñar la interfaz UI/UX del sistema completo",
+        "details": "Crear especificaciones de diseño para todos los módulos: Dashboard, Gestión de Cámaras, Gabinetes, Switches, Fallas, Mantenimiento, Mapas de Red. Incluir diseño de formularios, tablas, visualizaciones y navegación.",
+        "status": "pending",
+        "priority": "high"
+      },
+      "2": {
+        "id": "2",
+        "content": "Desarrollar aplicación fullstack con Flask + React",
+        "details": "1. Backend Flask con modelos de BD (Cámaras, Gabinetes, Switches, Fallas, Mantenimiento)\n2. Script de migración de datos desde Excel a SQLite\n3. API endpoints RESTful\n4. Frontend React con módulos para cada sección\n5. Integración de Mermaid.js para mapas de red\n6. Sistema de autenticación (admin, técnico, supervisor)",
+        "status": "pending",
+        "priority": "high"
+      },
+      "3": {
+        "id": "3",
+        "content": "Implementar casos reales y funcionalidades avanzadas",
+        "details": "1. Cargar los 4 casos reales documentados en la BD\n2. Implementar sistema de consultas bidireccionales\n3. Sistema de alertas proactivas\n4. Análisis de dependencias en red",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "4": {
+        "id": "4",
+        "content": "Pruebas y deployment",
+        "details": "1. Verificar funcionalidad de todos los módulos\n2. Preparar documentación de deployment\n3. Configurar para producción (PostgreSQL)",
+        "status": "pending",
+        "priority": "medium"
+      }
+    }
+  }
+}
