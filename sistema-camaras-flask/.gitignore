@@ -17,3 +17,8 @@ instance/
 dist/
 build/
 *.egg-info/
+.pytest_cache/
+htmlcov/
+.coverage
+*.log
+node_modules/

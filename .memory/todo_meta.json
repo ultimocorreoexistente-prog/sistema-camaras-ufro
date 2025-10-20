@@ -5,111 +5,111 @@
         "id": "1",
         "content": "Configuración inicial proyecto Flask + Railway",
         "details": "1. Crear estructura de directorios del proyecto Flask\n2. Configurar requirements.txt con todas las dependencias (Flask, SQLAlchemy, psycopg2, pandas, openpyxl, gunicorn)\n3. Crear archivo .env.example con variables de entorno\n4. Configurar Procfile para Railway (gunicorn)\n5. Crear railway.json con configuración de deployment\n6. Configurar .gitignore apropiado",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "2": {
         "id": "2",
         "content": "Desarrollar modelos SQLAlchemy (14 tablas)",
         "details": "Crear models.py con:\n1. Usuario (auth con roles: admin, supervisor, tecnico, visualizador)\n2. Ubicacion (campus, edificio, piso, latitud, longitud)\n3. Camara (474 cámaras con relaciones)\n4. Gabinete (con geolocalización)\n5. Switch (conectividad de red)\n6. Puerto_Switch (mapeo detallado)\n7. UPS (alimentación)\n8. NVR_DVR (grabación)\n9. Fuente_Poder (alimentación adicional)\n10. Catalogo_Tipo_Falla (tipos estándar)\n11. Falla (con workflow 6 estados + VALIDACIÓN ANTI-DUPLICADOS)\n12. Mantenimiento (historial completo)\n13. Equipo_Tecnico (técnicos del sistema)\n14. Historial_Estado_Equipo (trazabilidad)\n\nTodas las tablas de equipos deben incluir: estado, fecha_alta, fecha_baja, motivo_baja, latitud, longitud",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "3": {
         "id": "3",
         "content": "Crear script de migración desde Excel a PostgreSQL",
         "details": "Desarrollar migrate_data.py que:\n1. Lee las 13 planillas Excel desde user_input_files/planillas-web/\n2. Valida integridad de datos\n3. Normaliza datos (ubicaciones, relaciones FK)\n4. Migra en orden correcto (respetando dependencias):\n   - Ubicaciones\n   - Técnicos\n   - Tipos de fallas\n   - Estados de falla\n   - Gabinetes\n   - Switches y puertos\n   - UPS, NVR/DVR, Fuentes\n   - Cámaras (474 unidades)\n   - Fallas (con validación anti-duplicados)\n   - Mantenimientos\n5. Genera log detallado de migración\n6. Maneja transacciones para rollback en caso de error",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "4": {
         "id": "4",
         "content": "Implementar sistema de autenticación y autorización",
         "details": "1. Configurar Flask-Login\n2. Crear rutas de login/logout\n3. Implementar decoradores por rol (admin, supervisor, tecnico, visualizador)\n4. Crear usuarios por defecto:\n   - admin/admin123 (admin)\n   - supervisor/super123 (supervisor)\n   - tecnico1/tecnico123 (tecnico)\n   - visualizador/viz123 (visualizador)\n5. Hash de contraseñas con Werkzeug\n6. Sesiones seguras",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "5": {
         "id": "5",
         "content": "Desarrollar backend Flask - Rutas y API REST",
-        "details": "Crear app.py con rutas para:\n\n**Dashboard:**\n- GET / - Dashboard principal con estadísticas\n\n**Autenticación:**\n- GET /login - Formulario login\n- POST /login - Autenticar usuario\n- GET /logout - Cerrar sesión\n\n**Gestión Equipos (CRUD completo):**\n- /camaras (list, create, edit, delete, detail)\n- /gabinetes (list, create, edit, delete, detail)\n- **GET /gabinetes/{id}/mantencion** - Vista mantención gabinete con todos los equipos contenidos\n- /switches (list, create, edit, delete, detail)\n- /ups (list, create, edit, delete, detail)\n- /nvr (list, create, edit, delete, detail)\n- /fuentes (list, create, edit, delete, detail)\n\n**Gestión Fallas (con workflow 6 estados):**\n- GET /fallas - Lista con filtros\n- GET /fallas/nueva - Formulario nueva falla\n- POST /fallas/nueva - Crear falla (CON VALIDACIÓN ANTI-DUPLICADOS)\n- GET /fallas/<id> - Detalle falla\n- POST /fallas/<id>/asignar - Asignar técnico\n- POST /fallas/<id>/reparar - Registrar reparación\n- POST /fallas/<id>/cerrar - Cerrar falla\n- POST /fallas/<id>/cancelar - Cancelar falla\n\n**Mantenimientos:**\n- GET /mantenimientos - Lista\n- POST /mantenimientos/nuevo - Registrar mantenimiento\n\n**Mapas y visualización:**\n- GET /mapa-red - Topología Mermaid.js\n- GET /mapa-geolocalizacion - Mapa Leaflet.js\n- GET /informes-avanzados - Reportes\n\n**API REST para AJAX:**\n- GET /api/estadisticas - Datos dashboard\n- GET /api/equipos/<tipo> - Lista equipos\n- GET /api/fallas/validar - Validar duplicados antes de insertar\n- **GET /api/gabinetes/{id}/equipos** - JSON con todos los equipos del gabinete",
-        "status": "pending",
+        "details": "Crear app.py con rutas para:\n\n**Dashboard:**\n- GET / - Dashboard principal con estadísticas\n\n**Autenticación:**\n- GET /login - Formulario login\n- POST /login - Autenticar usuario\n- GET /logout - Cerrar sesión\n\n**Gestión Equipos (CRUD completo):**\n- /camaras (list, create, edit, delete, detail)\n- /gabinetes (list, create, edit, delete, detail)\n- **GET /gabinetes/{id}/mantencion** - Vista mantención/reparación de gabinete con todos los equipos contenidos (switches, NVR/DVR, UPS, fuentes)\n- /switches (list, create, edit, delete, detail)\n- /ups (list, create, edit, delete, detail)\n- /nvr (list, create, edit, delete, detail)\n- /fuentes (list, create, edit, delete, detail)\n\n**Gestión Fallas (con workflow 6 estados):**\n- GET /fallas - Lista con filtros\n- GET /fallas/nueva - Formulario nueva falla\n- POST /fallas/nueva - Crear falla (CON VALIDACIÓN ANTI-DUPLICADOS)\n- GET /fallas/<id> - Detalle falla\n- POST /fallas/<id>/asignar - Asignar técnico\n- POST /fallas/<id>/reparar - Registrar reparación\n- POST /fallas/<id>/cerrar - Cerrar falla\n- POST /fallas/<id>/cancelar - Cancelar falla\n\n**Mantenimientos:**\n- GET /mantenimientos - Lista\n- POST /mantenimientos/nuevo - Registrar mantenimiento\n\n**Mapas y visualización:**\n- GET /mapa-red - Topología Mermaid.js\n- GET /mapa-geolocalizacion - Mapa Leaflet.js\n- GET /informes-avanzados - Reportes\n\n**API REST para AJAX:**\n- GET /api/estadisticas - Datos dashboard\n- GET /api/equipos/<tipo> - Lista equipos\n- GET /api/fallas/validar - Validar duplicados antes de insertar\n- **GET /api/gabinetes/{id}/equipos** - JSON con todos los equipos del gabinete (para mantenciones/reparaciones)",
+        "status": "completed",
         "priority": "high"
       },
       "6": {
         "id": "6",
         "content": "Implementar VALIDACIÓN ANTI-DUPLICADOS de fallas (CRÍTICO)",
         "details": "**REQUISITO CRÍTICO DEL SISTEMA:**\n\nCrear función `validar_falla_duplicada(camara_id)` que:\n\n1. Busca fallas existentes para la cámara especificada\n2. Verifica estado de la última falla:\n   - Si NO existe falla previa → PERMITIR inserción\n   - Si existe falla con estado \"Cerrada\" o \"Cancelada\" → PERMITIR inserción\n   - Si existe falla con estado \"Pendiente\", \"Asignada\" o \"En Proceso\" → RECHAZAR inserción\n3. Retorna: {\"permitir\": true/false, \"mensaje\": \"...\", \"falla_existente\": {...}}\n\nIntegrar validación en:\n- POST /fallas/nueva (backend)\n- Script de migración (migrate_data.py)\n- Formulario web (validación AJAX antes de submit)\n- API REST endpoint /api/fallas/validar\n\nMensaje de error: \"Ya existe una falla [ESTADO] para esta cámara (ID: XXX, reportada el DD/MM/YYYY). Debe cerrar o cancelar la falla anterior antes de reportar una nueva.\"\n\nPruebas:\n- Insertar falla pendiente → OK\n- Intentar insertar otra para misma cámara → RECHAZAR\n- Cerrar primera falla → OK\n- Insertar nueva falla → OK",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "7": {
         "id": "7",
         "content": "Desarrollar templates Jinja2 - Base y autenticación",
         "details": "Crear templates:\n\n1. **base.html** - Layout base con:\n   - Bootstrap 5 o Tailwind CSS\n   - Navbar con menú por rol\n   - Footer\n   - Blocks: title, content, extra_css, extra_js\n   - Mensajes flash\n\n2. **login.html** - Formulario de login\n   - Campo usuario\n   - Campo contraseña\n   - Botón iniciar sesión\n   - Mensajes de error\n\n3. **dashboard.html** - Dashboard principal\n   - Cards con estadísticas (total cámaras, operativas, fallas pendientes, mantenimientos mes)\n   - Gráficos Chart.js (fallas por tipo, fallas por campus, tiempo resolución)\n   - Lista últimas fallas\n   - Accesos rápidos",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "8": {
         "id": "8",
         "content": "Desarrollar templates Jinja2 - CRUD Equipos (6 tipos)",
-        "details": "Para cada tipo de equipo (Cámaras, Gabinetes, Switches, UPS, NVR/DVR, Fuentes):\n\n1. **{equipo}_list.html** - Lista con:\n   - Tabla paginada\n   - Filtros por campus, edificio, estado\n   - Búsqueda por código/nombre/IP\n   - Botones Nuevo, Editar, Eliminar, Ver detalle\n   - Indicadores visuales de estado\n\n2. **{equipo}_form_alta.html** - Formulario alta:\n   - Todos los campos del modelo\n   - Selector de ubicación (campus → edificio → piso)\n   - Mapa interactivo para latitud/longitud\n   - Validaciones frontend\n   - Campo fecha_alta automático\n\n3. **{equipo}_form_baja.html** - Formulario baja:\n   - Fecha baja\n   - Motivo (falla, vandalismo, obsolescencia, otro)\n   - Observaciones\n   - Confirmación\n\n4. **{equipo}_detalle.html** - Vista detalle:\n   - Información completa del equipo\n   - Ubicación en mapa\n   - Historial de cambios de estado\n   - Fallas asociadas\n   - Mantenimientos realizados\n   - Botones Editar, Dar de baja\n\n5. **ESPECIAL GABINETES - gabinetes_mantencion.html**:\n   - Vista de mantención de gabinete\n   - Listado organizado de equipos contenidos:\n     * Switches en este gabinete (tabla con modelo, IP, puertos)\n     * NVR/DVR en este gabinete (tabla con modelo, canales)\n     * UPS en este gabinete (tabla con modelo, capacidad)\n     * Fuentes de poder en este gabinete (tabla con modelo, voltaje)\n   - Indicadores de capacidad/ocupación\n   - Estado de cada equipo contenido\n   - Botones acceso rápido a cada equipo\n   - Historial de mantenimientos del gabinete",
-        "status": "pending",
+        "details": "Para cada tipo de equipo (Cámaras, Gabinetes, Switches, UPS, NVR/DVR, Fuentes):\n\n1. **{equipo}_list.html** - Lista con:\n   - Tabla paginada\n   - Filtros por campus, edificio, estado\n   - Búsqueda por código/nombre/IP\n   - Botones Nuevo, Editar, Eliminar, Ver detalle\n   - Indicadores visuales de estado\n\n2. **{equipo}_form_alta.html** - Formulario alta:\n   - Todos los campos del modelo\n   - Selector de ubicación (campus → edificio → piso)\n   - Mapa interactivo para latitud/longitud\n   - Validaciones frontend\n   - Campo fecha_alta automático\n\n3. **{equipo}_form_baja.html** - Formulario baja:\n   - Fecha baja\n   - Motivo (falla, vandalismo, obsolescencia, otro)\n   - Observaciones\n   - Confirmación\n\n4. **{equipo}_detalle.html** - Vista detalle:\n   - Información completa del equipo\n   - Ubicación en mapa\n   - Historial de cambios de estado\n   - Fallas asociadas\n   - Mantenimientos realizados\n   - Botones Editar, Dar de baja\n\n5. **ESPECIAL GABINETES - gabinetes_mantencion.html**:\n   - Vista de mantención/reparación de gabinete\n   - Listado organizado de equipos contenidos:\n     * Switches en este gabinete (tabla con modelo, IP, puertos)\n     * NVR/DVR en este gabinete (tabla con modelo, canales)\n     * UPS en este gabinete (tabla con modelo, capacidad)\n     * Fuentes de poder en este gabinete (tabla con modelo, voltaje)\n   - Indicadores de capacidad/ocupación\n   - Estado de cada equipo contenido\n   - Botones acceso rápido a cada equipo\n   - **Historial de MANTENCIONES Y REPARACIONES del gabinete**\n   - Sección para registrar nueva mantención o reparación\n   - Formulario para documentar trabajos realizados (mantención preventiva, correctiva, reparaciones)",
+        "status": "completed",
         "priority": "medium"
       },
       "9": {
         "id": "9",
         "content": "Desarrollar templates Jinja2 - Gestión de Fallas",
         "details": "1. **fallas_list.html** - Lista de fallas:\n   - Tabla con todas las fallas\n   - Filtros por estado, campus, tipo, técnico, fecha\n   - Indicadores visuales por estado (colores)\n   - Tiempo transcurrido desde reporte\n   - Botones acciones según rol\n\n2. **fallas_form.html** - Formulario nueva falla:\n   - Selector de equipo (tipo + ID)\n   - Tipo de falla (catálogo)\n   - Descripción detallada\n   - Prioridad (Baja, Media, Alta, Crítica)\n   - **Validación AJAX anti-duplicados antes de submit**\n   - Mensaje de advertencia si ya existe falla\n\n3. **fallas_workflow.html** - Vista workflow:\n   - Visualización gráfica del estado actual\n   - Timeline de cambios de estado\n   - Información del técnico asignado\n   - Botones de acción según estado y rol:\n     * Asignar (admin/supervisor)\n     * Iniciar reparación (técnico)\n     * Marcar como reparada (técnico)\n     * Cerrar (supervisor)\n     * Cancelar (admin/supervisor)\n\n4. **fallas_asignar.html** - Asignar técnico:\n   - Selector de técnico disponible\n   - Fecha estimada de resolución\n   - Observaciones\n\n5. **fallas_reparar.html** - Registrar reparación:\n   - Fecha/hora inicio\n   - Fecha/hora fin\n   - Solución aplicada (obligatorio)\n   - Materiales utilizados\n   - Costo\n   - Confirmación reparación exitosa",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "10": {
         "id": "10",
         "content": "Implementar mapas de red con Mermaid.js",
         "details": "Crear mapa_red.html:\n\n1. **Vista general:**\n   - Topología completa de la red\n   - Jerarquía: Core → Switch → Gabinete → UPS → Cámara/NVR\n   - Colores por tipo de componente\n   - Estados visuales (activo/inactivo)\n\n2. **Vista por campus:**\n   - Filtro selector de campus\n   - Mapa específico del campus seleccionado\n   - Detalle por edificio\n\n3. **Vista por ubicación:**\n   - Mapas en cascada\n   - Click en componente para ver detalle\n   - Enlaces a páginas de detalle\n\n4. **Interactividad:**\n   - Zoom y pan\n   - Click en nodo para ver info\n   - Exportar a PNG\n   - Modo impresión\n\nGenerar diagrams Mermaid dinámicamente desde BD en backend",
-        "status": "pending",
+        "status": "completed",
         "priority": "medium"
       },
       "11": {
         "id": "11",
         "content": "Implementar geolocalización con Leaflet.js",
         "details": "Crear mapa_geolocalizacion.html:\n\n1. **Mapa interactivo:**\n   - Leaflet.js con OpenStreetMap\n   - Marcadores por tipo de equipo (íconos diferentes)\n   - Colores según estado (verde=activo, rojo=inactivo, amarillo=en mantenimiento)\n\n2. **Filtros:**\n   - Por campus\n   - Por tipo de equipo\n   - Por estado\n   - Checkbox múltiple\n\n3. **Interactividad:**\n   - Click en marcador → popup con info básica\n   - Botón \"Ver detalle\" en popup\n   - Botón \"Reportar falla\" en popup\n   - Clustering para muchos marcadores cercanos\n\n4. **Funcionalidades adicionales:**\n   - Búsqueda de equipos en mapa\n   - Calcular ruta entre puntos\n   - Vista satélite/callejero\n   - Exportar coordenadas",
-        "status": "pending",
+        "status": "completed",
         "priority": "medium"
       },
       "12": {
         "id": "12",
         "content": "Desarrollar sistema de informes avanzados",
         "details": "Crear informes_avanzados.html:\n\n1. **Inventarios por campus:**\n   - Total equipos por tipo\n   - Equipos activos/inactivos\n   - Equipos por edificio\n   - Exportar a Excel\n\n2. **Análisis de fallas:**\n   - Fallas por tipo (gráfico)\n   - Fallas por campus\n   - Frecuencia de fallas por equipo\n   - Ranking equipos con más fallas\n   - Exportar a Excel/PNG\n\n3. **Reportes de mantenimiento:**\n   - Mantenimientos realizados por período\n   - Costo total de mantenimientos\n   - Equipos con más mantenimientos\n   - Calendario de próximos mantenimientos preventivos\n\n4. **Estadísticas tiempo de resolución:**\n   - Tiempo promedio por técnico\n   - Tiempo promedio por tipo de falla\n   - Fallas más rápidas/lentas\n   - Gráficos de evolución temporal\n\n5. **Exportación:**\n   - Excel: openpyxl\n   - PNG: html2canvas + Chart.js\n   - CSS @media print optimizado\n\n6. **Impresión:**\n   - Botón imprimir\n   - CSS específico para impresora\n   - Ocultar elementos no necesarios\n   - Saltos de página apropiados",
-        "status": "pending",
+        "status": "completed",
         "priority": "medium"
       },
       "13": {
         "id": "13",
         "content": "Desarrollar frontend - JavaScript y CSS",
         "details": "1. **static/js/main.js:**\n   - Validación de formularios\n   - Peticiones AJAX\n   - Manejo de mensajes flash\n   - Confirmaciones de eliminación\n\n2. **static/js/maps.js:**\n   - Integración Leaflet.js\n   - Manejo de marcadores\n   - Filtros de mapa\n   - Eventos de click\n\n3. **static/js/charts.js:**\n   - Integración Chart.js\n   - Gráficos del dashboard\n   - Actualización en tiempo real\n   - Exportación a imagen\n\n4. **static/js/fallas_validation.js:**\n   - Validación AJAX anti-duplicados\n   - Mostrar advertencias\n   - Deshabilitar submit si hay duplicado\n\n5. **static/css/style.css:**\n   - Estilos personalizados\n   - Tema consistente\n   - Responsive design\n   - Indicadores visuales de estado\n\n6. **static/css/print.css:**\n   - Estilos específicos para impresión\n   - Ocultar navegación, sidebar\n   - Optimizar tablas para papel\n   - Saltos de página apropiados",
-        "status": "pending",
+        "status": "completed",
         "priority": "medium"
       },
       "14": {
         "id": "14",
         "content": "Implementar responsive design para móviles",
         "details": "1. **Diseño mobile-first:**\n   - Breakpoints apropiados\n   - Menú hamburguesa\n   - Tablas responsivas (scroll horizontal o cards)\n\n2. **Optimizaciones táctiles:**\n   - Botones más grandes\n   - Inputs táctiles\n   - Swipe gestures\n\n3. **Funcionalidades móviles:**\n   - Botón \"Llamar técnico\" directo\n   - Captura de foto con cámara\n   - Geolocalización automática\n   - Formularios simplificados\n\n4. **Performance:**\n   - Lazy loading de imágenes\n   - Compresión de assets\n   - Service Worker para offline (opcional)\n\n5. **Testing:**\n   - Probar en iOS Safari\n   - Probar en Chrome Android\n   - Diferentes tamaños de pantalla",
-        "status": "pending",
+        "status": "completed",
         "priority": "low"
       },
       "15": {
         "id": "15",
         "content": "Testing y validación del sistema completo",
         "details": "1. **Testing backend:**\n   - Probar todas las rutas\n   - Validar permisos por rol\n   - Probar validación anti-duplicados\n   - Verificar transacciones de BD\n   - Testing de API REST\n\n2. **Testing frontend:**\n   - Validación de formularios\n   - Navegación entre páginas\n   - Filtros y búsquedas\n   - Mapas interactivos\n   - Exportación de reportes\n\n3. **Testing integración:**\n   - Flujo completo de gestión de fallas\n   - Workflow de 6 estados\n   - Migración desde Excel\n   - Geolocalización\n\n4. **Testing responsive:**\n   - Diferentes dispositivos\n   - Diferentes navegadores\n   - Orientación vertical/horizontal\n\n5. **Testing impresión:**\n   - Reportes impresos\n   - CSS print funcional\n   - Saltos de página\n\n6. **Corrección de bugs encontrados**",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "16": {
         "id": "16",
         "content": "Preparar deployment en Railway",
-        "details": "1. **Configuración Railway:**\n   - Crear cuenta/proyecto en Railway\n   - Conectar repositorio GitHub\n   - Configurar variables de entorno\n   - Agregar servicio PostgreSQL\n\n2. **Configuración PostgreSQL:**\n   - Railway asigna DATABASE_URL automáticamente\n   - Verificar conexión\n   - Crear tablas (SQLAlchemy create_all)\n\n3. **Primera migración de datos:**\n   - Subir planillas Excel al servidor o incluirlas en repo\n   - Ejecutar migrate_data.py en Railway\n   - Verificar migración exitosa (474 cámaras + todos los equipos)\n\n4. **Verificaciones:**\n   - Sistema accesible públicamente\n   - Login funcional\n   - BD poblada correctamente\n   - Todos los módulos funcionando\n\n5. **Documentar URL de producción**",
+        "details": "1. **Configuración Railway:**\n   - Crear cuenta/proyecto en Railway\n   - Conectar repositorio GitHub: https://github.com/ultimocorreoexistente-prog/sistema-camaras-ufro\n   - Configurar variables de entorno (DATABASE_URL, SECRET_KEY)\n   - Agregar servicio PostgreSQL\n\n2. **Configuración PostgreSQL:**\n   - Railway asigna DATABASE_URL automáticamente\n   - Verificar conexión\n   - Crear tablas: railway run flask init-db\n\n3. **Primera migración de datos:**\n   - Ejecutar: railway run python migrate_data.py\n   - Verificar migración exitosa (474 cámaras + todos los equipos)\n\n4. **Verificaciones:**\n   - Sistema accesible públicamente\n   - Login funcional con usuarios por defecto\n   - BD poblada correctamente\n   - Todos los módulos funcionando\n   - Vista de mantención de gabinetes operativa\n   - Validación anti-duplicados funcionando\n\n5. **Documentar URL de producción**",
         "status": "pending",
         "priority": "high"
       },
@@ -117,7 +117,7 @@
         "id": "17",
         "content": "Documentación final del sistema",
         "details": "1. **README.md del repositorio:**\n   - Descripción del proyecto\n   - Stack tecnológico\n   - Instrucciones instalación local\n   - Instrucciones deployment Railway\n   - Usuarios por defecto\n   - Screenshots\n\n2. **DEPLOYMENT.md:**\n   - Guía paso a paso para Railway\n   - Configuración de variables de entorno\n   - Migración de datos\n   - Troubleshooting común\n\n3. **USER_GUIDE.md:**\n   - Manual de usuario por rol\n   - Guía de uso de cada módulo\n   - Workflow de gestión de fallas\n   - Cómo reportar una falla\n   - Cómo generar reportes\n\n4. **API_DOCUMENTATION.md:**\n   - Endpoints disponibles\n   - Parámetros y respuestas\n   - Ejemplos de uso\n   - Códigos de error\n\n5. **Actualizar memoria del proyecto:**\n   - Estado final\n   - URL de producción\n   - Credenciales de acceso\n   - Estadísticas finales",
-        "status": "pending",
+        "status": "completed",
         "priority": "medium"
       }
     }
