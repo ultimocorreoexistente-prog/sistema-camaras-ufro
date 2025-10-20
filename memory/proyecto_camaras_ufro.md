@@ -43,6 +43,7 @@
 - Reportes de mantenimiento preventivo
 - Estadísticas de tiempo de resolución
 - Exportación a Excel y PNG
+- **Impresión de informes** (CSS optimizado para impresora)
 
 **Gestión de Fallas:**
 - Registro manual y automático de incidentes
