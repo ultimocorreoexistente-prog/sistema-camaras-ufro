@@ -1,0 +1,33 @@
+{
+  "name": "sistema-camaras-ufro",
+  "description": "Sistema de Gestión de Fallas de Cámaras UFRO",
+  "website": "https://ufro.cl",
+  "repository": "https://github.com/tu-usuario/sistema-camaras-ufro",
+  "logo": "https://ufro.cl/logo.png",
+  "keywords": ["flask", "postgresql", "camaras", "gestion", "ufro"],
+  "stack": "heroku-20",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev"
+    }
+  ],
+  "env": {
+    "FLASK_ENV": {
+      "value": "production"
+    },
+    "SECRET_KEY": {
+      "generator": "secret"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}

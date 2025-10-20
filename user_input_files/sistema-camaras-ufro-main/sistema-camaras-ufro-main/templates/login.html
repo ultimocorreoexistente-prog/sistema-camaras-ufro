@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Gestión de Cámaras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #7f8c8d;
+            margin-bottom: 0;
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .form-floating {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+            color: white;
+        }
+
+        .default-credentials {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .default-credentials h6 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .credential-item {
+            background: white;
+            border-radius: 5px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .input-group-text {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-right: none;
+        }
+
+        .form-control {
+            border-left: none;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: #3498db;
+        }
+
+        .version-info {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo-icon">
+                <i class="fas fa-video"></i>
+            </div>
+            <h2>Sistema de Gestión</h2>
+            <p>Administración de Cámaras de Seguridad</p>
+        </div>
+
+        <!-- Mostrar alertas -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                        <i class="fas fa-{{ 'exclamation-circle' if category == 'error' else 'info-circle' if category == 'info' else 'check-circle' }} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="fas fa-user"></i>
+                </span>
+                <input type="text" class="form-control" name="username" placeholder="Usuario" required autofocus>
+            </div>
+
+            <div class="input-group mb-4">
+                <span class="input-group-text">
+                    <i class="fas fa-lock"></i>
+                </span>
+                <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+            </div>
+
+            <button type="submit" class="btn btn-login">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="default-credentials">
+            <h6><i class="fas fa-key me-2"></i>Credenciales por Defecto:</h6>
+            
+            <div class="credential-item">
+                <strong>Administrador:</strong> admin / admin123
+            </div>
+            
+            <div class="credential-item">
+                <strong>Supervisor:</strong> supervisor / super123
+            </div>
+            
+            <div class="credential-item">
+                <strong>Técnico 1:</strong> tecnico1 / tecnico123
+            </div>
+            
+            <div class="credential-item">
+                <strong>Técnico 2:</strong> tecnico2 / tecnico123
+            </div>
+
+            <div class="mt-3 text-center">
+                <small class="text-muted">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    Cambiar contraseñas después del primer acceso
+                </small>
+            </div>
+        </div>
+
+        <div class="version-info">
+            <i class="fas fa-code-branch me-1"></i>
+            Versión 2.0 - Sistema Inteligente de Fallas
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Auto-focus en el campo de usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameField = document.querySelector('input[name="username"]');
+            if (usernameField) {
+                usernameField.focus();
+            }
+        });
+
+        // Manejo del formulario
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const username = document.querySelector('input[name="username"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            
+            if (!username || !password) {
+                e.preventDefault();
+                alert('Por favor, ingrese usuario y contraseña');
+                return false;
+            }
+        });
+
+        // Efecto de click en credenciales
+        document.querySelectorAll('.credential-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const text = this.textContent;
+                const parts = text.split(' / ');
+                if (parts.length === 2) {
+                    const username = parts[0].split(': ')[1];
+                    const password = parts[1];
+                    
+                    document.querySelector('input[name="username"]').value = username;
+                    document.querySelector('input[name="password"]').value = password;
+                }
+            });
+            
+            item.style.cursor = 'pointer';
+            item.title = 'Click para auto-completar';
+        });
+    </script>
+</body>
+</html>
