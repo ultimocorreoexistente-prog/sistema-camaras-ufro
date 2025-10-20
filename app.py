@@ -572,33 +572,38 @@ def api_gabinete_equipos(id):
 
 # ========== ENDPOINTS ADMINISTRATIVOS ==========
 @app.route('/admin/init-database')
-@login_required
-@role_required('admin')
 def admin_init_database():
-    """Inicializa las tablas de la base de datos"""
+    """Inicializa las tablas de la base de datos (sin autenticación para primera vez)"""
     try:
+        # Seguridad: Solo permitir si NO hay usuarios (primera inicialización)
+        if Usuario.query.count() > 0:
+            return jsonify({
+                'status': 'error',
+                'message': 'Base de datos ya inicializada. Use credenciales de admin para otras operaciones.'
+            }), 403
+        
         db.create_all()
         
-        # Crear usuarios por defecto si no existen
-        if Usuario.query.count() == 0:
-            usuarios = [
-                Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
-                Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
-                Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
-                Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
-            ]
-            passwords = ['admin123', 'super123', 'tecnico123', 'viz123']
-            for user, password in zip(usuarios, passwords):
-                user.set_password(password)
-                db.session.add(user)
-            db.session.commit()
+        # Crear usuarios por defecto
+        usuarios = [
+            Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
+            Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
+            Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
+            Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
+        ]
+        passwords = ['admin123', 'super123', 'tecnico123', 'viz123']
+        for user, password in zip(usuarios, passwords):
+            user.set_password(password)
+            db.session.add(user)
+        db.session.commit()
         
         return jsonify({
             'status': 'success',
-            'message': 'Base de datos inicializada correctamente',
+            'message': 'Base de datos inicializada correctamente. Ahora puede hacer login como admin.',
             'total_usuarios': Usuario.query.count()
         })
     except Exception as e:
+        db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/admin/migrate-data')
