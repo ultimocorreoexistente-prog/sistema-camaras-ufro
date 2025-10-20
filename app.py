@@ -570,6 +570,91 @@ def api_gabinete_equipos(id):
         } for f in fuentes]
     })
 
+# ========== ENDPOINTS ADMINISTRATIVOS ==========
+@app.route('/admin/init-database')
+@login_required
+@role_required('admin')
+def admin_init_database():
+    """Inicializa las tablas de la base de datos"""
+    try:
+        db.create_all()
+        
+        # Crear usuarios por defecto si no existen
+        if Usuario.query.count() == 0:
+            usuarios = [
+                Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
+                Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
+                Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
+                Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
+            ]
+            passwords = ['admin123', 'super123', 'tecnico123', 'viz123']
+            for user, password in zip(usuarios, passwords):
+                user.set_password(password)
+                db.session.add(user)
+            db.session.commit()
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Base de datos inicializada correctamente',
+            'total_usuarios': Usuario.query.count()
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/admin/migrate-data')
+@login_required
+@role_required('admin')
+def admin_migrate_data():
+    """Migra datos desde Excel a PostgreSQL (importando función directamente)"""
+    try:
+        # Importar la función migrar_datos desde migrate_data.py
+        from migrate_data import migrar_datos
+        
+        # Ejecutar migración
+        migrar_datos()
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Migración completada exitosamente',
+            'datos': {
+                'ubicaciones': Ubicacion.query.count(),
+                'camaras': Camara.query.count(),
+                'gabinetes': Gabinete.query.count(),
+                'switches': Switch.query.count(),
+                'fallas': Falla.query.count(),
+                'mantenimientos': Mantenimiento.query.count()
+            }
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/admin/database-status')
+@login_required
+def admin_database_status():
+    """Verifica el estado de la base de datos"""
+    try:
+        status = {
+            'database_connected': True,
+            'tables': {
+                'usuarios': Usuario.query.count(),
+                'ubicaciones': Ubicacion.query.count(),
+                'camaras': Camara.query.count(),
+                'gabinetes': Gabinete.query.count(),
+                'switches': Switch.query.count(),
+                'ups': UPS.query.count(),
+                'nvr_dvr': NVR_DVR.query.count(),
+                'fuentes_poder': Fuente_Poder.query.count(),
+                'fallas': Falla.query.count(),
+                'mantenimientos': Mantenimiento.query.count(),
+                'equipos_tecnicos': Equipo_Tecnico.query.count(),
+                'tipos_fallas': Catalogo_Tipo_Falla.query.count()
+            }
+        }
+        return jsonify(status)
+    except Exception as e:
+        return jsonify({'database_connected': False, 'error': str(e)}), 500
+
 # Inicializar base de datos y crear usuarios por defecto
 @app.cli.command()
 def init_db():
