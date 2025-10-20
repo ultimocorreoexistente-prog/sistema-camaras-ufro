@@ -1,0 +1,132 @@
+=== FALLAS CON SOLUCION APLICADA ===
+
+Total fallas con solución: 8
+
+Detalle de cada falla:
+
+================================================================================
+FALLA #1
+  Equipo: Cable ethernet - cable-nvr-internet-cft
+  Descripción: Cable que conecta NVR con internet estaba suelto, causando pérdida total de conectividad
+  Fecha reporte: 2024-10-14
+  Fecha fin reparación: 2024-10-15
+  Tiempo resolución: 26.5 horas
+  Técnico: Juan Pérez (Personal CFT)
+  Estado: Cerrada
+  Solución aplicada: Reconexión del cable ethernet y verificación de todas las conexiones del rack
+  Materiales: None
+  Costo: $0.0
+
+================================================================================
+FALLA #2
+  Equipo: Cable fibra óptica - fibra-edificio-l-bicicletero
+  Descripción: Cable de fibra óptica desconectado entre Edificio L (Odontología) y Bicicletero Principal. No llegaba señal al switch del gabinete.
+  Fecha reporte: 2025-10-16
+  Fecha fin reparación: 2025-10-16
+  Tiempo resolución: 8.95 horas
+  Técnico: Personal técnico
+  Estado: Cerrada
+  Solución aplicada: Reconexión de cable de fibra óptica en gabinete Bicicletero. Señal recuperada a las 16:57.
+  Materiales: None
+  Costo: $0.0
+
+================================================================================
+FALLA #3
+  Equipo: Automático eléctrico - automatico-caseta-guardia-taller
+  Descripción: Caída de 3 cámaras del ZM por falla eléctrica. Automático desconectado en caseta guardia frente a taller
+  Fecha reporte: 2025-10-17
+  Fecha fin reparación: 2025-10-17
+  Tiempo resolución: 2.67 horas
+  Técnico: Marco Contreras (Encargado Seguridad)
+  Estado: Cerrada
+  Solución aplicada: Subir automático en caseta guardia
+  Materiales: None
+  Costo: $0.0
+
+================================================================================
+FALLA #4
+  Equipo: MULTIPLE - Telas de araña - Bunker
+  Descripción: Cámara Bunker_EX_costado presenta telas de araña que afectan la calidad de imagen
+  Fecha reporte: 2024-10-12
+  Fecha fin reparación: None
+  Tiempo resolución: 1.0 horas
+  Técnico: None
+  Estado: Cerrada
+  Solución aplicada: Limpieza manual del lente y carcasa exterior
+  Materiales: None
+  Costo: $nan
+
+================================================================================
+FALLA #5
+  Equipo: MULTIPLE - Mantenimiento UPS Edificio O
+  Descripción: Cambio preventivo de 1 batería del UPS APC Smart-UPS SC 1500VA en sala técnica tercer piso Edificio O
+  Fecha reporte: 2024-10-13
+  Fecha fin reparación: None
+  Tiempo resolución: 2.5 horas
+  Técnico: None
+  Estado: Cerrada
+  Solución aplicada: Cambio exitoso de batería con sistema funcionando en batería restante
+  Materiales: None
+  Costo: $nan
+
+================================================================================
+FALLA #6
+  Equipo: MULTIPLE - Falla Cable NVR CFT Prat
+  Descripción: 13 cámaras del CFT Prat perdieron conexión simultáneamente por cable suelto entre NVR e internet
+  Fecha reporte: 2024-10-14
+  Fecha fin reparación: None
+  Tiempo resolución: 26.5 horas
+  Técnico: None
+  Estado: Cerrada
+  Solución aplicada: Reconexión y ajuste del cable ethernet, verificación de todas las conexiones
+  Materiales: None
+  Costo: $nan
+
+================================================================================
+FALLA #7
+  Equipo: MULTIPLE - Caída cámaras ZM - Falla Eléctrica
+  Descripción: Caída de 3 cámaras del ZM por falla eléctrica. Automático desconectado en caseta guardia frente a taller
+  Fecha reporte: 2025-10-17
+  Fecha fin reparación: None
+  Tiempo resolución: 2.67 horas
+  Técnico: None
+  Estado: Cerrada
+  Solución aplicada: Subir automático en caseta guardia
+  Materiales: None
+  Costo: $nan
+
+================================================================================
+FALLA #8
+  Equipo: MULTIPLE - Falla Fibra Óptica Bicicletero Principal
+  Descripción: Falla eléctrica - Bicicletero Principal
+3 cámaras afectadas:
+- Bicicletero_Entrada
+- Bicicletero_Estacionamiento
+- Bicicletero_Lateral
+
+Causa: Automático desconectado en caseta de guardia
+Horario: 15:20 → 16:57
+Duración real: 1 hora 37 minutos (1.62 horas)
+  Fecha reporte: 2025-10-16
+  Fecha fin reparación: None
+  Tiempo resolución: 1.62 horas
+  Técnico: None
+  Estado: Cerrada
+  Solución aplicada: Reconexión del automático eléctrico + verificación completa del sistema
+Todas las cámaras recuperadas exitosamente
+Tiempo total: 1h 37min
+  Materiales: None
+  Costo: $nan
+
+================================================================================
+
+=== TODAS LAS FALLAS (RESUMEN) ===
+Falla #1: Cable ethernet cable-nvr-internet-cft | Estado: Cerrada | Solución: ✓ SÍ
+Falla #2: Cable fibra óptica fibra-edificio-l-bicicletero | Estado: Cerrada | Solución: ✓ SÍ
+Falla #3: Automático eléctrico automatico-caseta-guardia-taller | Estado: Cerrada | Solución: ✓ SÍ
+Falla #4: MULTIPLE Telas de araña - Bunker | Estado: Cerrada | Solución: ✓ SÍ
+Falla #5: MULTIPLE Mantenimiento UPS Edificio O | Estado: Cerrada | Solución: ✓ SÍ
+Falla #6: MULTIPLE Falla Cable NVR CFT Prat | Estado: Cerrada | Solución: ✓ SÍ
+Falla #7: MULTIPLE Caída cámaras ZM - Falla Eléctrica | Estado: Cerrada | Solución: ✓ SÍ
+Falla #8: MULTIPLE Falla Fibra Óptica Bicicletero Principal | Estado: Cerrada | Solución: ✓ SÍ
+Falla #9: None None | Estado: Pendiente | Solución: ✗ NO
