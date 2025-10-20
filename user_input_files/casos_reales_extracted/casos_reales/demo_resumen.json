@@ -1,0 +1,20 @@
+{
+  "demo_ejecutada": "2025-10-18T04:47:19.882758",
+  "casos_procesados": 2,
+  "consultas_disponibles": [
+    "Consulta por ubicación",
+    "Consulta por IP de cámara",
+    "Consulta por switch",
+    "Consulta por rack/gabinete",
+    "Consulta por tipo de falla",
+    "Análisis de dependencias",
+    "Consultas preventivas"
+  ],
+  "capacidades_sistema": {
+    "bidireccional": true,
+    "tiempo_real": true,
+    "topologia_visual": true,
+    "alertas_preventivas": true,
+    "analisis_impacto": true
+  }
+}
