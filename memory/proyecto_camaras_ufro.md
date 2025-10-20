@@ -21,6 +21,42 @@
 - **Tipos de fallas**: Telas de araña, borrosa, mica rallada, desconectada, mancha en lente, empañada, intermitencia, etc.
 - **Última actualización datos**: 2025-10-19
 
+## Casos Reales Documentados (6 casos en total)
+**Archivo**: Ejemplos_Fallas_Reales_corregido_20251019_005201.xlsx
+
+### Caso 1: Telas de araña - Bunker (12/10/2025)
+- Tipo: Problemas de Limpieza / Telas de araña
+- Cámara: Bunker_EX_costado
+- Estado: Reportada
+- Prioridad: Baja
+
+### Caso 2: Mantenimiento Edificio O (13/10/2025)
+- Tipo: Mantenimiento Preventivo/Correctivo UPS
+- Ubicación: Edificio O - 3er Piso
+- Equipo: UPS-001 (APC Smart-UPS 1500)
+- Acción: Cambio de 1 batería
+- Cámaras afectadas: 11 (10 domo + 1 PTZ)
+- Duración: 2.5 horas
+- Costo: $45,000
+
+### Caso 3: Falla CFT Prat (14-15/10/2025)
+- Tipo: Falla de Conectividad (Cable suelto NVR)
+- Cámaras afectadas: 13 cámaras sin servicio
+- Duración: 26.5 horas
+- Costo: $0 (solo reconexión)
+
+### Caso 4: Caída cámaras ZM - Falla Eléctrica (17/10/2025)
+- Tipo: Eléctrica
+- Cámaras: ZM-container_Ciclovia, ZM-Ciclovia a AM, ZM-Bodega_Ciclovia
+- Causa: Automático desconectado en caseta guardia frente a taller
+- Solución: Subir automático
+- Responsable: Marco Contreras (Encargado Seguridad)
+- Hora reporte: 15:45
+- Hora reparación: 18:25
+- Tiempo resolución: 2h 40min
+
+### Casos 5 y 6: Por confirmar detalles completos
+
 ## Características Principales Requeridas
 ✅ Autenticación con roles y permisos
 ✅ Dashboard interactivo con estadísticas en tiempo real
