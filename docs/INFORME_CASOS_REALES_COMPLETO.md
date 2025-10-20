@@ -1,7 +1,7 @@
 # Informe Completo de Casos Reales Documentados
 ## Sistema de Gestión de Cámaras UFRO
 
-**Fecha del informe:** 2025-10-20 21:45:42
+**Fecha del informe:** 2025-10-20 21:46:51
 **Total de casos documentados:** 5
 
 ---
@@ -296,7 +296,7 @@ Automáticos eléctricos ubicados en lugares no convencionales requieren señali
 ## 📝 Información del Documento
 
 - **Base de datos:** sistema_camaras.db
-- **Generado:** 2025-10-20 21:45:42
+- **Generado:** 2025-10-20 21:46:51
 - **Sistema:** Sistema de Gestión de Cámaras UFRO
 - **Total casos:** 5
 - **Total fallas:** 8
