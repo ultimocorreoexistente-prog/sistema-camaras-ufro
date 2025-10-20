@@ -6,6 +6,7 @@ from models import (Usuario, Ubicacion, Camara, Gabinete, Switch, Puerto_Switch,
                    Mantenimiento, Equipo_Tecnico)
 from werkzeug.security import generate_password_hash
 import os
+import re
 
 def safe_int(value):
     """Convierte valor a int manejando NaN"""
@@ -54,6 +55,64 @@ def validar_falla_duplicada(equipo_tipo, equipo_id):
     if falla_activa:
         return False, f'Falla duplicada rechazada (Equipo {equipo_tipo} ID {equipo_id})'
     return True, 'OK'
+
+def extraer_fallas_informe():
+    """Extrae fallas del INFORME DE CAMARAS.docx (convertido a markdown)"""
+    informe_path = 'docs/INFORME_DE_CAMARAS.md'
+    fallas_extraidas = []
+    
+    if not os.path.exists(informe_path):
+        print(f"   ⚠ Archivo {informe_path} no encontrado")
+        return fallas_extraidas
+    
+    with open(informe_path, 'r', encoding='utf-8') as f:
+        contenido = f.read()
+    
+    # Patrones de fallas comunes en las observaciones
+    patrones_fallas = [
+        (r'([\w\-_\.]+)\s*\(Telas de araña\)', 'Telas de araña', 'Baja'),
+        (r'([\w\-_\.]+)\s*\(Borrosa\)', 'Imagen borrosa', 'Media'),
+        (r'([\w\-_\.]+)\s*\(mica rallada\)', 'Mica rallada', 'Media'),
+        (r'([\w\-_\.]+)\s*\(DESCONECTADA\)', 'Desconectada', 'Alta'),
+        (r'([\w\-_\.]+)\s*\(mancha en el lente\)', 'Mancha en lente', 'Baja'),
+        (r'([\w\-_\.]+)\s*\(empañada\)', 'Empañada', 'Baja'),
+        (r'([\w\-_\.]+)\s*\(EMPAÑADA\)', 'Empañada', 'Baja'),
+        (r'([\w\-_\.]+).*?sin conexión', 'Sin conexión', 'Alta'),
+        (r'([\w\-_\.]+).*?intermitencia', 'Intermitencia', 'Media'),
+        (r'Camera\s+(\d+).*?\(Borrosa\)', 'Imagen borrosa', 'Media'),
+        (r'([\w\-_\.]+).*?destruida', 'Vandalismo/Destruida', 'Crítica'),
+        (r'([\w\-_\.]+).*?borrosa', 'Imagen borrosa', 'Media'),
+    ]
+    
+    lineas = contenido.split('\n')
+    zona_actual = 'Desconocida'
+    
+    for linea in lineas:
+        # Detectar zona/ubicación (primera columna de la tabla)
+        if '|' in linea and not linea.strip().startswith('|  |'):
+            partes = linea.split('|')
+            if len(partes) >= 5:
+                zona_candidata = partes[0].strip()
+                if zona_candidata and zona_candidata != '' and not zona_candidata.isspace():
+                    zona_actual = zona_candidata
+                
+                observacion = partes[4].strip() if len(partes) > 4 else ''
+                
+                # Buscar fallas en la observación
+                if observacion and observacion != 'OBSERVACION':
+                    for patron, tipo_falla, prioridad in patrones_fallas:
+                        matches = re.finditer(patron, observacion, re.IGNORECASE)
+                        for match in matches:
+                            nombre_camara = match.group(1)
+                            fallas_extraidas.append({
+                                'nombre_camara': nombre_camara,
+                                'tipo_falla': tipo_falla,
+                                'prioridad': prioridad,
+                                'zona': zona_actual,
+                                'observacion': observacion[:200]
+                            })
+    
+    return fallas_extraidas
 
 def migrar_datos():
     """Migra todas las planillas Excel a la base de datos"""
@@ -377,8 +436,75 @@ def migrar_datos():
         except Exception as e:
             print(f"   ⚠ Error procesando Ejemplos_Fallas_Reales.xlsx: {e}")
         
+        # INFORME DE CAMARAS - Fallas documentadas 12-10-2025
+        print("\n   Extrayendo fallas del INFORME DE CAMARAS (12-10-2025)...")
+        try:
+            fallas_informe = extraer_fallas_informe()
+            print(f"   Total fallas extraídas del informe: {len(fallas_informe)}")
+            
+            if fallas_informe:
+                # Mapear tipos de falla a IDs del catálogo
+                tipo_falla_map = {
+                    'Telas de araña': 1,  # Limpieza
+                    'Imagen borrosa': 1,   # Limpieza
+                    'Mica rallada': 2,     # Reparación
+                    'Desconectada': 3,     # Técnica
+                    'Mancha en lente': 1,  # Limpieza
+                    'Empañada': 1,        # Limpieza
+                    'Sin conexión': 3,    # Técnica
+                    'Intermitencia': 3,    # Técnica
+                    'Vandalismo/Destruida': 2  # Reparación
+                }
+                
+                informe_insertadas = 0
+                informe_rechazadas = 0
+                
+                for falla_info in fallas_informe:
+                    # Buscar cámara por nombre
+                    camara = Camara.query.filter(
+                        Camara.nombre.ilike(f"%{falla_info['nombre_camara']}%")
+                    ).first()
+                    
+                    if not camara:
+                        # Intentar por código
+                        camara = Camara.query.filter(
+                            Camara.codigo.ilike(f"%{falla_info['nombre_camara']}%")
+                        ).first()
+                    
+                    if camara:
+                        # Validar anti-duplicados
+                        permitir, mensaje = validar_falla_duplicada('Camara', camara.id)
+                        if not permitir:
+                            informe_rechazadas += 1
+                            continue
+                        
+                        # Crear falla
+                        tipo_falla_id = tipo_falla_map.get(falla_info['tipo_falla'], 1)
+                        
+                        falla = Falla(
+                            equipo_tipo='Camara',
+                            equipo_id=camara.id,
+                            tipo_falla_id=tipo_falla_id,
+                            descripcion=f"{falla_info['tipo_falla']} en {camara.nombre}",
+                            prioridad=falla_info['prioridad'],
+                            fecha_reporte=datetime(2025, 10, 12),  # Fecha del informe
+                            reportado_por_id=admin_user.id,
+                            estado='Pendiente',
+                            observaciones=falla_info['observacion']
+                        )
+                        db.session.add(falla)
+                        informe_insertadas += 1
+                
+                db.session.commit()
+                count += informe_insertadas
+                rechazadas += informe_rechazadas
+                print(f"   ✓ {informe_insertadas} fallas del informe insertadas")
+                print(f"   ⚠ {informe_rechazadas} fallas del informe rechazadas por duplicado")
+        except Exception as e:
+            print(f"   ⚠ Error procesando INFORME DE CAMARAS: {e}")
+        
         db.session.commit()
-        print(f"   ✓ {count} fallas insertadas ({rechazadas} rechazadas por duplicado)\n")
+        print(f"\n   ✓ TOTAL: {count} fallas insertadas ({rechazadas} rechazadas por duplicado)\n")
         
         # 12. MANTENIMIENTOS
         print("12. Migrando Mantenimientos...")
