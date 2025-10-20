@@ -224,6 +224,7 @@ Sistema Flask + Jinja2 para Railway con:
 - Script migración desde 13 archivos Excel
 - PostgreSQL en Railway
 - CRUD completo para: Cámaras, Gabinetes, Switches, UPS, NVR/DVR, Fuentes Poder
+- **MÓDULO MANTENCIÓN DE GABINETES (CRÍTICO):** Vista especial que muestra todos los equipos contenidos en cada gabinete (Switches, NVR/DVR, UPS, Fuentes) de forma organizada para facilitar mantención
 - Sistema de altas/bajas con historial completo
 - Gestión de fallas con workflow completo (6 estados) y asignación de técnicos
 - **VALIDACIÓN ANTI-DUPLICADOS CRÍTICA:** No permitir insertar falla si existe una pendiente/asignada/en proceso
@@ -233,5 +234,6 @@ Sistema Flask + Jinja2 para Railway con:
 - Reportes Excel/PNG descargables e imprimibles
 - Responsive design para móviles
 
-**Estado:** Desarrollo iniciado 2025-10-21 00:52
+**Estado:** Desarrollo iniciado 2025-10-21 01:00
 **Plan:** 17 tareas (9 alta prioridad, 6 media, 1 baja, 1 testing)
+**Requisito adicional agregado:** Menú Mantención de Gabinetes con vista detallada de equipos contenidos
