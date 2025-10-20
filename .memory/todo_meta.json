@@ -3,29 +3,36 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Diseño UI/UX - No necesario, continuar con desarrollo existente",
-        "details": "Crear especificaciones de diseño para todos los módulos: Dashboard, Gestión de Cámaras, Gabinetes, Switches, Fallas, Mantenimiento, Mapas de Red. Incluir diseño de formularios, tablas, visualizaciones y navegación.",
-        "status": "cancelled",
+        "content": "Crear modelos de base de datos (models.py)",
+        "details": "Modelos SQLAlchemy para:\n- Usuario (id, username, password_hash, rol, nombre_completo, email, telefono)\n- Ubicacion (id, campus, edificio, piso, descripcion, coordenadas)\n- Camara (id, codigo, nombre, ip, modelo, fabricante, ubicacion_id, gabinete_id, estado, fecha_alta, fecha_baja, motivo_baja)\n- Gabinete (id, codigo, nombre, ubicacion_id, capacidad, estado, fecha_alta, fecha_baja, motivo_baja)\n- Switch (id, codigo, nombre, ip, modelo, marca, gabinete_id, puertos_totales, estado, fecha_alta, fecha_baja, motivo_baja)\n- UPS (id, codigo, modelo, marca, capacidad_va, ubicacion_id, gabinete_id, estado, fecha_alta, fecha_baja, motivo_baja)\n- NVR_DVR (id, codigo, tipo, modelo, marca, canales, ubicacion_id, ip, estado, fecha_alta, fecha_baja, motivo_baja)\n- Fuente_Poder (id, codigo, modelo, voltaje, amperaje, ubicacion_id, estado, fecha_alta, fecha_baja, motivo_baja)\n- Puerto_Switch (id, switch_id, numero_puerto, camara_id, estado)\n- Falla (id, equipo_tipo, equipo_id, tipo_falla_id, descripcion, fecha_reporte, reportado_por_id, estado, fecha_asignacion, tecnico_asignado_id, fecha_inicio_reparacion, fecha_fin_reparacion, solucion_aplicada, costo_reparacion, materiales_utilizados)\n- Catalogo_Tipo_Falla (id, nombre, descripcion, gravedad)\n- Mantenimiento (id, equipo_tipo, equipo_id, tipo, fecha, tecnico_id, descripcion, observaciones, costo)\n- Equipo_Tecnico (id, nombre, especialidad, telefono, email, estado)\n- Historial_Estado_Equipo (id, equipo_tipo, equipo_id, estado_anterior, estado_nuevo, fecha_cambio, motivo, usuario_id)",
+        "status": "pending",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Desarrollar aplicación fullstack Flask + React para Railway",
-        "details": "1. Backend Flask con PostgreSQL para Railway\n2. Modelos de BD completos (Cámaras, Gabinetes, Switches, Puertos, Fallas, Mantenimiento)\n3. Script de migración de datos desde Excel\n4. API endpoints RESTful completos\n5. Frontend React con todos los módulos\n6. Integración Mermaid.js para mapas de red\n7. Sistema de autenticación multi-rol\n8. Cargar 4 casos reales en BD\n9. Configuración para Railway con Gunicorn",
-        "status": "in_progress",
+        "content": "Crear script de migración de datos (migrate_excel_to_db.py)",
+        "details": "Script para leer 12 archivos Excel de planillas/extracted_planillas/:\n- Listadecámaras.xlsx o Listadecámaras_modificada.xlsx\n- Ubicaciones.xlsx\n- Gabinetes.xlsx\n- Switches.xlsx\n- Puertos_Switch.xlsx\n- Catalogo_Tipos_Fallas.xlsx\n- Fallas_Actualizada.xlsx\n- Ejemplos_Fallas_Reales.xlsx\n- Mantenimientos.xlsx\n- Equipos_Tecnicos.xlsx\n- Crear datos de ejemplo para UPS, NVR/DVR, Fuentes de Poder\n- Validar integridad referencial\n- Logging detallado del proceso",
+        "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Implementar casos reales y funcionalidades avanzadas",
-        "details": "1. Cargar los 4 casos reales documentados en la BD\n2. Implementar sistema de consultas bidireccionales\n3. Sistema de alertas proactivas\n4. Análisis de dependencias en red",
+        "content": "Desarrollar backend Flask completo (app.py)",
+        "details": "Implementar:\n- Sistema de autenticación (login, logout, sesiones, roles)\n- Rutas CRUD para todos los equipos (Cámaras, Gabinetes, Switches, UPS, NVR/DVR, Fuentes)\n- Sistema de altas: formulario registro nuevo equipo con ubicación\n- Sistema de bajas: formulario baja equipo con motivo (falla, vandalismo, obsolescencia)\n- Gestión de fallas con workflow:\n  * POST /fallas (crear falla - estado: Pendiente)\n  * PUT /fallas/<id>/asignar (asignar técnico - estado: Asignada)\n  * PUT /fallas/<id>/iniciar (técnico inicia trabajo - estado: En Proceso)\n  * PUT /fallas/<id>/reparar (técnico completa - estado: Reparada, registra solución)\n  * PUT /fallas/<id>/cerrar (supervisor verifica - estado: Cerrada)\n  * PUT /fallas/<id>/cancelar (estado: Cancelada)\n- Dashboard con estadísticas en tiempo real\n- Generación de mapas Mermaid.js con ubicación de equipos\n- Generación de reportes Excel (equipos activos, historial bajas, fallas por técnico)",
         "status": "pending",
-        "priority": "medium"
+        "priority": "high"
       },
       "4": {
         "id": "4",
-        "content": "Pruebas y deployment",
-        "details": "1. Verificar funcionalidad de todos los módulos\n2. Preparar documentación de deployment\n3. Configurar para producción (PostgreSQL)",
+        "content": "Crear templates Jinja2 (frontend)",
+        "details": "Templates HTML con Bootstrap/Tailwind:\n- base.html (layout con navbar, auth)\n- login.html\n- dashboard.html (estadísticas, gráficos)\n- Para cada equipo (Cámaras, Gabinetes, Switches, UPS, NVR, Fuentes):\n  * equipos_list.html (tabla con filtros, estado, ubicación)\n  * equipos_form_alta.html (formulario alta)\n  * equipos_form_baja.html (formulario baja con motivo)\n  * equipos_detalle.html (historial completo)\n- fallas_list.html (tabla con filtros por estado, técnico, fecha)\n- fallas_form.html (formulario reporte falla)\n- fallas_workflow.html (seguimiento paso a paso con timeline)\n- fallas_asignar.html (formulario asignar técnico)\n- fallas_reparar.html (formulario registrar reparación)\n- mantenimientos_list.html\n- mantenimientos_form.html\n- mapa_campus.html (visualización Mermaid.js)\n- reportes.html (generación de reportes)",
+        "status": "pending",
+        "priority": "high"
+      },
+      "5": {
+        "id": "5",
+        "content": "Configurar deployment Railway",
+        "details": "- Actualizar requirements.txt (Flask, SQLAlchemy, pandas, openpyxl, gunicorn, psycopg2-binary)\n- Verificar Procfile: web: gunicorn app:app\n- Crear .env.example (DATABASE_URL, SECRET_KEY, FLASK_ENV)\n- Crear README.md con instrucciones instalación y deployment\n- Probar localmente con SQLite\n- Probar en Railway con PostgreSQL",
         "status": "pending",
         "priority": "medium"
       }
