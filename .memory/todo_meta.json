@@ -18,7 +18,7 @@
       "3": {
         "id": "3",
         "content": "Extraer y agregar casos del INFORME DE CAMARAS",
-        "details": "Procesar archivo tmp/informe_camaras.md (fecha 12-10-2025). Extraer casos de fallas reales documentadas y agregarlos a la base de datos con campos completos: fecha, descripción, ubicación, cámaras afectadas, tipo de falla, técnico, solución.",
+        "details": "Procesar archivo tmp/informe_camaras.md (fecha 12-10-2025). Extraer casos de fallas reales documentadas y agregarlos a la planilla de fallas. **VALIDACIÓN CRÍTICA**: Antes de insertar, verificar que la misma falla para la misma cámara NO exista ya como NO RESUELTA. Si ya existe una falla pendiente/en proceso para esa cámara, NO agregar duplicado. Solo agregar si: a) No existe falla previa, o b) La falla previa ya fue resuelta/cerrada.",
         "status": "pending",
         "priority": "high"
       },
