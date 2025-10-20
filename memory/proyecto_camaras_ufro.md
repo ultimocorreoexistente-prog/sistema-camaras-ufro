@@ -96,7 +96,14 @@
 - Costo de reparación (opcional)
 - Materiales utilizados
 
-## Desarrollo en Curso
+## Requisitos de Geolocalización y Topología
+- **Geolocalización obligatoria**: Cada componente debe tener coordenadas GPS (latitud, longitud)
+- **Topología de red completa**: Visualización jerárquica desde Core hasta dispositivo final
+  * Core Switch → Switch → Gabinete → UPS → Cámara/NVR
+  * Debe mostrar relaciones físicas y lógicas
+  * Integración con mapas interactivos (Leaflet.js o Google Maps)
+
+## Desarrollo en Curso - APROBADO POR USUARIO
 Sistema Flask + Jinja2 para Railway con:
 - Backend Flask con API REST y SQLAlchemy
 - Frontend con Jinja2 (server-side rendering)
@@ -104,7 +111,9 @@ Sistema Flask + Jinja2 para Railway con:
 - PostgreSQL en Railway
 - CRUD completo para: Cámaras, Gabinetes, Switches, UPS, NVR/DVR, Fuentes Poder
 - Sistema de altas/bajas con historial completo
-- Gestión de fallas con workflow completo y asignación de técnicos
+- Gestión de fallas con workflow completo (6 estados) y asignación de técnicos
 - Formularios web para registro de fallas en tiempo real
-- Mapas de red con Mermaid.js mostrando ubicación de equipos
-- Reportes Excel descargables
+- Mapas de red con Mermaid.js mostrando topología completa
+- Geolocalización de todos los componentes con mapas interactivos
+- Reportes Excel/PNG descargables e imprimibles
+- Responsive design para móviles
