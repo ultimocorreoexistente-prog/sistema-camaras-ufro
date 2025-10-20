@@ -14,6 +14,20 @@
 - Migración de datos desde Excel
 - Sistema fullstack con PostgreSQL
 
+## ⚠️ REQUISITO CRÍTICO DE VALIDACIÓN (2025-10-20)
+**ANTI-DUPLICADOS DE FALLAS NO RESUELTAS:**
+Antes de insertar cualquier falla (BD o Excel), validar:
+1. ¿Existe falla previa para esa cámara?
+2. ¿Cuál es el estado de esa falla?
+3. **INSERTAR solo si:** a) No existe falla previa, O b) Falla previa está "Resuelta/Cerrada"
+4. **NO insertar si:** Existe falla "Pendiente/Asignada/En Proceso"
+
+Aplica a:
+- Importación INFORME DE CAMARAS.docx
+- Registro manual web
+- Sincronización Excel
+- Cualquier migración de datos
+
 ## Última Actualización (2025-10-20)
 ✅ **Script de Integración Completa Ejecutado**
 - Archivo creado: `code/integracion_completa_sistema_camaras.py`
