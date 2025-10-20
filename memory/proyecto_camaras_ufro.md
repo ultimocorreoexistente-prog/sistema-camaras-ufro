@@ -217,17 +217,21 @@ Aplica a:
   * Debe mostrar relaciones físicas y lógicas
   * Integración con mapas interactivos (Leaflet.js o Google Maps)
 
-## Desarrollo en Curso - APROBADO POR USUARIO
+## Desarrollo en Curso - APROBADO POR USUARIO (2025-10-21 00:52)
 Sistema Flask + Jinja2 para Railway con:
 - Backend Flask con API REST y SQLAlchemy
 - Frontend con Jinja2 (server-side rendering)
-- Script migración desde 12 archivos Excel
+- Script migración desde 13 archivos Excel
 - PostgreSQL en Railway
 - CRUD completo para: Cámaras, Gabinetes, Switches, UPS, NVR/DVR, Fuentes Poder
 - Sistema de altas/bajas con historial completo
 - Gestión de fallas con workflow completo (6 estados) y asignación de técnicos
+- **VALIDACIÓN ANTI-DUPLICADOS CRÍTICA:** No permitir insertar falla si existe una pendiente/asignada/en proceso
 - Formularios web para registro de fallas en tiempo real
 - Mapas de red con Mermaid.js mostrando topología completa
 - Geolocalización de todos los componentes con mapas interactivos
 - Reportes Excel/PNG descargables e imprimibles
 - Responsive design para móviles
+
+**Estado:** Desarrollo iniciado 2025-10-21 00:52
+**Plan:** 17 tareas (9 alta prioridad, 6 media, 1 baja, 1 testing)
