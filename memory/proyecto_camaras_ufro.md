@@ -17,7 +17,45 @@
 ## Información Crítica del Sistema
 - **Total cámaras**: 474 (según INFORME DE CAMARAS.docx)
 - **Ubicaciones**: 61 edificios/áreas diferentes
+- **Campus principales**: Andrés Bello (Principal), Pucón, Angol, Medicina
 - **Tipos de fallas**: Telas de araña, borrosa, mica rallada, desconectada, mancha en lente, empañada, intermitencia, etc.
+- **Última actualización datos**: 2025-10-19
+
+## Características Principales Requeridas
+✅ Autenticación con roles y permisos
+✅ Dashboard interactivo con estadísticas en tiempo real
+✅ Mapas de red jerárquicos con visualización Mermaid
+✅ Gestión por campus con filtros avanzados
+✅ Responsive design para dispositivos móviles
+✅ Reportes avanzados con exportación Excel/PNG
+✅ Gestión completa de fallas y mantenimientos
+
+## Funcionalidades Específicas
+**Mapas de Red:**
+- Mapa completo de la infraestructura
+- Mapas en cascada por ubicación
+- Visualización jerárquica de componentes
+- Filtros por campus
+
+**Informes Avanzados:**
+- Inventarios por campus (cámaras, gabinetes, switches)
+- Análisis de fallas por tipo y frecuencia
+- Reportes de mantenimiento preventivo
+- Estadísticas de tiempo de resolución
+- Exportación a Excel y PNG
+
+**Gestión de Fallas:**
+- Registro manual y automático de incidentes
+- Seguimiento de estado y resolución
+- Asignación de técnicos
+- Historial completo de intervenciones
+
+## URLs Principales del Sistema
+- / - Dashboard principal
+- /login - Autenticación
+- /informes-avanzados - Reportes y mapas
+- /fallas - Gestión de fallas
+- /mantenimientos - Registro de mantenimientos
 
 ## Requisito Clave: Doble Entrada de Fallas
 1. **Carga inicial**: Migración desde archivos Excel (datos históricos)
