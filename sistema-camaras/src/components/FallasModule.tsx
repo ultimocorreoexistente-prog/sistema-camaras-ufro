@@ -1,65 +1,63 @@
-import { AlertCircle } from 'lucide-react'
-
-interface Falla {
-  id: number
-  fecha_reporte: string
-  tipo: string
-  descripcion: string
-  estado: string
-  prioridad: string
-  camara_afectada: string
-}
-
-interface FallasModuleProps {
-  fallas: Falla[]
-}
-
-export default function FallasModule({ fallas }: FallasModuleProps) {
-  const fallasAbiertas = fallas.filter(f => f.estado === 'Abierta')
+export default function FallasModule({ fallas }: any) {
+  const fallasPorEstado = {
+    abiertas: fallas.filter((f: any) => f.estado === 'Abierta').length,
+    enProceso: fallas.filter((f: any) => f.estado === 'En Proceso').length,
+    resueltas: fallas.filter((f: any) => f.estado === 'Resuelta').length
+  }
 
   return (
-    <div className="space-y-4">
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        <h2 className="text-xl font-bold text-slate-900 mb-4">Gestión de Fallas</h2>
-        <div className="flex gap-4">
-          <div className="text-sm">
-            <span className="text-slate-600">Total: </span>
-            <span className="font-bold">{fallas.length}</span>
-          </div>
-          <div className="text-sm">
-            <span className="text-slate-600">Abiertas: </span>
-            <span className="font-bold text-red-600">{fallasAbiertas.length}</span>
-          </div>
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+          <p className="text-sm text-red-600">Fallas Abiertas</p>
+          <p className="text-3xl font-bold text-red-700">{fallasPorEstado.abiertas}</p>
+        </div>
+        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+          <p className="text-sm text-yellow-600">En Proceso</p>
+          <p className="text-3xl font-bold text-yellow-700">{fallasPorEstado.enProceso}</p>
+        </div>
+        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+          <p className="text-sm text-green-600">Resueltas</p>
+          <p className="text-3xl font-bold text-green-700">{fallasPorEstado.resueltas}</p>
         </div>
       </div>
 
-      <div className="space-y-3">
-        {fallas.map(falla => (
-          <div key={falla.id} className="bg-white p-4 rounded-lg shadow-md">
-            <div className="flex items-start gap-3">
-              <AlertCircle className={`h-6 w-6 mt-1 ${
-                falla.prioridad === 'Alta' ? 'text-red-600' : 
-                falla.prioridad === 'Media' ? 'text-orange-600' : 'text-yellow-600'
-              }`} />
-              <div className="flex-1">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-slate-900">{falla.tipo}</h3>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                    falla.estado === 'Abierta' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
-                  }`}>
-                    {falla.estado}
-                  </span>
-                </div>
-                <p className="text-sm text-slate-600 mb-2">{falla.descripcion}</p>
-                <div className="flex gap-4 text-xs text-slate-500">
-                  <span>Cámara: {falla.camara_afectada}</span>
-                  <span>Prioridad: {falla.prioridad}</span>
-                  <span>Fecha: {new Date(falla.fecha_reporte).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4">Registro de Fallas</h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-slate-200">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Fecha</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Tipo</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Cámara</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Ubicación</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Estado</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Prioridad</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-slate-200">
+              {fallas.map((falla: any) => (
+                <tr key={falla.id} className="hover:bg-slate-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{falla.fecha_reporte}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{falla.tipo}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{falla.camara_afectada}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{falla.ubicacion}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      falla.estado === 'Abierta' ? 'bg-red-100 text-red-800' :
+                      falla.estado === 'En Proceso' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-green-100 text-green-800'
+                    }`}>
+                      {falla.estado}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{falla.prioridad}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )
