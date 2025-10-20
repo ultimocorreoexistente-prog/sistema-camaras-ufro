@@ -14,6 +14,20 @@
 - Migración de datos desde Excel
 - Sistema fullstack con PostgreSQL
 
+## Última Actualización (2025-10-20)
+✅ **Script de Integración Completa Ejecutado**
+- Archivo creado: `code/integracion_completa_sistema_camaras.py`
+- Base de datos creada: `sistema_camaras.db`
+- Estado: COMPLETADO
+
+### Datos Insertados:
+- ✅ 8 tablas base creadas (camaras, fallas, tipos_fallas, casos_reales, fallas_especificas, mantenimientos_realizados, infraestructura_red, relaciones_componentes)
+- ✅ 10 tipos de fallas estándar insertados (LIMPIEZA, REPARACION, AJUSTE, TECNICA)
+- ✅ 4 casos reales insertados (incluyendo Caso 4 nuevo: Caída cámaras ZM)
+- ✅ 2 fallas específicas insertadas (CFT Prat, Zona ZM)
+- ✅ 1 mantenimiento insertado (UPS Edificio O)
+- ✅ 15 componentes de infraestructura de red (4 campus: Andrés Bello, Pucón, Angol, Medicina)
+
 ## Información Crítica del Sistema
 - **Total cámaras**: 474 (según INFORME DE CAMARAS.docx)
 - **Ubicaciones**: 61 edificios/áreas diferentes
