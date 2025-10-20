@@ -14,9 +14,12 @@
 - Migración de datos desde Excel
 - Sistema fullstack con PostgreSQL
 
-## Estado Actual
-Iniciando desarrollo del sistema completo con:
+## Desarrollo en Curso
+DESARROLLANDO sistema completo con:
 - Backend Flask con API REST completa
-- Frontend React con Vite
-- Script de migración de datos Excel
+- Frontend mejorado (HTML/JS o React según necesidad)
+- Script de migración de datos desde 12 archivos Excel
 - Configuración Railway con PostgreSQL
+- Mapas de red con Mermaid.js
+- 6 casos reales de fallas documentados
+- 103 cámaras en base de datos real
