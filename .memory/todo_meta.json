@@ -10,15 +10,15 @@
       },
       "2": {
         "id": "2",
-        "content": "Crear tabla técnicos en base de datos",
-        "details": "Tabla con CRUD completo. Técnicos: 1) Oliver Carrasco, 2) Marcos Altamirano, 3) Charles Jélvez (SuperAdmin), 4) Marco Contreras (Supervisor Seguridad). Campos adicionales vacíos para llenar después.",
-        "status": "pending",
+        "content": "Reestructurar base de datos - Consolidar tablas de fallas",
+        "details": "REDISEÑO ARQUITECTÓNICO:\n1. Mejorar estructura tabla 'fallas' para que sea la tabla principal única\n2. Migrar 5 registros de 'casos_reales' → 'fallas'\n3. Migrar 8 registros de 'fallas_especificas' → 'fallas'\n4. Limpiar duplicados en 'tecnicos' (16 → 4 registros)\n5. Eliminar tablas obsoletas: 'casos_reales', 'fallas_especificas'\n6. Vincular tabla 'fallas' con 'tecnicos' (FK)\n7. Crear índices optimizados\n\nCAMPOS TABLA 'fallas' MEJORADA:\n- ID, camara/componente_afectado, tipo_falla_id (FK a tipos_fallas)\n- descripcion_completa, fecha_reporte, fecha_resolucion\n- estado (Pendiente/Asignada/EnProceso/Resuelta/Cerrada)\n- prioridad, tecnico_id (FK a tecnicos), solucion_aplicada\n- tiempo_resolucion_horas, costo_reparacion, materiales_utilizados\n- campus, observaciones, timestamps",
+        "status": "in_progress",
         "priority": "high"
       },
       "3": {
         "id": "3",
         "content": "Extraer y agregar casos del INFORME DE CAMARAS",
-        "details": "Procesar archivo tmp/informe_camaras.md (fecha 12-10-2025). Extraer casos de fallas reales documentadas y agregarlos a la planilla de fallas. **VALIDACIÓN CRÍTICA**: Antes de insertar, verificar que la misma falla para la misma cámara NO exista ya como NO RESUELTA. Si ya existe una falla pendiente/en proceso para esa cámara, NO agregar duplicado. Solo agregar si: a) No existe falla previa, o b) La falla previa ya fue resuelta/cerrada.",
+        "details": "Procesar archivo tmp/informe_camaras.md (fecha 12-10-2025). Extraer casos de fallas reales documentadas y agregarlos a la NUEVA tabla 'fallas' consolidada.\n\n**VALIDACIÓN CRÍTICA ANTI-DUPLICADOS**: \nAntes de insertar cada falla:\n1. Buscar si existe falla para esa misma cámara\n2. Verificar el estado de esa falla\n3. INSERTAR solo si: a) No existe falla previa, O b) Falla previa está 'Resuelta' o 'Cerrada'\n4. NO insertar si: Existe falla con estado 'Pendiente', 'Asignada' o 'EnProceso'\n\nParser debe extraer: nombre_camara, tipo_falla, descripcion, fecha (si disponible), prioridad",
         "status": "pending",
         "priority": "high"
       },
