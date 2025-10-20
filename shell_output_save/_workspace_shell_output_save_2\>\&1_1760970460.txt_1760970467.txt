@@ -1,0 +1,102 @@
+
+================================================================================
+🚀 SCRIPT: Corrección de Datos - Caso 5 (Bicicletero Principal)
+================================================================================
+Fecha/Hora: 2025-10-20 22:27:11
+
+================================================================================
+📋 ESTRUCTURA DE LA TABLA casos_reales
+================================================================================
+
+ID    Columna                        Tipo            Nulo     Default
+--------------------------------------------------------------------------------
+0     id                             INTEGER         SI       NULL
+1     nombre_caso                    TEXT            NO       NULL
+2     fecha_caso                     DATE            NO       NULL
+3     descripcion                    TEXT            SI       NULL
+4     componentes_involucrados       TEXT            SI       NULL
+5     dependencias_cascada           TEXT            SI       NULL
+6     solucion_aplicada              TEXT            SI       NULL
+7     tiempo_resolucion_horas        REAL            SI       NULL
+8     lecciones_aprendidas           TEXT            SI       NULL
+9     created_at                     TIMESTAMP       SI       CURRENT_TIMESTAMP
+
+================================================================================
+
+================================================================================
+📄 DATOS ACTUALES DEL CASO 5 (Bicicletero Principal)
+================================================================================
+
+ID: 12
+Nombre Caso: Falla Fibra Óptica Bicicletero Principal
+Fecha: 2025-10-16
+Descripción: Falla eléctrica - Bicicletero Principal
+3 cámaras afectadas:
+- Bicicletero_Entrada
+- Bicicletero_Estacionamiento
+- Bicicletero_Lateral
+
+Causa: Automático desconectado en caseta de guardia
+Horario: 15:20 → 16:57
+Duración real: 1 hora 37 minutos (1.62 horas)
+Componentes: 3 cámaras del Bicicletero Principal
+Técnico: Charles Jélvez
+Tipo: Falla eléctrica (automático desconectado)
+Solución: Reconexión del automático eléctrico + verificación completa del sistema
+Todas las cámaras recuperadas exitosamente
+Tiempo total: 1h 37min
+Tiempo Resolución: 1.62 horas
+
+================================================================================
+
+================================================================================
+🔄 ACTUALIZANDO CASO 5
+================================================================================
+
+✅ Actualizaciones aplicadas:
+   • Tiempo de resolución: 1.62 horas (1h 37min)
+   • Técnico asignado: Charles Jélvez
+   • Descripción actualizada: 3 cámaras especificadas
+   • Componentes y solución detallados
+
+================================================================================
+
+================================================================================
+✓ VERIFICACIÓN POST-ACTUALIZACIÓN
+================================================================================
+
+Tiempo Resolución: 1.62 horas ✓
+
+Descripción actualizada:
+--------------------------------------------------------------------------------
+Falla eléctrica - Bicicletero Principal
+3 cámaras afectadas:
+- Bicicletero_Entrada
+- Bicicletero_Estacionamiento
+- Bicicletero_Lateral
+
+Causa: Automático desconectado en caseta de guardia
+Horario: 15:20 → 16:57
+Duración real: 1 hora 37 minutos (1.62 horas)
+--------------------------------------------------------------------------------
+
+Componentes involucrados:
+--------------------------------------------------------------------------------
+3 cámaras del Bicicletero Principal
+Técnico: Charles Jélvez
+Tipo: Falla eléctrica (automático desconectado)
+--------------------------------------------------------------------------------
+
+Solución aplicada:
+--------------------------------------------------------------------------------
+Reconexión del automático eléctrico + verificación completa del sistema
+Todas las cámaras recuperadas exitosamente
+Tiempo total: 1h 37min
+--------------------------------------------------------------------------------
+
+✅ ACTUALIZACIÓN EXITOSA
+================================================================================
+
+🔌 Conexión a la base de datos cerrada
+================================================================================
+

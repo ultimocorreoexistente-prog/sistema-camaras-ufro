@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import openpyxl
+
+# Leer planilla de Fallas
+print("=" * 70)
+print("PLANILLA: Fallas_Actualizada.xlsx")
+print("=" * 70)
+try:
+    wb = openpyxl.load_workbook('user_input_files/planillas-web/Fallas_Actualizada.xlsx')
+    print(f"Hojas disponibles: {wb.sheetnames}")
+    ws = wb.active
+    print(f"Filas: {ws.max_row}, Columnas: {ws.max_column}")
+    print("\nPrimeras 3 filas:")
+    for i, row in enumerate(ws.iter_rows(values_only=True), 1):
+        print(f"  {i}: {row}")
+        if i >= 3:
+            break
+except Exception as e:
+    print(f"Error: {e}")
+
+print("\n" + "=" * 70)
+print("PLANILLA: Equipos_Tecnicos.xlsx")
+print("=" * 70)
+try:
+    wb = openpyxl.load_workbook('user_input_files/planillas-web/Equipos_Tecnicos.xlsx')
+    print(f"Hojas disponibles: {wb.sheetnames}")
+    ws = wb.active
+    print(f"Filas: {ws.max_row}, Columnas: {ws.max_column}")
+    print("\nTODAS las filas:")
+    for i, row in enumerate(ws.iter_rows(values_only=True), 1):
+        print(f"  {i}: {row}")
+except Exception as e:
+    print(f"Error: {e}")
+
+print("\n" + "=" * 70)
+print("PLANILLA: Mantenimientos.xlsx")
+print("=" * 70)
+try:
+    wb = openpyxl.load_workbook('user_input_files/planillas-web/Mantenimientos.xlsx')
+    print(f"Hojas disponibles: {wb.sheetnames}")
+    ws = wb.active
+    print(f"Filas: {ws.max_row}, Columnas: {ws.max_column}")
+    print("\nPrimeras 3 filas:")
+    for i, row in enumerate(ws.iter_rows(values_only=True), 1):
+        print(f"  {i}: {row}")
+        if i >= 3:
+            break
+except Exception as e:
+    print(f"Error: {e}")
+---EJECUTANDO---
+======================================================================
+PLANILLA: Fallas_Actualizada.xlsx
+======================================================================
+Hojas disponibles: ['Sheet1']
+Filas: 2, Columnas: 22
+
+Primeras 3 filas:
+  1: ('ID Falla', 'Fecha de Reporte', 'Reportado Por', 'Tipo de Falla', 'Subtipo', 'Cámara Afectada', 'Nombre de Cámara', 'IP de Cámara', 'Ubicación', 'Gabinete Relacionado', 'Switch Relacionado', 'Puerto Afectado', 'Descripción', 'Impacto en Visibilidad', 'Afecta Visión Nocturna', 'Estado', 'Prioridad', 'Técnico Asignado', 'Fecha de Resolución', 'Solución Aplicada', 'Materiales Utilizados', 'Observaciones')
+  2: ('F-20251016211050', '16/10/2025', 'Central de Monitoreo', 'Problemas de Conectividad', 'Sin señal', '2030_Acceso_1P', '2030_Acceso_1P', '172.22.3.9', 'Edificio O - 1er Piso', 'GAB-001', 'SW-001', 1, 'Cámara no presenta señal de video. Posible problema de red.', 'Alto', 'Sí', 'Reportada', 'Alta', 'Técnico Propio', None, None, None, 'Se requiere revisión en sitio.')
+
+======================================================================
+PLANILLA: Equipos_Tecnicos.xlsx
+======================================================================
+Hojas disponibles: ['Sheet1']
+Filas: 5, Columnas: 14
+
+TODAS las filas:
+  1: ('ID Equipo', 'Tipo de Equipo', 'Marca', 'Modelo', 'Número de Serie', 'Capacidad (VA/W/Canales)', 'Número de Baterías', 'Gabinete Asociado', 'Alimenta a', 'Estado', 'Fecha de Instalación', 'Fecha de Último Mantenimiento', 'Tipo de Mantenimiento', 'Observaciones')
+  2: ('UPS-001', 'UPS', 'APC', 'Smart-UPS 1500', 'UPS-SN001', '1500 VA', 1, 'GAB-001', 'Switch SW-001, NVR-001', 'Funcionando', '2023-01-15', '2025-10-13', 'Cambio de batería', 'Batería cambiada el 13/10/2025')
+  3: ('POE-001', 'POE Externo', 'Ubiquiti', 'POE-48-24W', 'POE-SN001', '24W', 0, 'GAB-002', 'Cámara PTZ Francisco Salazar', 'Funcionando', '2024-03-10', None, None, None)
+  4: ('NVR-001', 'NVR', 'Hikvision', 'DS-7616NI-I2/16P', 'NVR-SN001', '16 Canales', 0, 'GAB-001', 'Cámaras conectadas a SW-001 y SW-003', 'Funcionando', '2023-01-15', None, None, 'NVR principal del Edificio O')
+  5: ('NVR-002', 'NVR', 'Dahua', 'DHI-NVR4108HS-8P-4KS2', 'NVR-SN002', '8 Canales', 0, 'GAB-002', 'Cámaras conectadas a SW-002', 'Funcionando', '2024-03-10', None, None, 'NVR para cámaras de Francisco Salazar')
+
+======================================================================
+PLANILLA: Mantenimientos.xlsx
+======================================================================
+Hojas disponibles: ['Sheet1']
+Filas: 2, Columnas: 15
+
+Primeras 3 filas:
+  1: ('ID Mantenimiento', 'Fecha Programada', 'Fecha de Realización', 'Tipo de Mantenimiento', 'Categoría', 'Equipo/Gabinete', 'Ubicación', 'Descripción del Trabajo', 'Estado', 'Técnico Responsable', 'Materiales Utilizados', 'Costo Aproximado', 'Equipos/Cámaras Afectadas', 'Tiempo de Ejecución', 'Observaciones')
+  2: ('MNT-001', '13/10/2025', '13/10/2025', 'Correctivo', 'Cambio de batería', 'UPS-001 / GAB-001', 'Edificio O - 3er Piso', 'Cambio de 1 batería de UPS', 'Completado', 'Técnico Propio', '1 Batería 12V 9Ah', None, '10 cámaras domo + 1 PTZ temporalmente sin respaldo', '30 minutos', 'Mantenimiento exitoso, sistema operando normalmente')

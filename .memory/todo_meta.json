@@ -5,7 +5,7 @@
         "id": "1",
         "content": "Corregir tiempo de resolución del Caso 5 (Bicicletero)",
         "details": "Cambiar de 8.95 horas a 1.62 horas (1h 37min: 15:20 → 16:57). Actualizar técnico a Charles Jélvez. Actualizar número de cámaras a 3.",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "2": {
