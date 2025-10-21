@@ -193,7 +193,7 @@ class Camara(db.Model):
     ubicacion = db.relationship('Ubicacion', backref='camaras')
     gabinete = db.relationship('Gabinete', backref='camaras')
     switch = db.relationship('Switch', backref='camaras')
-    puerto_switch = db.relationship('Puerto_Switch', backref='camara_asignada')
+    puerto_switch = db.relationship('Puerto_Switch', foreign_keys=[puerto_switch_id], backref='camara_asignada')
     nvr = db.relationship('NVR_DVR', backref='camaras')
 
 class Catalogo_Tipo_Falla(db.Model):
