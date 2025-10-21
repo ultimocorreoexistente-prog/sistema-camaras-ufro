@@ -112,9 +112,15 @@ def migrar_datos():
         print("3. Migrando Catálogo de Tipos de Fallas...")
         df = pd.read_excel(f'{base_path}Catalogo_Tipos_Fallas.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            nombre = safe_str(row.get('Nombre'))
+            # Saltar filas sin nombre (requerido)
+            if not nombre:
+                skipped += 1
+                continue
             tipo_falla = Catalogo_Tipo_Falla(
-                nombre=safe_str(row.get('Nombre')),
+                nombre=nombre,
                 categoria=safe_str(row.get('Categoria')),
                 descripcion=safe_str(row.get('Descripcion')),
                 gravedad=safe_str(row.get('Gravedad', 'Media')),
@@ -123,15 +129,21 @@ def migrar_datos():
             db.session.add(tipo_falla)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} tipos de fallas insertados\n")
+        print(f"   ✓ {count} tipos de fallas insertados ({skipped} filas omitidas)\n")
         
         # 4. GABINETES
         print("4. Migrando Gabinetes...")
         df = pd.read_excel(f'{base_path}Gabinetes.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            codigo = safe_str(row.get('Codigo'))
+            # Saltar filas sin código (requerido)
+            if not codigo:
+                skipped += 1
+                continue
             gabinete = Gabinete(
-                codigo=safe_str(row.get('Codigo')),
+                codigo=codigo,
                 nombre=safe_str(row.get('Nombre')),
                 tipo_ubicacion_general=safe_str(row.get('Tipo_Ubicacion_General')),
                 tipo_ubicacion_detallada=safe_str(row.get('Tipo_Ubicacion_Detallada')),
@@ -150,15 +162,20 @@ def migrar_datos():
             db.session.add(gabinete)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} gabinetes insertados\n")
+        print(f"   ✓ {count} gabinetes insertados ({skipped} filas omitidas)\n")
         
         # 5. SWITCHES
         print("5. Migrando Switches...")
         df = pd.read_excel(f'{base_path}Switches.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            codigo = safe_str(row.get('Codigo'))
+            if not codigo:
+                skipped += 1
+                continue
             switch = Switch(
-                codigo=safe_str(row.get('Codigo')),
+                codigo=codigo,
                 nombre=safe_str(row.get('Nombre')),
                 ip=safe_str(row.get('IP')),
                 modelo=safe_str(row.get('Modelo')),
@@ -178,15 +195,21 @@ def migrar_datos():
             db.session.add(switch)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} switches insertados\n")
+        print(f"   ✓ {count} switches insertados ({skipped} filas omitidas)\n")
         
         # 6. PUERTOS SWITCH
         print("6. Migrando Puertos de Switch...")
         df = pd.read_excel(f'{base_path}Puertos_Switch.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            switch_id = safe_int(row.get('ID_Switch'))
+            # Saltar filas sin switch_id (requerido)
+            if not switch_id:
+                skipped += 1
+                continue
             puerto = Puerto_Switch(
-                switch_id=safe_int(row.get('ID_Switch')),
+                switch_id=switch_id,
                 numero_puerto=safe_int(row.get('Numero_Puerto')),
                 camara_id=safe_int(row.get('ID_Camara')),
                 ip_dispositivo=safe_str(row.get('IP_Dispositivo')),
@@ -198,15 +221,20 @@ def migrar_datos():
             db.session.add(puerto)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} puertos de switch insertados\n")
+        print(f"   ✓ {count} puertos de switch insertados ({skipped} filas omitidas)\n")
         
         # 7. UPS
         print("7. Migrando UPS...")
         df = pd.read_excel(f'{base_path}UPS.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            codigo = safe_str(row.get('Codigo'))
+            if not codigo:
+                skipped += 1
+                continue
             ups = UPS(
-                codigo=safe_str(row.get('Codigo')),
+                codigo=codigo,
                 modelo=safe_str(row.get('Modelo')),
                 marca=safe_str(row.get('Marca')),
                 capacidad_va=safe_int(row.get('Capacidad_VA')),
@@ -223,15 +251,20 @@ def migrar_datos():
             db.session.add(ups)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} UPS insertados\n")
+        print(f"   ✓ {count} UPS insertados ({skipped} filas omitidas)\n")
         
         # 8. NVR/DVR
         print("8. Migrando NVR/DVR...")
         df = pd.read_excel(f'{base_path}NVR_DVR.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            codigo = safe_str(row.get('Codigo'))
+            if not codigo:
+                skipped += 1
+                continue
             nvr = NVR_DVR(
-                codigo=safe_str(row.get('Codigo')),
+                codigo=codigo,
                 tipo=safe_str(row.get('Tipo', 'NVR')),
                 modelo=safe_str(row.get('Modelo')),
                 marca=safe_str(row.get('Marca')),
@@ -249,15 +282,20 @@ def migrar_datos():
             db.session.add(nvr)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} NVR/DVR insertados\n")
+        print(f"   ✓ {count} NVR/DVR insertados ({skipped} filas omitidas)\n")
         
         # 9. FUENTES DE PODER
         print("9. Migrando Fuentes de Poder...")
         df = pd.read_excel(f'{base_path}Fuentes_Poder.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            codigo = safe_str(row.get('Codigo'))
+            if not codigo:
+                skipped += 1
+                continue
             fuente = Fuente_Poder(
-                codigo=safe_str(row.get('Codigo')),
+                codigo=codigo,
                 modelo=safe_str(row.get('Modelo')),
                 voltaje=safe_str(row.get('Voltaje')),
                 amperaje=safe_str(row.get('Amperaje')),
@@ -271,15 +309,20 @@ def migrar_datos():
             db.session.add(fuente)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} fuentes de poder insertadas\n")
+        print(f"   ✓ {count} fuentes de poder insertadas ({skipped} filas omitidas)\n")
         
         # 10. CÁMARAS (474 unidades)
         print("10. Migrando Cámaras...")
         df = pd.read_excel(f'{base_path}Listadecámaras_modificada.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            codigo = safe_str(row.get('Codigo'))
+            if not codigo:
+                skipped += 1
+                continue
             camara = Camara(
-                codigo=safe_str(row.get('Codigo')),
+                codigo=codigo,
                 nombre=safe_str(row.get('Nombre')),
                 ip=safe_str(row.get('IP')),
                 modelo=safe_str(row.get('Modelo')),
@@ -304,7 +347,7 @@ def migrar_datos():
             db.session.add(camara)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} cámaras insertadas\n")
+        print(f"   ✓ {count} cámaras insertadas ({skipped} filas omitidas)\n")
         
         # 11. FALLAS (con validación anti-duplicados)
         print("11. Migrando Fallas (con validación anti-duplicados)...")
