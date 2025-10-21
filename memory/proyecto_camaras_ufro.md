@@ -342,10 +342,10 @@ El usuario puede filtrar en la aplicación web por códigos auto-generados y edi
 - `FP-AUTO-000` a `FP-AUTO-005` (Fuentes de Poder)
 - `Tecnico_Auto_4`, `Tecnico_Auto_5` (Equipos Técnicos)
 
-## ACTUALIZACIÓN DISEÑO LOGIN - 2025-10-22 07:07
+## ACTUALIZACIÓN DISEÑO LOGIN - 2025-10-22 07:28
 
-**✅ Página de login rediseñada:**
-- Fondo degradado púrpura (#7c5fbd → #6b4fa0 → #9b7ec7)
+**✅ Página de login rediseñada y desplegada:**
+- Fondo degradado celeste (#4fc3f7 → #29b6f6 → #81d4fa)
 - Logo UFRO a la izquierda (SVG simplificado)
 - Panel central de login con diseño mejorado
 - Icono de cámaras a la derecha
@@ -355,11 +355,15 @@ El usuario puede filtrar en la aplicación web por códigos auto-generados y edi
 **Archivo modificado:**
 - `sistema-camaras-flask/templates/login.html`
 
+**Estado del despliegue:**
+- ✅ Commit realizado: "Actualizar diseño login: fondo degradado celeste"
+- ✅ Push a GitHub exitoso
+- ⏳ Railway redespliegue en progreso
+
 **URL de la aplicación:**
 - https://gestion-camaras-ufro.up.railway.app/
 
 **Próximos pasos:**
-1. Hacer commit y push de los cambios a GitHub
-2. Esperar el redespliegue automático en Railway
-3. Acceder y verificar el nuevo diseño
-4. Editar registros AUTO-XXX si es necesario
+1. Esperar 2-3 minutos para el redespliegue automático en Railway
+2. Acceder y verificar el nuevo diseño con fondo celeste
+3. Editar registros AUTO-XXX si es necesario
