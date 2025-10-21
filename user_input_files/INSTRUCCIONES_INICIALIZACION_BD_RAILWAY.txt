@@ -1,0 +1,60 @@
+# Instrucciones para Inicializar la Base de Datos en Railway
+
+## 🎯 Objetivo
+Inicializar la base de datos PostgreSQL en Railway creando todas las tablas necesarias e insertando los usuarios por defecto del sistema.
+
+---
+
+## 📄 Archivos Necesarios
+
+1. **`01_crear_tablas.sql`** - Crea la estructura completa de la base de datos (14 tablas)
+2. **`02_insertar_usuarios.sql`** - Inserta los 4 usuarios iniciales del sistema
+
+---
+
+## 🛠️ Pasos para Ejecutar
+
+### **Paso 1: Acceder a Railway**
+
+1. Ve a [railway.app](https://railway.app)
+2. Inicia sesión con tu cuenta
+3. Selecciona tu proyecto (sistema-camaras-ufro o el nombre que le hayas dado)
+
+### **Paso 2: Abrir la Consola de PostgreSQL**
+
+1. En tu proyecto de Railway, haz clic en el servicio **"Postgres"**
+2. Ve a la pestaña **"Data"**
+3. Haz clic en **"Query"** (aparecerá un editor SQL)
+
+### **Paso 3: Ejecutar el Script de Creación de Tablas**
+
+1. Abre el archivo **`01_crear_tablas.sql`** (en esta carpeta `docs/`)
+2. **Copia TODO el contenido** del archivo
+3. **Pégalo** en el editor de Query de Railway
+4. Haz clic en el botón **"Run"** o presiona `Ctrl + Enter`
+5. Espera a que termine la ejecución (deberías ver el mensaje "Tablas creadas exitosamente")
+
+### **Paso 4: Ejecutar el Script de Usuarios**
+
+1. **Limpia** el editor de Query (borra el contenido anterior)
+2. Abre el archivo **`02_insertar_usuarios.sql`**
+3. **Copia TODO el contenido** del archivo
+4. **Pégalo** en el editor de Query de Railway
+5. Haz clic en **"Run"** o presiona `Ctrl + Enter`
+6. Deberías ver una tabla con los 4 usuarios creados
+
+---
+
+## ✅ Verificación
+
+Para confirmar que todo se instaló correctamente, ejecuta esta consulta en el Query de Railway:
+
+```sql
+SELECT 
+    table_name 
+FROM 
+    information_schema.tables 
+WHERE 
+    table_schema = 'public'
+ORDER BY 
+    table_name;
