@@ -694,27 +694,33 @@ def init_database():
     """Inicializa la base de datos si no existe"""
     with app.app_context():
         try:
-            # Verificar si la tabla Usuario existe
-            Usuario.query.first()
-        except Exception:
-            # Si falla, crear todas las tablas
+            # Intentar crear todas las tablas (si ya existen, no pasa nada)
             db.create_all()
-            print('✅ Tablas creadas exitosamente')
+            print('✅ Tablas verificadas/creadas exitosamente')
             
-            # Crear usuarios por defecto solo si no existen
-            if Usuario.query.count() == 0:
-                usuarios = [
-                    Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
-                    Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
-                    Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
-                    Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
-                ]
-                passwords = ['admin123', 'super123', 'tecnico123', 'viz123']
-                for user, password in zip(usuarios, passwords):
-                    user.set_password(password)
-                    db.session.add(user)
-                db.session.commit()
-                print('✅ Usuarios por defecto creados')
+            # Verificar si existen usuarios
+            try:
+                user_count = Usuario.query.count()
+                if user_count == 0:
+                    # Crear usuarios por defecto
+                    usuarios = [
+                        Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
+                        Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
+                        Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
+                        Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
+                    ]
+                    passwords = ['admin123', 'super123', 'tecnico123', 'viz123']
+                    for user, password in zip(usuarios, passwords):
+                        user.set_password(password)
+                        db.session.add(user)
+                    db.session.commit()
+                    print('✅ Usuarios por defecto creados')
+                else:
+                    print(f'ℹ️ {user_count} usuarios ya existen en la base de datos')
+            except Exception as e:
+                print(f'⚠️ Error al verificar/crear usuarios: {e}')
+        except Exception as e:
+            print(f'❌ Error al inicializar base de datos: {e}')
 
 # Ejecutar inicialización al importar
 init_database()
