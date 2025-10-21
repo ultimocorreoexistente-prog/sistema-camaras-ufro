@@ -1,0 +1,103 @@
+============================================================
+MIGRACIÓN DE DATOS A RAILWAY
+============================================================
+Directorio de trabajo: /workspace/sistema-camaras-flask
+Base de datos: tramway.proxy.rlwy.net:34726/railway
+============================================================
+
+=== INICIANDO MIGRACIÓN DE DATOS ===
+
+1. Migrando Ubicaciones...
+   ✓ 8 ubicaciones insertadas
+
+2. Migrando Equipos Técnicos...
+
+⚠⚠⚠ ERROR EN MIGRACIÓN: (psycopg2.errors.NotNullViolation) null value in column "nombre" of relation "equipo_tecnico" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, null, Funcionando, null).
+
+[SQL: INSERT INTO equipo_tecnico (nombre, apellido, especialidad, telefono, email, estado, fecha_ingreso) SELECT p0::VARCHAR, p1::VARCHAR, p2::VARCHAR, p3::VARCHAR, p4::VARCHAR, p5::VARCHAR, p6::DATE FROM (VALUES (%(nombre__0)s, %(apellido__0)s, %(especial ... 741 characters truncated ... 4, p5, p6, sen_counter) ORDER BY sen_counter RETURNING equipo_tecnico.id, equipo_tecnico.id AS id__1]
+[parameters: {'fecha_ingreso__0': None, 'especialidad__0': None, 'apellido__0': None, 'nombre__0': None, 'email__0': None, 'telefono__0': None, 'estado__0': 'Funcionando', 'fecha_ingreso__1': None, 'especialidad__1': None, 'apellido__1': None, 'nombre__1': None, 'email__1': None, 'telefono__1': None, 'estado__1': 'Funcionando', 'fecha_ingreso__2': None, 'especialidad__2': None, 'apellido__2': None, 'nombre__2': None, 'email__2': None, 'telefono__2': None, 'estado__2': 'Funcionando', 'fecha_ingreso__3': None, 'especialidad__3': None, 'apellido__3': None, 'nombre__3': None, 'email__3': None, 'telefono__3': None, 'estado__3': 'Funcionando', 'fecha_ingreso__4': None, 'especialidad__4': 'Cámaras IP', 'apellido__4': None, 'nombre__4': None, 'email__4': 'diego.morales@ufro.cl', 'telefono__4': None, 'estado__4': 'Activo', 'fecha_ingreso__5': None, 'especialidad__5': 'Infraestructura de Red', 'apellido__5': None, 'nombre__5': None, 'email__5': 'claudia.ramirez@ufro.cl', 'telefono__5': None, 'estado__5': 'Activo'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+❌ ERROR DURANTE LA MIGRACIÓN: (psycopg2.errors.NotNullViolation) null value in column "nombre" of relation "equipo_tecnico" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, null, Funcionando, null).
+
+[SQL: INSERT INTO equipo_tecnico (nombre, apellido, especialidad, telefono, email, estado, fecha_ingreso) SELECT p0::VARCHAR, p1::VARCHAR, p2::VARCHAR, p3::VARCHAR, p4::VARCHAR, p5::VARCHAR, p6::DATE FROM (VALUES (%(nombre__0)s, %(apellido__0)s, %(especial ... 741 characters truncated ... 4, p5, p6, sen_counter) ORDER BY sen_counter RETURNING equipo_tecnico.id, equipo_tecnico.id AS id__1]
+[parameters: {'fecha_ingreso__0': None, 'especialidad__0': None, 'apellido__0': None, 'nombre__0': None, 'email__0': None, 'telefono__0': None, 'estado__0': 'Funcionando', 'fecha_ingreso__1': None, 'especialidad__1': None, 'apellido__1': None, 'nombre__1': None, 'email__1': None, 'telefono__1': None, 'estado__1': 'Funcionando', 'fecha_ingreso__2': None, 'especialidad__2': None, 'apellido__2': None, 'nombre__2': None, 'email__2': None, 'telefono__2': None, 'estado__2': 'Funcionando', 'fecha_ingreso__3': None, 'especialidad__3': None, 'apellido__3': None, 'nombre__3': None, 'email__3': None, 'telefono__3': None, 'estado__3': 'Funcionando', 'fecha_ingreso__4': None, 'especialidad__4': 'Cámaras IP', 'apellido__4': None, 'nombre__4': None, 'email__4': 'diego.morales@ufro.cl', 'telefono__4': None, 'estado__4': 'Activo', 'fecha_ingreso__5': None, 'especialidad__5': 'Infraestructura de Red', 'apellido__5': None, 'nombre__5': None, 'email__5': 'claudia.ramirez@ufro.cl', 'telefono__5': None, 'estado__5': 'Activo'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.NotNullViolation: null value in column "nombre" of relation "equipo_tecnico" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, null, Funcionando, null).
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/code/ejecutar_migracion_railway.py", line 32, in <module>
+    migrar_datos()
+  File "/workspace/sistema-camaras-flask/migrate_data.py", line 101, in migrar_datos
+    db.session.commit()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 1143, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2126, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) null value in column "nombre" of relation "equipo_tecnico" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, null, Funcionando, null).
+
+[SQL: INSERT INTO equipo_tecnico (nombre, apellido, especialidad, telefono, email, estado, fecha_ingreso) SELECT p0::VARCHAR, p1::VARCHAR, p2::VARCHAR, p3::VARCHAR, p4::VARCHAR, p5::VARCHAR, p6::DATE FROM (VALUES (%(nombre__0)s, %(apellido__0)s, %(especial ... 741 characters truncated ... 4, p5, p6, sen_counter) ORDER BY sen_counter RETURNING equipo_tecnico.id, equipo_tecnico.id AS id__1]
+[parameters: {'fecha_ingreso__0': None, 'especialidad__0': None, 'apellido__0': None, 'nombre__0': None, 'email__0': None, 'telefono__0': None, 'estado__0': 'Funcionando', 'fecha_ingreso__1': None, 'especialidad__1': None, 'apellido__1': None, 'nombre__1': None, 'email__1': None, 'telefono__1': None, 'estado__1': 'Funcionando', 'fecha_ingreso__2': None, 'especialidad__2': None, 'apellido__2': None, 'nombre__2': None, 'email__2': None, 'telefono__2': None, 'estado__2': 'Funcionando', 'fecha_ingreso__3': None, 'especialidad__3': None, 'apellido__3': None, 'nombre__3': None, 'email__3': None, 'telefono__3': None, 'estado__3': 'Funcionando', 'fecha_ingreso__4': None, 'especialidad__4': 'Cámaras IP', 'apellido__4': None, 'nombre__4': None, 'email__4': 'diego.morales@ufro.cl', 'telefono__4': None, 'estado__4': 'Activo', 'fecha_ingreso__5': None, 'especialidad__5': 'Infraestructura de Red', 'apellido__5': None, 'nombre__5': None, 'email__5': 'claudia.ramirez@ufro.cl', 'telefono__5': None, 'estado__5': 'Activo'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

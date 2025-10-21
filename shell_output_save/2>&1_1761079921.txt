@@ -1,0 +1,106 @@
+============================================================
+MIGRACIÓN DE DATOS A RAILWAY
+============================================================
+Directorio de trabajo: /workspace/sistema-camaras-flask
+Base de datos: tramway.proxy.rlwy.net:34726/railway
+============================================================
+
+=== INICIANDO MIGRACIÓN DE DATOS ===
+
+1. Migrando Ubicaciones...
+   ✓ 8 ubicaciones insertadas
+
+2. Migrando Equipos Técnicos...
+   ✓ 0 equipos técnicos insertados (6 filas omitidas por datos incompletos)
+
+3. Migrando Catálogo de Tipos de Fallas...
+
+⚠⚠⚠ ERROR EN MIGRACIÓN: (psycopg2.errors.NotNullViolation) null value in column "nombre" of relation "catalogo_tipo_falla" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, Media, null).
+
+[SQL: INSERT INTO catalogo_tipo_falla (nombre, categoria, descripcion, gravedad, tiempo_estimado_resolucion) SELECT p0::VARCHAR, p1::VARCHAR, p2::TEXT, p3::VARCHAR, p4::INTEGER FROM (VALUES (%(nombre__0)s, %(categoria__0)s, %(descripcion__0)s, %(gravedad__ ... 1876 characters truncated ...  sen_counter) ORDER BY sen_counter RETURNING catalogo_tipo_falla.id, catalogo_tipo_falla.id AS id__1]
+[parameters: {'descripcion__0': None, 'categoria__0': None, 'gravedad__0': 'Media', 'tiempo_estimado_resolucion__0': None, 'nombre__0': None, 'descripcion__1': None, 'categoria__1': None, 'gravedad__1': 'Media', 'tiempo_estimado_resolucion__1': None, 'nombre__1': None, 'descripcion__2': None, 'categoria__2': None, 'gravedad__2': 'Media', 'tiempo_estimado_resolucion__2': None, 'nombre__2': None, 'descripcion__3': None, 'categoria__3': None, 'gravedad__3': 'Media', 'tiempo_estimado_resolucion__3': None, 'nombre__3': None, 'descripcion__4': None, 'categoria__4': None, 'gravedad__4': 'Media', 'tiempo_estimado_resolucion__4': None, 'nombre__4': None, 'descripcion__5': None, 'categoria__5': None, 'gravedad__5': 'Media', 'tiempo_estimado_resolucion__5': None, 'nombre__5': None, 'descripcion__6': None, 'categoria__6': None, 'gravedad__6': 'Media', 'tiempo_estimado_resolucion__6': None, 'nombre__6': None, 'descripcion__7': None, 'categoria__7': None, 'gravedad__7': 'Media', 'tiempo_estimado_resolucion__7': None, 'nombre__7': None, 'descripcion__8': None, 'categoria__8': None, 'gravedad__8': 'Media', 'tiempo_estimado_resolucion__8': None, 'nombre__8': None, 'descripcion__9': None, 'categoria__9': None, 'gravedad__9': 'Media', 'tiempo_estimado_resolucion__9': None, 'nombre__9': None, 'descripcion__10': None, 'categoria__10': None, 'gravedad__10': 'Media', 'tiempo_estimado_resolucion__10': None, 'nombre__10': None, 'descripcion__11': None, 'categoria__11': None, 'gravedad__11': 'Media', 'tiempo_estimado_resolucion__11': None, 'nombre__11': None, 'descripcion__12': None, 'categoria__12': None, 'gravedad__12': 'Media', 'tiempo_estimado_resolucion__12': None, 'nombre__12': None, 'descripcion__13': None, 'categoria__13': None, 'gravedad__13': 'Media', 'tiempo_estimado_resolucion__13': None, 'nombre__13': None, 'descripcion__14': None, 'categoria__14': None, 'gravedad__14': 'Media', 'tiempo_estimado_resolucion__14': None, 'nombre__14': None, 'descripcion__15': None, 'categoria__15': None, 'gravedad__15': 'Media', 'tiempo_estimado_resolucion__15': None, 'nombre__15': None, 'descripcion__16': None, 'categoria__16': None, 'gravedad__16': 'Media', 'tiempo_estimado_resolucion__16': None, 'nombre__16': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+❌ ERROR DURANTE LA MIGRACIÓN: (psycopg2.errors.NotNullViolation) null value in column "nombre" of relation "catalogo_tipo_falla" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, Media, null).
+
+[SQL: INSERT INTO catalogo_tipo_falla (nombre, categoria, descripcion, gravedad, tiempo_estimado_resolucion) SELECT p0::VARCHAR, p1::VARCHAR, p2::TEXT, p3::VARCHAR, p4::INTEGER FROM (VALUES (%(nombre__0)s, %(categoria__0)s, %(descripcion__0)s, %(gravedad__ ... 1876 characters truncated ...  sen_counter) ORDER BY sen_counter RETURNING catalogo_tipo_falla.id, catalogo_tipo_falla.id AS id__1]
+[parameters: {'descripcion__0': None, 'categoria__0': None, 'gravedad__0': 'Media', 'tiempo_estimado_resolucion__0': None, 'nombre__0': None, 'descripcion__1': None, 'categoria__1': None, 'gravedad__1': 'Media', 'tiempo_estimado_resolucion__1': None, 'nombre__1': None, 'descripcion__2': None, 'categoria__2': None, 'gravedad__2': 'Media', 'tiempo_estimado_resolucion__2': None, 'nombre__2': None, 'descripcion__3': None, 'categoria__3': None, 'gravedad__3': 'Media', 'tiempo_estimado_resolucion__3': None, 'nombre__3': None, 'descripcion__4': None, 'categoria__4': None, 'gravedad__4': 'Media', 'tiempo_estimado_resolucion__4': None, 'nombre__4': None, 'descripcion__5': None, 'categoria__5': None, 'gravedad__5': 'Media', 'tiempo_estimado_resolucion__5': None, 'nombre__5': None, 'descripcion__6': None, 'categoria__6': None, 'gravedad__6': 'Media', 'tiempo_estimado_resolucion__6': None, 'nombre__6': None, 'descripcion__7': None, 'categoria__7': None, 'gravedad__7': 'Media', 'tiempo_estimado_resolucion__7': None, 'nombre__7': None, 'descripcion__8': None, 'categoria__8': None, 'gravedad__8': 'Media', 'tiempo_estimado_resolucion__8': None, 'nombre__8': None, 'descripcion__9': None, 'categoria__9': None, 'gravedad__9': 'Media', 'tiempo_estimado_resolucion__9': None, 'nombre__9': None, 'descripcion__10': None, 'categoria__10': None, 'gravedad__10': 'Media', 'tiempo_estimado_resolucion__10': None, 'nombre__10': None, 'descripcion__11': None, 'categoria__11': None, 'gravedad__11': 'Media', 'tiempo_estimado_resolucion__11': None, 'nombre__11': None, 'descripcion__12': None, 'categoria__12': None, 'gravedad__12': 'Media', 'tiempo_estimado_resolucion__12': None, 'nombre__12': None, 'descripcion__13': None, 'categoria__13': None, 'gravedad__13': 'Media', 'tiempo_estimado_resolucion__13': None, 'nombre__13': None, 'descripcion__14': None, 'categoria__14': None, 'gravedad__14': 'Media', 'tiempo_estimado_resolucion__14': None, 'nombre__14': None, 'descripcion__15': None, 'categoria__15': None, 'gravedad__15': 'Media', 'tiempo_estimado_resolucion__15': None, 'nombre__15': None, 'descripcion__16': None, 'categoria__16': None, 'gravedad__16': 'Media', 'tiempo_estimado_resolucion__16': None, 'nombre__16': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.NotNullViolation: null value in column "nombre" of relation "catalogo_tipo_falla" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, Media, null).
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/code/ejecutar_migracion_railway.py", line 32, in <module>
+    migrar_datos()
+  File "/workspace/sistema-camaras-flask/migrate_data.py", line 125, in migrar_datos
+    db.session.commit()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 1143, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2126, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) null value in column "nombre" of relation "catalogo_tipo_falla" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, Media, null).
+
+[SQL: INSERT INTO catalogo_tipo_falla (nombre, categoria, descripcion, gravedad, tiempo_estimado_resolucion) SELECT p0::VARCHAR, p1::VARCHAR, p2::TEXT, p3::VARCHAR, p4::INTEGER FROM (VALUES (%(nombre__0)s, %(categoria__0)s, %(descripcion__0)s, %(gravedad__ ... 1876 characters truncated ...  sen_counter) ORDER BY sen_counter RETURNING catalogo_tipo_falla.id, catalogo_tipo_falla.id AS id__1]
+[parameters: {'descripcion__0': None, 'categoria__0': None, 'gravedad__0': 'Media', 'tiempo_estimado_resolucion__0': None, 'nombre__0': None, 'descripcion__1': None, 'categoria__1': None, 'gravedad__1': 'Media', 'tiempo_estimado_resolucion__1': None, 'nombre__1': None, 'descripcion__2': None, 'categoria__2': None, 'gravedad__2': 'Media', 'tiempo_estimado_resolucion__2': None, 'nombre__2': None, 'descripcion__3': None, 'categoria__3': None, 'gravedad__3': 'Media', 'tiempo_estimado_resolucion__3': None, 'nombre__3': None, 'descripcion__4': None, 'categoria__4': None, 'gravedad__4': 'Media', 'tiempo_estimado_resolucion__4': None, 'nombre__4': None, 'descripcion__5': None, 'categoria__5': None, 'gravedad__5': 'Media', 'tiempo_estimado_resolucion__5': None, 'nombre__5': None, 'descripcion__6': None, 'categoria__6': None, 'gravedad__6': 'Media', 'tiempo_estimado_resolucion__6': None, 'nombre__6': None, 'descripcion__7': None, 'categoria__7': None, 'gravedad__7': 'Media', 'tiempo_estimado_resolucion__7': None, 'nombre__7': None, 'descripcion__8': None, 'categoria__8': None, 'gravedad__8': 'Media', 'tiempo_estimado_resolucion__8': None, 'nombre__8': None, 'descripcion__9': None, 'categoria__9': None, 'gravedad__9': 'Media', 'tiempo_estimado_resolucion__9': None, 'nombre__9': None, 'descripcion__10': None, 'categoria__10': None, 'gravedad__10': 'Media', 'tiempo_estimado_resolucion__10': None, 'nombre__10': None, 'descripcion__11': None, 'categoria__11': None, 'gravedad__11': 'Media', 'tiempo_estimado_resolucion__11': None, 'nombre__11': None, 'descripcion__12': None, 'categoria__12': None, 'gravedad__12': 'Media', 'tiempo_estimado_resolucion__12': None, 'nombre__12': None, 'descripcion__13': None, 'categoria__13': None, 'gravedad__13': 'Media', 'tiempo_estimado_resolucion__13': None, 'nombre__13': None, 'descripcion__14': None, 'categoria__14': None, 'gravedad__14': 'Media', 'tiempo_estimado_resolucion__14': None, 'nombre__14': None, 'descripcion__15': None, 'categoria__15': None, 'gravedad__15': 'Media', 'tiempo_estimado_resolucion__15': None, 'nombre__15': None, 'descripcion__16': None, 'categoria__16': None, 'gravedad__16': 'Media', 'tiempo_estimado_resolucion__16': None, 'nombre__16': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

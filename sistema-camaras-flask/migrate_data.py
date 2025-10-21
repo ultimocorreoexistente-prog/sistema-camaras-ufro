@@ -86,10 +86,17 @@ def migrar_datos():
         print("2. Migrando Equipos Técnicos...")
         df = pd.read_excel(f'{base_path}Equipos_Tecnicos.xlsx')
         count = 0
+        skipped = 0
         for _, row in df.iterrows():
+            nombre = safe_str(row.get('Nombre'))
+            apellido = safe_str(row.get('Apellido'))
+            # Saltar filas sin nombre (requerido)
+            if not nombre:
+                skipped += 1
+                continue
             equipo = Equipo_Tecnico(
-                nombre=safe_str(row.get('Nombre')),
-                apellido=safe_str(row.get('Apellido')),
+                nombre=nombre,
+                apellido=apellido,
                 especialidad=safe_str(row.get('Especialidad')),
                 telefono=safe_str(row.get('Telefono')),
                 email=safe_str(row.get('Email')),
@@ -99,7 +106,7 @@ def migrar_datos():
             db.session.add(equipo)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} equipos técnicos insertados\n")
+        print(f"   ✓ {count} equipos técnicos insertados ({skipped} filas omitidas por datos incompletos)\n")
         
         # 3. CATÁLOGO TIPOS DE FALLAS
         print("3. Migrando Catálogo de Tipos de Fallas...")
