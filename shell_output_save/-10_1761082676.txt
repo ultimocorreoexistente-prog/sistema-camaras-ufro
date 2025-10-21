@@ -1,0 +1,52 @@
+-rw-rw-r-- 1 minimax minimax 8923 Oct 22 05:37 /tmp/migration_output.log
+98 /tmp/migration_output.log
+=== INICIANDO MIGRACIÓN DE DATOS ===
+
+1. Migrando Ubicaciones...
+   ✓ 8 ubicaciones insertadas
+
+2. Migrando Equipos Técnicos...
+   ✓ 2 equipos técnicos insertados (2 con nombres auto-generados, 4 filas omitidas)
+
+3. Migrando Catálogo de Tipos de Fallas...
+   ✓ 0 tipos de fallas insertados (17 filas omitidas)
+
+4. Migrando Gabinetes...
+   ✓ 0 gabinetes insertados (6 filas omitidas)
+
+5. Migrando Switches...
+
+⚠⚠⚠ ERROR EN MIGRACIÓN: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "switch_codigo_key"
+DETAIL:  Key (codigo)=(SW-AUTO-003) already exists.
+
+[SQL: INSERT INTO switch (codigo, nombre, ip, modelo, marca, numero_serie, gabinete_id, puertos_totales, puertos_usados, puertos_disponibles, capacidad_poe, estado, fecha_alta, fecha_baja, motivo_baja, fecha_mantenimiento, observaciones, latitud, longitud) ... 1433 characters truncated ... , p14, p15, p16, p17, p18, sen_counter) ORDER BY sen_counter RETURNING switch.id, switch.id AS id__1]
+[parameters: {'latitud__0': None, 'codigo__0': 'SW-AUTO-003', 'longitud__0': None, 'observaciones__0': 'Switch campus Pucón', 'gabinete_id__0': None, 'marca__0': 'TP-Link', 'motivo_baja__0': None, 'nombre__0': None, 'numero_serie__0': None, 'ip__0': None, 'fecha_mantenimiento__0': None, 'fecha_baja__0': None, 'puertos_totales__0': None, 'fecha_alta__0': None, 'puertos_usados__0': 0, 'modelo__0': 'TL-SG1008P', 'estado__0': 'Funcionando', 'capacidad_poe__0': False, 'puertos_disponibles__0': None, 'latitud__1': None, 'codigo__1': 'SW-AUTO-004', 'longitud__1': None, 'observaciones__1': 'Switch principal CFT Prat', 'gabinete_id__1': None, 'marca__1': 'Cisco', 'motivo_baja__1': None, 'nombre__1': None, 'numero_serie__1': None, 'ip__1': None, 'fecha_mantenimiento__1': None, 'fecha_baja__1': None, 'puertos_totales__1': None, 'fecha_alta__1': None, 'puertos_usados__1': 0, 'modelo__1': 'SG350-28P', 'estado__1': 'Funcionando', 'capacidad_poe__1': False, 'puertos_disponibles__1': None, 'latitud__2': None, 'codigo__2': 'SW-AUTO-005', 'longitud__2': None, 'observaciones__2': 'Sin puertos disponibles - considerar ampliación', 'gabinete_id__2': None, 'marca__2': 'Ubiquiti', 'motivo_baja__2': None, 'nombre__2': None, 'numero_serie__2': None, 'ip__2': None, 'fecha_mantenimiento__2': None, 'fecha_baja__2': None, 'puertos_totales__2': None, 'fecha_alta__2': None, 'puertos_usados__2': 0, 'modelo__2': 'US-8-150W', 'estado__2': 'Funcionando', 'capacidad_poe__2': False, 'puertos_disponibles__2': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "switch_codigo_key"
+DETAIL:  Key (codigo)=(SW-AUTO-003) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/sistema-camaras-flask/migrate_data.py", line 640, in <module>
+    migrar_datos()
+  File "/workspace/sistema-camaras-flask/migrate_data.py", line 275, in migrar_datos
+    db.session.commit()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl

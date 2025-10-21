@@ -573,10 +573,18 @@ def migrar_datos():
             df = pd.read_excel(f'{base_path}Mantenimientos.xlsx')
             df = limpiar_filas_vacias(df)
             count = 0
+            skipped = 0
             for _, row in df.iterrows():
+                equipo_id = safe_int(row.get('Equipo_ID'))
+                
+                # equipo_id es NOT NULL en la BD - omitir si no existe
+                if not equipo_id:
+                    skipped += 1
+                    continue
+                
                 mantenimiento = Mantenimiento(
                     equipo_tipo=safe_str(row.get('Equipo_Tipo', 'Camara')),
-                    equipo_id=safe_int(row.get('Equipo_ID')),
+                    equipo_id=equipo_id,
                     tipo=safe_str(row.get('Tipo', 'Preventivo')),
                     fecha=datetime.now(),
                     tecnico_id=admin_user.id,
@@ -589,7 +597,7 @@ def migrar_datos():
                 db.session.add(mantenimiento)
                 count += 1
             db.session.commit()
-            print(f"   ✓ {count} mantenimientos insertados\n")
+            print(f"   ✓ {count} mantenimientos insertados ({skipped} filas omitidas)\n")
         except Exception as e:
             print(f"   ⚠ Error procesando Mantenimientos.xlsx: {e}\n")
         
