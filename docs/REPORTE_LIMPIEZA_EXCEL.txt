@@ -1,0 +1,94 @@
+============================================================
+REPORTE DE LIMPIEZA DE ARCHIVOS EXCEL
+Sistema de Gestión de Cámaras UFRO
+============================================================
+Fecha: 2025-10-22 05:19:20
+
+
+Archivo: Equipos_Tecnicos.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: Catalogo_Tipos_Fallas.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: Gabinetes.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: Switches.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: Puertos_Switch.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: UPS.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: NVR_DVR.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: Fuentes_Poder.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: Listadecámaras_modificada.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+Archivo: Mantenimientos.xlsx
+Descripción: N/A
+Estado: NO ENCONTRADO
+Filas originales: 0
+Filas eliminadas: 0
+Filas finales: 0
+------------------------------------------------------------
+
+============================================================
+RESUMEN GENERAL
+============================================================
+Total de archivos procesados: 10
+Archivos modificados: 0
+Total de filas eliminadas: 0
+============================================================
