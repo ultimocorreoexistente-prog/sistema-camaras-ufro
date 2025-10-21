@@ -2,87 +2,87 @@
 REPORTE DE LIMPIEZA DE ARCHIVOS EXCEL
 Sistema de Gestión de Cámaras UFRO
 ============================================================
-Fecha: 2025-10-22 05:19:20
+Fecha: 2025-10-22 05:19:45
 
 
 Archivo: Equipos_Tecnicos.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Técnicos del equipo
+Estado: ✓ SIN CAMBIOS
+Filas originales: 6
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 6
 ------------------------------------------------------------
 
 Archivo: Catalogo_Tipos_Fallas.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Catálogo de tipos de fallas
+Estado: ✓ SIN CAMBIOS
+Filas originales: 17
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 17
 ------------------------------------------------------------
 
 Archivo: Gabinetes.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Gabinetes de red
+Estado: ✓ SIN CAMBIOS
+Filas originales: 6
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 6
 ------------------------------------------------------------
 
 Archivo: Switches.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Switches de red
+Estado: ✓ SIN CAMBIOS
+Filas originales: 6
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 6
 ------------------------------------------------------------
 
 Archivo: Puertos_Switch.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Puertos de switches
+Estado: ✓ SIN CAMBIOS
+Filas originales: 6
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 6
 ------------------------------------------------------------
 
 Archivo: UPS.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Unidades UPS
+Estado: ✓ SIN CAMBIOS
+Filas originales: 5
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 5
 ------------------------------------------------------------
 
 Archivo: NVR_DVR.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Grabadores NVR/DVR
+Estado: ✓ SIN CAMBIOS
+Filas originales: 6
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 6
 ------------------------------------------------------------
 
 Archivo: Fuentes_Poder.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Fuentes de poder
+Estado: ✓ SIN CAMBIOS
+Filas originales: 6
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 6
 ------------------------------------------------------------
 
 Archivo: Listadecámaras_modificada.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Lista de cámaras
+Estado: ✓ SIN CAMBIOS
+Filas originales: 467
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 467
 ------------------------------------------------------------
 
 Archivo: Mantenimientos.xlsx
-Descripción: N/A
-Estado: NO ENCONTRADO
-Filas originales: 0
+Descripción: Registro de mantenimientos
+Estado: ✓ SIN CAMBIOS
+Filas originales: 6
 Filas eliminadas: 0
-Filas finales: 0
+Filas finales: 6
 ------------------------------------------------------------
 
 ============================================================

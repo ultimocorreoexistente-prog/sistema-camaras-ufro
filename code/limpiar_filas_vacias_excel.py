@@ -11,8 +11,8 @@ import os
 from datetime import datetime
 
 # Directorios
-PLANILLAS_DIR = 'planillas/'
-BACKUP_DIR = 'planillas/backup_antes_limpieza/'
+PLANILLAS_DIR = 'sistema-camaras-flask/planillas/'
+BACKUP_DIR = 'sistema-camaras-flask/planillas/backup_antes_limpieza/'
 
 # Configuración de archivos y sus campos requeridos
 ARCHIVOS_CONFIG = [

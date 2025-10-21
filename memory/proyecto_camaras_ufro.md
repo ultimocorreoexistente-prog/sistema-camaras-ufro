@@ -221,12 +221,18 @@ Aplica a:
 
 **Ubicación:** `/workspace/sistema-camaras-flask/`
 
-## DEPLOYMENT EN RAILWAY - 2025-10-21 22:17
-**Estado:** Variables configuradas ✓ - Próximo: Inicializar BD
+## DEPLOYMENT EN RAILWAY - 2025-10-22 05:22
+**Estado:** Variables configuradas ✓ - Error en migraci\u00f3n detectado
 **Variables configuradas:**
 - DATABASE_URL ✓
 - SECRET_KEY ✓  
 - FLASK_ENV ✓
+
+**Problema identificado (2025-10-22 05:22):**
+- Script de migraci\u00f3n omitiendo todas las filas
+- Causa: Archivos Excel contienen filas vac\u00edas (filas 2-7+) que no son datos
+- Los archivos tienen filas completamente vac\u00edas despu\u00e9s del encabezado
+- Script necesita dropna(how='all') antes de procesar
 
 ### Archivos Implementados (40+ archivos)
 
