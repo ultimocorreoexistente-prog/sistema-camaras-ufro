@@ -1,0 +1,23 @@
+📄 Extracted from page: sistema-camaras-ufro/templates/login.html at main · ultimocorreoexistente-prog/sistema-camaras-ufro · GitHub
+URL: https://github.com/ultimocorreoexistente-prog/sistema-camaras-ufro/blob/main/templates/login.html
+
+Extracted content:
+```json
+{
+  "title": "sistema-camaras-ufro/templates/login.html at main · ultimocorreoexistente-prog/sistema-camaras-ufro · GitHub",
+  "url": "https://github.com/ultimocorreoexistente-prog/sistema-camaras-ufro/blob/main/templates/login.html",
+  "summary": "This extraction contains the complete HTML code for the `login.html` template from the `sistema-camaras-ufro` GitHub repository. The page displays a login form with a stylized background. Specifically highlighted is the inline CSS responsible for defining the `body` background with a linear gradient.",
+  "key_points": [
+    {
+      "type": "Full HTML Code",
+      "content": "<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Login - Sistema de Gestión de Cámaras UFRO</title>\n<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n<style>\nbody {\nbackground: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\nmin-height: 100vh;\ndisplay: flex;\nalign-items: center;\njustify-content: center;\n}\n.login-card {\nmax-width: 400px;\nwidth: 100%;\n}\n</style>\n</head>\n<body>\n<div class=\"login-card\">\n<div class=\"card shadow-lg\">\n<div class=\"card-body p-5\">\n<div class=\"text-center mb-4\">\n<h2 class=\"fw-bold\">Sistema de Cámaras UFRO</h2>\n<p class=\"text-muted\">Iniciar Sesión</p>\n</div>\n{% with messages = get_flashed_messages(with_categories=true) %}\n{% if messages %}\n{% for category, message in messages %}\n<div class=\"alert alert-{{ category }} alert-dismissible fade show\" role=\"alert\">\n{{ message }}\n<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>\n</div>\n{% endfor %}\n{% endif %}\n{% endwith %}\n<form method=\"POST\" action=\"{{ url_for('login') }}\">\n<div class=\"mb-3\">\n<label for=\"username\" class=\"form-label\">Usuario</label>\n<input type=\"text\" class=\"form-control\" id=\"username\" name=\"username\" required autofocus>\n</div>\n<div class=\"mb-4\">\n<label for=\"password\" class=\"form-label\">Contraseña</label>\n<input type=\"password\" class=\"form-control\" id=\"password\" name=\"password\" required>\n</div>\n<button type=\"submit\" class=\"btn btn-primary w-100\">Ingresar</button>\n</form>\n<div class=\"mt-4 text-center\">\n<small class=\"text-muted\">\nUsuarios de prueba:<br>\nadmin / admin123<br>\nsupervisor / super123<br>\ntecnico1 / tecnico123<br>\nvisualizador / viz123\n</small>\n</div>\n</div>\n</div>\n</div>\n<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+    },
+    {
+      "type": "CSS for body background",
+      "content": "body {\nbackground: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\nmin-height: 100vh;\ndisplay: flex;\nalign-items: center;\njustify-content: center;\n}"
+    }
+  ],
+  "relevant_links": [],
+  "file_name": "login_html_code.json"
+}
+```
