@@ -96,6 +96,7 @@ class Puerto_Switch(db.Model):
     puerto_nvr = db.Column(db.String(20))
     
     switch = db.relationship('Switch', backref='puertos')
+    camara = db.relationship('Camara', foreign_keys='Puerto_Switch.camara_id', backref='puerto_asignado')
 
 class UPS(db.Model):
     __tablename__ = 'ups'
@@ -193,7 +194,7 @@ class Camara(db.Model):
     ubicacion = db.relationship('Ubicacion', backref='camaras')
     gabinete = db.relationship('Gabinete', backref='camaras')
     switch = db.relationship('Switch', backref='camaras')
-    puerto_switch = db.relationship('Puerto_Switch', foreign_keys=[puerto_switch_id], backref='camara_asignada')
+    puerto_switch = db.relationship('Puerto_Switch', foreign_keys=[puerto_switch_id])
     nvr = db.relationship('NVR_DVR', backref='camaras')
 
 class Catalogo_Tipo_Falla(db.Model):
