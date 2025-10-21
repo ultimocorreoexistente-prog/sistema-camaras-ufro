@@ -277,3 +277,38 @@ Aplica a:
 
 **Estado:** COMPLETADO y listo para deployment
 **Próximo paso:** Deployment en Railway
+
+
+## MEJORAS AL SCRIPT DE MIGRACIÓN - 2025-10-22 05:30
+
+**SOLUCIÓN IMPLEMENTADA para datos incompletos:**
+
+### Modificaciones al migrate_data.py:
+
+1. **Función limpiar_filas_vacias():**
+   - Elimina filas completamente vacías (dropna(how='all'))
+   - Elimina filas con solo strings vacíos
+   - Reinicia índices después de limpieza
+   - Reporta cuántas filas fueron eliminadas
+
+2. **Generación automática de códigos/nombres:**
+   - Equipos Técnicos → `Tecnico_Auto_###`
+   - Tipos de Fallas → `Falla_Auto_###`
+   - Gabinetes → `GAB-AUTO-###`
+   - Switches → `SW-AUTO-###`
+   - UPS → `UPS-AUTO-###`
+   - NVR/DVR → `NVR-AUTO-###`
+   - Fuentes de Poder → `FP-AUTO-###`
+   - Cámaras → `CAM-AUTO-####`
+
+3. **Manejo campos NOT NULL:**
+   - Apellido auto-generado: `Auto_###`
+
+4. **Reporte mejorado:**
+   - Indica códigos/nombres auto-generados
+   - Reporta filas omitidas vs procesadas
+
+**Progreso:**
+- ✓ 8 Ubicaciones insertadas
+- ✓ Script mejorado y listo
+- Pendiente: Ejecutar migración completa

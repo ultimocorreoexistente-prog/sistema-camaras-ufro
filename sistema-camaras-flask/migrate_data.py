@@ -42,6 +42,31 @@ def safe_date(value):
     except:
         return None
 
+def limpiar_filas_vacias(df):
+    """Elimina filas completamente vacías o sin datos relevantes del DataFrame"""
+    if df is None or df.empty:
+        return df
+    
+    # Eliminar filas donde TODOS los valores son NaN
+    df_limpio = df.dropna(how='all')
+    
+    # Eliminar filas donde TODOS los valores son strings vacíos o espacios
+    df_limpio = df_limpio[~df_limpio.apply(
+        lambda row: all(
+            (pd.isna(val) or (isinstance(val, str) and not val.strip()))
+            for val in row
+        ), axis=1
+    )]
+    
+    # Reset del índice después de limpiar
+    df_limpio = df_limpio.reset_index(drop=True)
+    
+    filas_eliminadas = len(df) - len(df_limpio)
+    if filas_eliminadas > 0:
+        print(f"   → {filas_eliminadas} filas vacías eliminadas automáticamente")
+    
+    return df_limpio
+
 def validar_falla_duplicada(equipo_tipo, equipo_id):
     """Valida si se puede insertar una nueva falla"""
     falla_activa = Falla.query.filter_by(
@@ -66,6 +91,7 @@ def migrar_datos():
         # 1. UBICACIONES
         print("1. Migrando Ubicaciones...")
         df = pd.read_excel(f'{base_path}Ubicaciones.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         for _, row in df.iterrows():
             ubicacion = Ubicacion(
@@ -85,15 +111,29 @@ def migrar_datos():
         # 2. EQUIPOS TÉCNICOS
         print("2. Migrando Equipos Técnicos...")
         df = pd.read_excel(f'{base_path}Equipos_Tecnicos.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             nombre = safe_str(row.get('Nombre'))
             apellido = safe_str(row.get('Apellido'))
-            # Saltar filas sin nombre (requerido)
+            
+            # Si no tiene nombre pero tiene otros datos (email o especialidad), generar nombre automático
             if not nombre:
-                skipped += 1
-                continue
+                email = safe_str(row.get('Email'))
+                especialidad = safe_str(row.get('Especialidad'))
+                if email or especialidad:
+                    nombre = f"Tecnico_Auto_{idx}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
+            
+            # Generar apellido por defecto si falta (campo NOT NULL)
+            if not apellido:
+                apellido = f"Auto_{idx}"
+            
             equipo = Equipo_Tecnico(
                 nombre=nombre,
                 apellido=apellido,
@@ -106,19 +146,31 @@ def migrar_datos():
             db.session.add(equipo)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} equipos técnicos insertados ({skipped} filas omitidas por datos incompletos)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} equipos técnicos insertados ({auto_generated} con nombres auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} equipos técnicos insertados ({skipped} filas omitidas)\n")
         
         # 3. CATÁLOGO TIPOS DE FALLAS
         print("3. Migrando Catálogo de Tipos de Fallas...")
         df = pd.read_excel(f'{base_path}Catalogo_Tipos_Fallas.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             nombre = safe_str(row.get('Nombre'))
-            # Saltar filas sin nombre (requerido)
+            categoria = safe_str(row.get('Categoria'))
+            descripcion = safe_str(row.get('Descripcion'))
+            
+            # Si no tiene nombre pero tiene categoría o descripción, generar nombre
             if not nombre:
-                skipped += 1
-                continue
+                if categoria or descripcion:
+                    nombre = f"Falla_Auto_{idx}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
             tipo_falla = Catalogo_Tipo_Falla(
                 nombre=nombre,
                 categoria=safe_str(row.get('Categoria')),
@@ -129,19 +181,31 @@ def migrar_datos():
             db.session.add(tipo_falla)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} tipos de fallas insertados ({skipped} filas omitidas)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} tipos de fallas insertados ({auto_generated} con nombres auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} tipos de fallas insertados ({skipped} filas omitidas)\n")
         
         # 4. GABINETES
         print("4. Migrando Gabinetes...")
         df = pd.read_excel(f'{base_path}Gabinetes.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             codigo = safe_str(row.get('Codigo'))
-            # Saltar filas sin código (requerido)
+            nombre = safe_str(row.get('Nombre'))
+            ubicacion_id = safe_int(row.get('ID_Ubicacion'))
+            
+            # Si no tiene código pero tiene nombre o ubicación, generar código
             if not codigo:
-                skipped += 1
-                continue
+                if nombre or ubicacion_id:
+                    codigo = f"GAB-AUTO-{idx:03d}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
             gabinete = Gabinete(
                 codigo=codigo,
                 nombre=safe_str(row.get('Nombre')),
@@ -162,18 +226,32 @@ def migrar_datos():
             db.session.add(gabinete)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} gabinetes insertados ({skipped} filas omitidas)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} gabinetes insertados ({auto_generated} con códigos auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} gabinetes insertados ({skipped} filas omitidas)\n")
         
         # 5. SWITCHES
         print("5. Migrando Switches...")
         df = pd.read_excel(f'{base_path}Switches.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             codigo = safe_str(row.get('Codigo'))
+            nombre = safe_str(row.get('Nombre'))
+            ip = safe_str(row.get('IP'))
+            modelo = safe_str(row.get('Modelo'))
+            
+            # Si no tiene código pero tiene otros datos, generar código
             if not codigo:
-                skipped += 1
-                continue
+                if nombre or ip or modelo:
+                    codigo = f"SW-AUTO-{idx:03d}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
             switch = Switch(
                 codigo=codigo,
                 nombre=safe_str(row.get('Nombre')),
@@ -195,11 +273,15 @@ def migrar_datos():
             db.session.add(switch)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} switches insertados ({skipped} filas omitidas)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} switches insertados ({auto_generated} con códigos auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} switches insertados ({skipped} filas omitidas)\n")
         
         # 6. PUERTOS SWITCH
         print("6. Migrando Puertos de Switch...")
         df = pd.read_excel(f'{base_path}Puertos_Switch.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
         for _, row in df.iterrows():
@@ -226,13 +308,23 @@ def migrar_datos():
         # 7. UPS
         print("7. Migrando UPS...")
         df = pd.read_excel(f'{base_path}UPS.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             codigo = safe_str(row.get('Codigo'))
+            modelo = safe_str(row.get('Modelo'))
+            marca = safe_str(row.get('Marca'))
+            
+            # Si no tiene código pero tiene modelo o marca, generar código
             if not codigo:
-                skipped += 1
-                continue
+                if modelo or marca:
+                    codigo = f"UPS-AUTO-{idx:03d}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
             ups = UPS(
                 codigo=codigo,
                 modelo=safe_str(row.get('Modelo')),
@@ -251,18 +343,31 @@ def migrar_datos():
             db.session.add(ups)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} UPS insertados ({skipped} filas omitidas)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} UPS insertados ({auto_generated} con códigos auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} UPS insertados ({skipped} filas omitidas)\n")
         
         # 8. NVR/DVR
         print("8. Migrando NVR/DVR...")
         df = pd.read_excel(f'{base_path}NVR_DVR.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             codigo = safe_str(row.get('Codigo'))
+            modelo = safe_str(row.get('Modelo'))
+            tipo = safe_str(row.get('Tipo'))
+            
+            # Si no tiene código pero tiene modelo o tipo, generar código
             if not codigo:
-                skipped += 1
-                continue
+                if modelo or tipo:
+                    codigo = f"NVR-AUTO-{idx:03d}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
             nvr = NVR_DVR(
                 codigo=codigo,
                 tipo=safe_str(row.get('Tipo', 'NVR')),
@@ -282,18 +387,31 @@ def migrar_datos():
             db.session.add(nvr)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} NVR/DVR insertados ({skipped} filas omitidas)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} NVR/DVR insertados ({auto_generated} con códigos auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} NVR/DVR insertados ({skipped} filas omitidas)\n")
         
         # 9. FUENTES DE PODER
         print("9. Migrando Fuentes de Poder...")
         df = pd.read_excel(f'{base_path}Fuentes_Poder.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             codigo = safe_str(row.get('Codigo'))
+            modelo = safe_str(row.get('Modelo'))
+            voltaje = safe_str(row.get('Voltaje'))
+            
+            # Si no tiene código pero tiene modelo o voltaje, generar código
             if not codigo:
-                skipped += 1
-                continue
+                if modelo or voltaje:
+                    codigo = f"FP-AUTO-{idx:03d}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
             fuente = Fuente_Poder(
                 codigo=codigo,
                 modelo=safe_str(row.get('Modelo')),
@@ -309,18 +427,32 @@ def migrar_datos():
             db.session.add(fuente)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} fuentes de poder insertadas ({skipped} filas omitidas)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} fuentes de poder insertadas ({auto_generated} con códigos auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} fuentes de poder insertadas ({skipped} filas omitidas)\n")
         
         # 10. CÁMARAS (474 unidades)
         print("10. Migrando Cámaras...")
         df = pd.read_excel(f'{base_path}Listadecámaras_modificada.xlsx')
+        df = limpiar_filas_vacias(df)
         count = 0
         skipped = 0
-        for _, row in df.iterrows():
+        auto_generated = 0
+        for idx, row in df.iterrows():
             codigo = safe_str(row.get('Codigo'))
+            nombre = safe_str(row.get('Nombre'))
+            ip = safe_str(row.get('IP'))
+            modelo = safe_str(row.get('Modelo'))
+            
+            # Si no tiene código pero tiene otros datos, generar código
             if not codigo:
-                skipped += 1
-                continue
+                if nombre or ip or modelo:
+                    codigo = f"CAM-AUTO-{idx:04d}"
+                    auto_generated += 1
+                else:
+                    skipped += 1
+                    continue
             camara = Camara(
                 codigo=codigo,
                 nombre=safe_str(row.get('Nombre')),
@@ -347,7 +479,10 @@ def migrar_datos():
             db.session.add(camara)
             count += 1
         db.session.commit()
-        print(f"   ✓ {count} cámaras insertadas ({skipped} filas omitidas)\n")
+        if auto_generated > 0:
+            print(f"   ✓ {count} cámaras insertadas ({auto_generated} con códigos auto-generados, {skipped} filas omitidas)\n")
+        else:
+            print(f"   ✓ {count} cámaras insertadas ({skipped} filas omitidas)\n")
         
         # 11. FALLAS (con validación anti-duplicados)
         print("11. Migrando Fallas (con validación anti-duplicados)...")
@@ -372,6 +507,7 @@ def migrar_datos():
         # Fallas_Actualizada.xlsx
         try:
             df1 = pd.read_excel(f'{base_path}Fallas_Actualizada.xlsx')
+            df1 = limpiar_filas_vacias(df1)
             for _, row in df1.iterrows():
                 equipo_tipo = safe_str(row.get('Equipo_Tipo', 'Camara'))
                 equipo_id = safe_int(row.get('Equipo_ID'))
@@ -401,6 +537,7 @@ def migrar_datos():
         # Ejemplos_Fallas_Reales.xlsx
         try:
             df2 = pd.read_excel(f'{base_path}Ejemplos_Fallas_Reales.xlsx')
+            df2 = limpiar_filas_vacias(df2)
             for _, row in df2.iterrows():
                 equipo_tipo = safe_str(row.get('Equipo_Tipo', 'Camara'))
                 equipo_id = safe_int(row.get('Equipo_ID'))
@@ -434,6 +571,7 @@ def migrar_datos():
         print("12. Migrando Mantenimientos...")
         try:
             df = pd.read_excel(f'{base_path}Mantenimientos.xlsx')
+            df = limpiar_filas_vacias(df)
             count = 0
             for _, row in df.iterrows():
                 mantenimiento = Mantenimiento(
