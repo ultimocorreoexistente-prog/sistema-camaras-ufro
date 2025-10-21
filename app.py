@@ -571,9 +571,10 @@ def api_gabinete_equipos(id):
     })
 
 # ========== ENDPOINTS ADMINISTRATIVOS ==========
-@app.route('/admin/init-database')
-def admin_init_database():
-    """Inicializa las tablas de la base de datos (sin autenticación para primera vez)"""
+# Endpoint para primera inicialización (sin autenticación)
+@app.route('/setup-first-time')
+def setup_first_time():
+    """SETUP INICIAL - Crea tablas y usuario admin (solo funciona si BD está vacía)"""
     try:
         # Seguridad: Solo permitir si NO hay usuarios (primera inicialización)
         if Usuario.query.count() > 0:
@@ -599,8 +600,9 @@ def admin_init_database():
         
         return jsonify({
             'status': 'success',
-            'message': 'Base de datos inicializada correctamente. Ahora puede hacer login como admin.',
-            'total_usuarios': Usuario.query.count()
+            'message': '✅ Base de datos inicializada correctamente. Ahora puede hacer login como admin/admin123',
+            'total_usuarios': Usuario.query.count(),
+            'next_step': 'Vaya a /admin/migrate-data para cargar los datos desde Excel'
         })
     except Exception as e:
         db.session.rollback()
