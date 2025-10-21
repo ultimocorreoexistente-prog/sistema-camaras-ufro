@@ -1,0 +1,2722 @@
+================================================================================
+REPORTE DE DATOS INCOMPLETOS EN ARCHIVOS EXCEL
+Fecha: 2025-10-22 04:58:58
+================================================================================
+
+
+================================================================================
+1. EQUIPOS TÉCNICOS (Equipos_Tecnicos.xlsx)
+   Campo requerido: Nombre
+================================================================================
+   ⚠ Fila 2: Nombre vacío
+      - Apellido: None
+      - Especialidad: None
+      - Email: None
+
+   ⚠ Fila 3: Nombre vacío
+      - Apellido: None
+      - Especialidad: None
+      - Email: None
+
+   ⚠ Fila 4: Nombre vacío
+      - Apellido: None
+      - Especialidad: None
+      - Email: None
+
+   ⚠ Fila 5: Nombre vacío
+      - Apellido: None
+      - Especialidad: None
+      - Email: None
+
+   ⚠ Fila 6: Nombre vacío
+      - Apellido: None
+      - Especialidad: Cámaras IP
+      - Email: diego.morales@ufro.cl
+
+   ⚠ Fila 7: Nombre vacío
+      - Apellido: None
+      - Especialidad: Infraestructura de Red
+      - Email: claudia.ramirez@ufro.cl
+
+
+   Total problemas: 6
+
+================================================================================
+2. CATÁLOGO TIPOS DE FALLAS (Catalogo_Tipos_Fallas.xlsx)
+   Campo requerido: Nombre
+================================================================================
+   ⚠ Fila 2: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 3: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 4: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 5: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 6: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 7: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 8: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 9: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 10: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 11: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 12: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 13: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 14: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 15: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 16: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 17: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+   ⚠ Fila 18: Nombre vacío
+      - Categoría: None
+      - Gravedad: None
+      - Descripción: None
+
+
+   Total problemas: 17
+
+================================================================================
+3. GABINETES (Gabinetes.xlsx)
+   Campo requerido: Codigo
+================================================================================
+   ⚠ Fila 2: Código vacío
+      - Nombre: None
+      - Ubicación ID: None
+
+   ⚠ Fila 3: Código vacío
+      - Nombre: None
+      - Ubicación ID: None
+
+   ⚠ Fila 4: Código vacío
+      - Nombre: None
+      - Ubicación ID: None
+
+   ⚠ Fila 5: Código vacío
+      - Nombre: None
+      - Ubicación ID: None
+
+   ⚠ Fila 6: Código vacío
+      - Nombre: None
+      - Ubicación ID: None
+
+   ⚠ Fila 7: Código vacío
+      - Nombre: None
+      - Ubicación ID: None
+
+
+   Total problemas: 6
+
+================================================================================
+4. SWITCHES (Switches.xlsx)
+   Campo requerido: Codigo
+================================================================================
+   ⚠ Fila 2: Código vacío
+      - Nombre: None
+      - IP: None
+      - Gabinete ID: None
+
+   ⚠ Fila 3: Código vacío
+      - Nombre: None
+      - IP: None
+      - Gabinete ID: None
+
+   ⚠ Fila 4: Código vacío
+      - Nombre: None
+      - IP: None
+      - Gabinete ID: None
+
+   ⚠ Fila 5: Código vacío
+      - Nombre: None
+      - IP: None
+      - Gabinete ID: None
+
+   ⚠ Fila 6: Código vacío
+      - Nombre: None
+      - IP: None
+      - Gabinete ID: None
+
+   ⚠ Fila 7: Código vacío
+      - Nombre: None
+      - IP: None
+      - Gabinete ID: None
+
+
+   Total problemas: 6
+
+================================================================================
+5. PUERTOS SWITCH (Puertos_Switch.xlsx)
+   Campo requerido: ID_Switch
+================================================================================
+   ⚠ Fila 2: ID_Switch vacío
+      - Número Puerto: None
+      - Cámara ID: None
+      - Estado: None
+
+   ⚠ Fila 3: ID_Switch vacío
+      - Número Puerto: None
+      - Cámara ID: None
+      - Estado: None
+
+   ⚠ Fila 4: ID_Switch vacío
+      - Número Puerto: None
+      - Cámara ID: None
+      - Estado: None
+
+   ⚠ Fila 5: ID_Switch vacío
+      - Número Puerto: None
+      - Cámara ID: None
+      - Estado: None
+
+   ⚠ Fila 6: ID_Switch vacío
+      - Número Puerto: None
+      - Cámara ID: None
+      - Estado: None
+
+   ⚠ Fila 7: ID_Switch vacío
+      - Número Puerto: None
+      - Cámara ID: None
+      - Estado: None
+
+
+   Total problemas: 6
+
+================================================================================
+6. UPS (UPS.xlsx)
+   Campo requerido: Codigo
+================================================================================
+   ⚠ Fila 2: Código vacío
+      - Modelo: APC Smart-UPS SC 1500VA
+      - Marca: APC
+
+   ⚠ Fila 3: Código vacío
+      - Modelo: Tripp Lite 1000VA
+      - Marca: Tripp Lite
+
+   ⚠ Fila 4: Código vacío
+      - Modelo: Smart-UPS 1000
+      - Marca: APC
+
+   ⚠ Fila 5: Código vacío
+      - Modelo: Smart-UPS 2200
+      - Marca: APC
+
+   ⚠ Fila 6: Código vacío
+      - Modelo: Back-UPS 700
+      - Marca: Tripp Lite
+
+
+   Total problemas: 5
+
+================================================================================
+7. NVR/DVR (NVR_DVR.xlsx)
+   Campo requerido: Codigo
+================================================================================
+   ⚠ Fila 2: Código vacío
+      - Tipo: NVR
+      - Modelo: Hikvision DS-7616NI-E2
+
+   ⚠ Fila 3: Código vacío
+      - Tipo: NVR
+      - Modelo: Dahua NVR4216-16P
+
+   ⚠ Fila 4: Código vacío
+      - Tipo: NVR
+      - Modelo: Hikvision DS-7608NI
+
+   ⚠ Fila 5: Código vacío
+      - Tipo: NVR
+      - Modelo: DS-7608NI-K2
+
+   ⚠ Fila 6: Código vacío
+      - Tipo: NVR
+      - Modelo: DS-7616NI-K2
+
+   ⚠ Fila 7: Código vacío
+      - Tipo: DVR
+      - Modelo: XVR5108HS-4KL
+
+
+   Total problemas: 6
+
+================================================================================
+8. FUENTES DE PODER (Fuentes_Poder.xlsx)
+   Campo requerido: Codigo
+================================================================================
+   ⚠ Fila 2: Código vacío
+      - Modelo: Meanwell RS-150-12
+      - Voltaje: None
+
+   ⚠ Fila 3: Código vacío
+      - Modelo: Generic 12V 5A
+      - Voltaje: None
+
+   ⚠ Fila 4: Código vacío
+      - Modelo: Meanwell RS-100-12
+      - Voltaje: None
+
+   ⚠ Fila 5: Código vacío
+      - Modelo: PS-1205
+      - Voltaje: None
+
+   ⚠ Fila 6: Código vacío
+      - Modelo: PS-1210-R
+      - Voltaje: None
+
+   ⚠ Fila 7: Código vacío
+      - Modelo: PS-1203
+      - Voltaje: None
+
+
+   Total problemas: 6
+
+================================================================================
+9. CÁMARAS (Listadecámaras_modificada.xlsx)
+   Campo requerido: Codigo
+================================================================================
+   ⚠ Fila 2: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 3: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 4: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 5: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 6: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 7: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 8: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 9: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 10: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 11: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 12: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 13: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 14: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 15: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 16: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 17: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 18: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 19: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 20: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 21: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 22: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 23: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 24: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 25: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 26: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 27: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 28: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 29: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 30: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 31: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 32: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 33: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 34: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 35: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 36: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 37: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 38: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 39: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 40: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 41: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 42: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 43: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 44: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 45: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 46: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 47: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 48: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 49: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 50: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 51: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 52: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 53: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 54: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 55: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 56: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 57: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 58: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 59: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 60: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 61: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 62: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 63: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 64: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 65: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 66: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 67: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 68: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 69: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 70: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 71: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 72: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 73: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 74: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 75: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 76: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 77: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 78: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 79: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 80: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 81: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 82: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 83: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 84: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 85: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 86: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 87: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 88: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 89: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 90: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 91: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 92: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 93: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 94: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 95: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 96: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 97: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 98: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 99: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 100: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 101: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 102: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 103: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 104: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 105: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 106: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 107: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 108: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 109: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 110: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 111: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 112: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 113: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 114: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 115: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 116: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 117: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 118: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 119: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 120: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 121: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 122: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 123: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 124: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 125: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 126: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 127: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 128: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 129: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 130: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 131: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 132: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 133: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 134: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 135: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 136: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 137: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 138: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 139: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 140: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 141: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 142: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 143: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 144: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 145: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 146: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 147: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 148: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 149: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 150: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 151: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 152: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 153: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 154: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 155: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 156: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 157: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 158: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 159: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 160: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 161: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 162: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 163: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 164: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 165: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 166: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 167: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 168: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 169: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 170: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 171: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 172: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 173: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 174: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 175: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 176: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 177: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 178: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 179: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 180: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 181: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 182: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 183: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 184: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 185: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 186: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 187: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 188: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 189: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 190: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 191: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 192: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 193: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 194: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 195: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 196: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 197: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 198: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 199: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 200: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 201: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 202: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 203: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 204: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 205: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 206: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 207: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 208: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 209: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 210: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 211: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 212: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 213: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 214: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 215: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 216: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 217: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 218: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 219: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 220: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 221: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 222: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 223: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 224: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 225: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 226: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 227: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 228: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 229: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 230: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 231: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 232: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 233: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 234: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 235: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 236: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 237: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 238: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 239: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 240: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 241: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 242: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 243: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 244: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 245: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 246: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 247: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 248: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 249: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 250: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 251: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 252: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 253: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 254: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 255: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 256: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 257: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 258: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 259: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 260: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 261: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 262: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 263: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 264: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 265: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 266: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 267: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 268: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 269: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 270: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 271: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 272: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 273: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 274: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 275: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 276: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 277: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 278: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 279: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 280: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 281: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 282: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 283: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 284: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 285: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 286: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 287: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 288: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 289: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 290: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 291: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 292: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 293: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 294: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 295: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 296: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 297: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 298: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 299: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 300: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 301: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 302: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 303: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 304: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 305: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 306: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 307: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 308: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 309: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 310: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 311: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 312: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 313: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 314: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 315: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 316: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 317: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 318: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 319: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 320: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 321: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 322: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 323: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 324: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 325: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 326: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 327: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 328: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 329: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 330: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 331: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 332: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 333: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 334: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 335: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 336: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 337: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 338: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 339: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 340: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 341: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 342: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 343: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 344: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 345: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 346: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 347: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 348: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 349: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 350: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 351: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 352: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 353: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 354: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 355: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 356: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 357: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 358: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 359: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 360: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 361: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 362: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 363: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 364: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 365: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 366: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 367: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 368: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 369: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 370: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 371: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 372: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 373: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 374: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 375: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 376: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 377: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 378: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 379: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 380: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 381: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 382: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 383: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 384: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 385: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 386: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 387: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 388: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 389: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 390: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 391: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 392: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 393: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 394: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 395: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 396: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 397: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 398: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 399: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 400: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 401: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 402: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 403: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 404: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 405: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 406: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 407: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 408: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 409: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 410: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 411: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 412: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 413: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 414: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 415: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 416: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 417: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 418: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 419: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 420: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 421: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 422: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 423: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 424: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 425: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 426: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 427: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 428: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 429: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 430: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 431: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 432: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 433: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 434: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 435: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 436: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 437: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 438: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 439: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 440: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 441: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 442: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 443: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 444: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 445: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 446: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 447: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 448: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 449: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 450: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 451: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 452: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 453: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 454: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 455: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 456: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 457: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 458: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 459: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 460: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 461: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 462: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 463: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 464: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 465: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 466: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 467: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+   ⚠ Fila 468: Código vacío
+      - Nombre: None
+      - IP: None
+      - Modelo: None
+
+
+   Total problemas: 467
+
+================================================================================
+10. MANTENIMIENTOS (Mantenimientos.xlsx)
+    Campo requerido: Equipo_ID
+================================================================================
+   ⚠ Fila 2: Equipo_ID vacío
+      - Tipo: None
+      - Equipo Tipo: None
+      - Descripción: None
+
+   ⚠ Fila 3: Equipo_ID vacío
+      - Tipo: Preventivo
+      - Equipo Tipo: None
+      - Descripción: None
+
+   ⚠ Fila 4: Equipo_ID vacío
+      - Tipo: Correctivo
+      - Equipo Tipo: None
+      - Descripción: None
+
+   ⚠ Fila 5: Equipo_ID vacío
+      - Tipo: Preventivo
+      - Equipo Tipo: None
+      - Descripción: None
+
+   ⚠ Fila 6: Equipo_ID vacío
+      - Tipo: Correctivo
+      - Equipo Tipo: None
+      - Descripción: None
+
+   ⚠ Fila 7: Equipo_ID vacío
+      - Tipo: Preventivo
+      - Equipo Tipo: None
+      - Descripción: None
+
+
+   Total problemas: 6
+
+
+================================================================================
+RESUMEN
+================================================================================
+Total de filas con datos incompletos: 531
+
+ACCIÓN REQUERIDA:
+1. Corregir los archivos Excel agregando los datos faltantes
+2. O eliminar las filas que no son válidas
+3. Guardar los archivos corregidos
+4. Ejecutar nuevamente la migración
+================================================================================
+
+✅ Reporte guardado en: docs/REPORTE_DATOS_INCOMPLETOS.txt
