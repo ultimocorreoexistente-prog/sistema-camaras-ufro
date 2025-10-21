@@ -221,6 +221,9 @@ Aplica a:
 
 **Ubicación:** `/workspace/sistema-camaras-flask/`
 
+## DEPLOYMENT EN RAILWAY - 2025-10-21 22:04
+**Estado:** En proceso - Configurando DATABASE_URL
+
 ### Archivos Implementados (40+ archivos)
 
 **Backend Python:**
