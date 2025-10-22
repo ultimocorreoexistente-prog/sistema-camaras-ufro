@@ -1,0 +1,25 @@
+📄 Extracted from page: 404 Not Found
+URL: https://sistema-camaras-ufro-production.up.railway.app/login
+
+Extracted content:
+```json
+{
+  "title": "404 Not Found",
+  "url": "https://sistema-camaras-ufro-production.up.railway.app/login",
+  "summary": "This page indicates a '404 Not Found' error, meaning the requested resource could not be found on the server. The message 'The train has not arrived at the station' is a metaphor specific to Railway, the platform hosting the application. It suggests issues with domain provisioning or network settings for the application owner, and advises visitors to inform the owner about the problem.",
+  "key_points": [
+    "HTTP Status Code: 404 Not Found",
+    "Error Message: Not Found",
+    "Metaphorical Description: The train has not arrived at the station.",
+    "Owner's Action: Check network settings to confirm domain provisioning.",
+    "Visitor's Action: Let the owner know about the issue.",
+    "Platform Context: Hosted on Railway.app.",
+    "Request ID: 7GKcKC16SwOoUlKvPvyhXg"
+  ],
+  "relevant_links": [
+    "https://docs.railway.com/guides/public-networking#railway-provided-domain",
+    "https://railway.com"
+  ],
+  "file_name": "sistema_camaras_ufro_404_error.json"
+}
+```
