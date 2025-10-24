@@ -1447,3 +1447,339 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+# ========== MODIFICACIÓN MASIVA DE CÁMARAS (SUPERADMIN) ==========
+@app.route('/camaras/masivo', methods=['GET', 'POST'])
+@login_required
+@role_required('superadmin')
+def camaras_masivo():
+    """Modificación masiva de cámaras - Solo Superadmin"""
+    if request.method == 'POST':
+        # Obtener IDs de cámaras seleccionadas
+        camara_ids = request.form.getlist('camara_ids[]')
+        
+        if not camara_ids:
+            flash('Debe seleccionar al menos una cámara', 'warning')
+            return redirect(url_for('camaras_masivo'))
+        
+        # Obtener campos a actualizar
+        actualizar_estado = request.form.get('actualizar_estado')
+        actualizar_ubicacion = request.form.get('actualizar_ubicacion')
+        actualizar_nvr = request.form.get('actualizar_nvr')
+        actualizar_gabinete = request.form.get('actualizar_gabinete')
+        actualizar_switch = request.form.get('actualizar_switch')
+        
+        # Valores nuevos
+        nuevo_estado = request.form.get('estado')
+        nueva_ubicacion_id = request.form.get('ubicacion_id')
+        nuevo_nvr_id = request.form.get('nvr_id')
+        nuevo_gabinete_id = request.form.get('gabinete_id')
+        nuevo_switch_id = request.form.get('switch_id')
+        
+        # Actualizar cámaras
+        camaras_actualizadas = 0
+        for camara_id in camara_ids:
+            camara = Camara.query.get(int(camara_id))
+            if camara:
+                if actualizar_estado and nuevo_estado:
+                    camara.estado = nuevo_estado
+                if actualizar_ubicacion and nueva_ubicacion_id:
+                    camara.ubicacion_id = int(nueva_ubicacion_id)
+                if actualizar_nvr and nuevo_nvr_id:
+                    camara.nvr_id = int(nuevo_nvr_id) if nuevo_nvr_id else None
+                if actualizar_gabinete and nuevo_gabinete_id:
+                    camara.gabinete_id = int(nuevo_gabinete_id) if nuevo_gabinete_id else None
+                if actualizar_switch and nuevo_switch_id:
+                    camara.switch_id = int(nuevo_switch_id) if nuevo_switch_id else None
+                camaras_actualizadas += 1
+        
+        db.session.commit()
+        flash(f'Se actualizaron {camaras_actualizadas} cámaras exitosamente', 'success')
+        return redirect(url_for('camaras_list'))
+    
+    # GET - Mostrar formulario
+    campus = request.args.get('campus', '')
+    estado = request.args.get('estado', '')
+    
+    query = Camara.query.join(Ubicacion)
+    if campus:
+        query = query.filter(Ubicacion.campus == campus)
+    if estado:
+        query = query.filter(Camara.estado == estado)
+    
+    camaras = query.all()
+    ubicaciones = Ubicacion.query.filter_by(activo=True).all()
+    nvrs = NVR_DVR.query.filter_by(estado='Activo').all()
+    gabinetes = Gabinete.query.filter_by(estado='Activo').all()
+    switches = Switch.query.filter_by(estado='Activo').all()
+    campus_list = db.session.query(Ubicacion.campus).distinct().all()
+    
+    return render_template('camaras_masivo.html',
+                         camaras=camaras,
+                         ubicaciones=ubicaciones,
+                         nvrs=nvrs,
+                         gabinetes=gabinetes,
+                         switches=switches,
+                         campus_list=[c[0] for c in campus_list])
+
+# ========== SISTEMA DE INFORMES CON EXPORTACIÓN ==========
+@app.route('/informes/generar', methods=['POST'])
+@login_required
+def informes_generar():
+    """Generar informes con exportación"""
+    tipo_informe = request.form.get('tipo_informe')
+    formato = request.form.get('formato', 'excel')  # excel o pdf
+    
+    if tipo_informe == 'camaras':
+        # Informe de cámaras
+        campus = request.form.get('campus', '')
+        estado = request.form.get('estado', '')
+        
+        query = Camara.query.join(Ubicacion)
+        if campus:
+            query = query.filter(Ubicacion.campus == campus)
+        if estado:
+            query = query.filter(Camara.estado == estado)
+        
+        camaras = query.all()
+        
+        if formato == 'excel':
+            # Generar Excel
+            import io
+            from openpyxl import Workbook
+            from openpyxl.styles import Font, PatternFill
+            from flask import send_file
+            
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Informe de Cámaras"
+            
+            # Encabezados
+            headers = ['Código', 'Nombre', 'IP', 'Modelo', 'Tipo', 'Ubicación', 'Campus', 'Estado']
+            ws.append(headers)
+            
+            # Estilo encabezados
+            for cell in ws[1]:
+                cell.font = Font(bold=True, color="FFFFFF")
+                cell.fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
+            
+            # Datos
+            for camara in camaras:
+                ws.append([
+                    camara.codigo,
+                    camara.nombre,
+                    camara.ip or 'N/A',
+                    camara.modelo or 'N/A',
+                    camara.tipo_camara or 'N/A',
+                    camara.ubicacion.edificio if camara.ubicacion else 'N/A',
+                    camara.ubicacion.campus if camara.ubicacion else 'N/A',
+                    camara.estado
+                ])
+            
+            # Ajustar ancho de columnas
+            for col in ws.columns:
+                max_length = 0
+                column = col[0].column_letter
+                for cell in col:
+                    if cell.value:
+                        max_length = max(max_length, len(str(cell.value)))
+                ws.column_dimensions[column].width = max_length + 2
+            
+            # Guardar en memoria
+            output = io.BytesIO()
+            wb.save(output)
+            output.seek(0)
+            
+            return send_file(
+                output,
+                mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                as_attachment=True,
+                download_name=f'informe_camaras_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx'
+            )
+        
+        elif formato == 'pdf':
+            # Generar PDF
+            from reportlab.lib import colors
+            from reportlab.lib.pagesizes import letter, A4
+            from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+            from reportlab.lib.styles import getSampleStyleSheet
+            from flask import send_file
+            import io
+            
+            buffer = io.BytesIO()
+            doc = SimpleDocTemplate(buffer, pagesize=A4)
+            elements = []
+            styles = getSampleStyleSheet()
+            
+            # Título
+            title = Paragraph("Informe de Cámaras - Sistema UFRO", styles['Title'])
+            elements.append(title)
+            elements.append(Spacer(1, 12))
+            
+            # Tabla de datos
+            data = [['Código', 'Nombre', 'Ubicación', 'Estado']]
+            for camara in camaras:
+                data.append([
+                    camara.codigo,
+                    camara.nombre or 'N/A',
+                    f"{camara.ubicacion.campus if camara.ubicacion else 'N/A'} - {camara.ubicacion.edificio if camara.ubicacion else ''}",
+                    camara.estado
+                ])
+            
+            table = Table(data)
+            table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 12),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black)
+            ]))
+            
+            elements.append(table)
+            doc.build(elements)
+            
+            buffer.seek(0)
+            return send_file(
+                buffer,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name=f'informe_camaras_{datetime.now().strftime("%Y%m%d_%H%M%S")}.pdf'
+            )
+    
+    elif tipo_informe == 'fallas':
+        # Informe de Fallas
+        estado_falla = request.form.get('estado_falla', '')
+        periodo = request.form.get('periodo', 'todos')
+        
+        query = Falla.query
+        if estado_falla:
+            query = query.filter(Falla.estado == estado_falla)
+        
+        # Filtrar por período
+        if periodo == 'mes_actual':
+            inicio_mes = datetime.now().replace(day=1, hour=0, minute=0, second=0)
+            query = query.filter(Falla.fecha_reporte >= inicio_mes)
+        
+        fallas = query.order_by(Falla.fecha_reporte.desc()).all()
+        
+        if formato == 'excel':
+            import io
+            from openpyxl import Workbook
+            from openpyxl.styles import Font, PatternFill
+            
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Informe de Fallas"
+            
+            headers = ['ID', 'Equipo Tipo', 'Equipo ID', 'Descripción', 'Prioridad', 'Estado', 'Fecha Reporte', 'Fecha Resolución']
+            ws.append(headers)
+            
+            for cell in ws[1]:
+                cell.font = Font(bold=True, color="FFFFFF")
+                cell.fill = PatternFill(start_color="DC3545", end_color="DC3545", fill_type="solid")
+            
+            for falla in fallas:
+                ws.append([
+                    falla.id,
+                    falla.equipo_tipo,
+                    falla.equipo_id,
+                    falla.descripcion[:100] if falla.descripcion else 'N/A',
+                    falla.prioridad or 'N/A',
+                    falla.estado,
+                    falla.fecha_reporte.strftime('%d/%m/%Y %H:%M'),
+                    falla.fecha_resolucion.strftime('%d/%m/%Y %H:%M') if falla.fecha_resolucion else 'Pendiente'
+                ])
+            
+            for col in ws.columns:
+                max_length = 0
+                column = col[0].column_letter
+                for cell in col:
+                    if cell.value:
+                        max_length = max(max_length, len(str(cell.value)))
+                ws.column_dimensions[column].width = min(max_length + 2, 50)
+            
+            output = io.BytesIO()
+            wb.save(output)
+            output.seek(0)
+            
+            return send_file(
+                output,
+                mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                as_attachment=True,
+                download_name=f'informe_fallas_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx'
+            )
+    
+    elif tipo_informe == 'mantenimientos':
+        # Informe de Mantenimientos
+        tipo_mant = request.form.get('tipo_mantenimiento', '')
+        periodo = request.form.get('periodo', 'todos')
+        
+        query = Mantenimiento.query
+        if tipo_mant:
+            query = query.filter(Mantenimiento.tipo_mantenimiento == tipo_mant)
+        
+        if periodo == 'mes_actual':
+            inicio_mes = datetime.now().replace(day=1, hour=0, minute=0, second=0)
+            query = query.filter(Mantenimiento.fecha >= inicio_mes)
+        
+        mantenimientos = query.order_by(Mantenimiento.fecha.desc()).all()
+        
+        if formato == 'excel':
+            import io
+            from openpyxl import Workbook
+            from openpyxl.styles import Font, PatternFill
+            
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Informe de Mantenimientos"
+            
+            headers = ['ID', 'Equipo Tipo', 'Equipo ID', 'Tipo', 'Descripción', 'Fecha', 'Técnico', 'Costo']
+            ws.append(headers)
+            
+            for cell in ws[1]:
+                cell.font = Font(bold=True, color="FFFFFF")
+                cell.fill = PatternFill(start_color="198754", end_color="198754", fill_type="solid")
+            
+            for mant in mantenimientos:
+                tecnico_nombre = 'N/A'
+                if mant.tecnico_id:
+                    tecnico = Equipo_Tecnico.query.get(mant.tecnico_id)
+                    if tecnico:
+                        tecnico_nombre = f"{tecnico.nombre} {tecnico.apellido}"
+                
+                ws.append([
+                    mant.id,
+                    mant.equipo_tipo,
+                    mant.equipo_id,
+                    mant.tipo_mantenimiento or 'N/A',
+                    mant.descripcion[:100] if mant.descripcion else 'N/A',
+                    mant.fecha.strftime('%d/%m/%Y %H:%M'),
+                    tecnico_nombre,
+                    f"${mant.costo_estimado:,.0f}" if mant.costo_estimado else 'N/A'
+                ])
+            
+            for col in ws.columns:
+                max_length = 0
+                column = col[0].column_letter
+                for cell in col:
+                    if cell.value:
+                        max_length = max(max_length, len(str(cell.value)))
+                ws.column_dimensions[column].width = min(max_length + 2, 50)
+            
+            output = io.BytesIO()
+            wb.save(output)
+            output.seek(0)
+            
+            return send_file(
+                output,
+                mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                as_attachment=True,
+                download_name=f'informe_mantenimientos_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx'
+            )
+    
+    flash('Tipo de informe no válido', 'danger')
+    return redirect(url_for('informes_avanzados'))
+

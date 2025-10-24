@@ -75,6 +75,11 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url_for('admin_usuarios') }}"><i class="bi bi-people"></i> Gestión de Usuarios</a></li>
                             {% if current_user.rol == 'superadmin' %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{{ url_for('camaras_masivo') }}">
+                                <i class="bi bi-lightning-charge"></i> Modificación Masiva de Cámaras
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ url_for('admin_configuracion') }}"><i class="bi bi-sliders"></i> Configuración del Sistema</a></li>
                             {% endif %}
                         </ul>

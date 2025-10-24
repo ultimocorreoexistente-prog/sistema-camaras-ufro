@@ -1,37 +1,279 @@
 {% extends "base.html" %}
+
 {% block title %}Informes Avanzados - Sistema UFRO{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <h1 class="mb-4">Informes y Reportes Avanzados</h1>
-    <div class="card mb-4">
-        <div class="card-header"><h5>Distribución de Cámaras por Campus</h5></div>
-        <div class="card-body">
-            <table class="table">
-                <thead><tr><th>Campus</th><th>Total Cámaras</th></tr></thead>
-                <tbody>
-                    {% for campus, total in stats_por_campus %}
-                    <tr><td>{{ campus }}</td><td>{{ total }}</td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    
+    <!-- Sección de Generación de Informes -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-file-earmark-arrow-down"></i> Generar Informes Personalizados</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Informe de Cámaras -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0"><i class="bi bi-camera-video"></i> Informe de Cámaras</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ url_for('informes_generar') }}" method="POST">
+                                        <input type="hidden" name="tipo_informe" value="camaras">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Filtrar por Campus</label>
+                                            <select name="campus" class="form-select">
+                                                <option value="">Todos los campus</option>
+                                                {% for campus in stats_por_campus %}
+                                                <option value="{{ campus[0] }}">{{ campus[0] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Estado</label>
+                                            <select name="estado" class="form-select">
+                                                <option value="">Todos</option>
+                                                <option value="Activo">Activo</option>
+                                                <option value="Inactivo">Inactivo</option>
+                                                <option value="Mantenimiento">Mantenimiento</option>
+                                                <option value="Baja">Baja</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Formato de Exportación</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <button type="submit" name="formato" value="excel" class="btn btn-success">
+                                                    <i class="bi bi-file-earmark-excel"></i> Excel
+                                                </button>
+                                                <button type="submit" name="formato" value="pdf" class="btn btn-danger">
+                                                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Informe de Fallas -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Informe de Fallas</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ url_for('informes_generar') }}" method="POST">
+                                        <input type="hidden" name="tipo_informe" value="fallas">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Estado de Falla</label>
+                                            <select name="estado_falla" class="form-select">
+                                                <option value="">Todos</option>
+                                                <option value="Pendiente">Pendiente</option>
+                                                <option value="Asignada">Asignada</option>
+                                                <option value="En Proceso">En Proceso</option>
+                                                <option value="Reparada">Reparada</option>
+                                                <option value="Cerrada">Cerrada</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Período</label>
+                                            <select name="periodo" class="form-select">
+                                                <option value="todos">Todos los registros</option>
+                                                <option value="mes_actual">Mes actual</option>
+                                                <option value="mes_anterior">Mes anterior</option>
+                                                <option value="trimestre">Último trimestre</option>
+                                                <option value="anio">Año actual</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Formato de Exportación</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <button type="submit" name="formato" value="excel" class="btn btn-success">
+                                                    <i class="bi bi-file-earmark-excel"></i> Excel
+                                                </button>
+                                                <button type="submit" name="formato" value="pdf" class="btn btn-danger">
+                                                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Informe de Infraestructura -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0"><i class="bi bi-diagram-3"></i> Informe de Infraestructura</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ url_for('informes_generar') }}" method="POST">
+                                        <input type="hidden" name="tipo_informe" value="infraestructura">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Tipo de Equipo</label>
+                                            <select name="tipo_equipo" class="form-select">
+                                                <option value="todos">Todos los equipos</option>
+                                                <option value="switches">Switches</option>
+                                                <option value="nvr">NVR/DVR</option>
+                                                <option value="ups">UPS</option>
+                                                <option value="gabinetes">Gabinetes</option>
+                                                <option value="fuentes">Fuentes de Poder</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Campus</label>
+                                            <select name="campus" class="form-select">
+                                                <option value="">Todos</option>
+                                                {% for campus in stats_por_campus %}
+                                                <option value="{{ campus[0] }}">{{ campus[0] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Formato de Exportación</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <button type="submit" name="formato" value="excel" class="btn btn-success">
+                                                    <i class="bi bi-file-earmark-excel"></i> Excel
+                                                </button>
+                                                <button type="submit" name="formato" value="pdf" class="btn btn-danger">
+                                                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Informe de Mantenimientos -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0"><i class="bi bi-tools"></i> Informe de Mantenimientos</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ url_for('informes_generar') }}" method="POST">
+                                        <input type="hidden" name="tipo_informe" value="mantenimientos">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Tipo de Mantenimiento</label>
+                                            <select name="tipo_mantenimiento" class="form-select">
+                                                <option value="">Todos</option>
+                                                <option value="Preventivo">Preventivo</option>
+                                                <option value="Correctivo">Correctivo</option>
+                                                <option value="Predictivo">Predictivo</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Período</label>
+                                            <select name="periodo" class="form-select">
+                                                <option value="todos">Todos</option>
+                                                <option value="mes_actual">Mes actual</option>
+                                                <option value="trimestre">Último trimestre</option>
+                                                <option value="anio">Año actual</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Formato de Exportación</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <button type="submit" name="formato" value="excel" class="btn btn-success">
+                                                    <i class="bi bi-file-earmark-excel"></i> Excel
+                                                </button>
+                                                <button type="submit" name="formato" value="pdf" class="btn btn-danger">
+                                                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header"><h5>Fallas por Tipo</h5></div>
-        <div class="card-body">
-            <table class="table">
-                <thead><tr><th>Tipo de Falla</th><th>Total</th></tr></thead>
-                <tbody>
-                    {% for tipo, total in fallas_por_tipo %}
-                    <tr><td>{{ tipo }}</td><td>{{ total }}</td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    
+    <!-- Estadísticas Visuales -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Distribución de Cámaras por Campus</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Campus</th>
+                                <th class="text-end">Total Cámaras</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for campus, total in stats_por_campus %}
+                            <tr>
+                                <td>{{ campus }}</td>
+                                <td class="text-end"><strong>{{ total }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-pie-chart"></i> Fallas por Tipo</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Falla</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if fallas_por_tipo %}
+                                {% for tipo, total in fallas_por_tipo %}
+                                <tr>
+                                    <td>{{ tipo }}</td>
+                                    <td class="text-end"><strong>{{ total }}</strong></td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted">No hay fallas registradas</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="text-center">
-        <button class="btn btn-success" onclick="window.print()">
-            <i class="bi bi-printer"></i> Imprimir Informe
+    
+    <div class="text-center mb-4">
+        <button class="btn btn-outline-primary btn-lg" onclick="window.print()">
+            <i class="bi bi-printer"></i> Imprimir Vista Actual
         </button>
     </div>
 </div>

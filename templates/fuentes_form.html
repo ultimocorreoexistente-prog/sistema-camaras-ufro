@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if fuente else 'Nueva' }} Fuente de Poder - Sistema UFRO{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2><i class="bi bi-plug"></i> {{ 'Editar' if fuente else 'Nueva' }} Fuente de Poder</h2>
+    <hr>
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Código <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="codigo" value="{{ fuente.codigo if fuente else '' }}" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Modelo</label>
+                <input type="text" class="form-control" name="modelo" value="{{ fuente.modelo if fuente else '' }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Voltaje</label>
+                <input type="text" class="form-control" name="voltaje" value="{{ fuente.voltaje if fuente else '' }}" placeholder="12V, 24V, etc">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Amperaje</label>
+                <input type="text" class="form-control" name="amperaje" value="{{ fuente.amperaje if fuente else '' }}" placeholder="1A, 2A, etc">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Equipos que Alimenta</label>
+                <textarea class="form-control" name="equipos_que_alimenta" rows="3">{{ fuente.equipos_que_alimenta if fuente else '' }}</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Ubicación</label>
+                <select class="form-select" name="ubicacion_id">
+                    <option value="">Seleccione ubicación</option>
+                    {% for ubicacion in ubicaciones %}
+                    <option value="{{ ubicacion.id }}" {% if fuente and fuente.ubicacion_id == ubicacion.id %}selected{% endif %}>{{ ubicacion.campus }} - {{ ubicacion.edificio }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Gabinete</label>
+                <select class="form-select" name="gabinete_id">
+                    <option value="">Sin gabinete</option>
+                    {% for gabinete in gabinetes %}
+                    <option value="{{ gabinete.id }}" {% if fuente and fuente.gabinete_id == gabinete.id %}selected{% endif %}>{{ gabinete.codigo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Estado</label>
+                <select class="form-select" name="estado">
+                    <option value="Activo" {% if fuente and fuente.estado == 'Activo' %}selected{% endif %}>Activo</option>
+                    <option value="Inactivo" {% if fuente and fuente.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Fecha de Alta</label>
+                <input type="date" class="form-control" name="fecha_alta" value="{{ fuente.fecha_alta if fuente and fuente.fecha_alta else '' }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Observaciones</label>
+                <textarea class="form-control" name="observaciones" rows="3">{{ fuente.observaciones if fuente else '' }}</textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a href="{{ url_for('fuentes_list') }}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancelar</a>
+    </form>
+</div>
+{% endblock %}

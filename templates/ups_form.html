@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if ups else 'Nuevo' }} UPS - Sistema UFRO{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2><i class="bi bi-battery-charging"></i> {{ 'Editar' if ups else 'Nuevo' }} UPS</h2>
+    <hr>
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Código <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="codigo" value="{{ ups.codigo if ups else '' }}" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Modelo</label>
+                <input type="text" class="form-control" name="modelo" value="{{ ups.modelo if ups else '' }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Marca</label>
+                <input type="text" class="form-control" name="marca" value="{{ ups.marca if ups else '' }}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Capacidad (VA)</label>
+                <input type="number" class="form-control" name="capacidad_va" value="{{ ups.capacidad_va if ups else 0 }}" min="0">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Número de Baterías</label>
+                <input type="number" class="form-control" name="numero_baterias" value="{{ ups.numero_baterias if ups else 0 }}" min="0">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Ubicación</label>
+                <select class="form-select" name="ubicacion_id">
+                    <option value="">Seleccione ubicación</option>
+                    {% for ubicacion in ubicaciones %}
+                    <option value="{{ ubicacion.id }}" {% if ups and ups.ubicacion_id == ubicacion.id %}selected{% endif %}>{{ ubicacion.campus }} - {{ ubicacion.edificio }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Gabinete</label>
+                <select class="form-select" name="gabinete_id">
+                    <option value="">Sin gabinete</option>
+                    {% for gabinete in gabinetes %}
+                    <option value="{{ gabinete.id }}" {% if ups and ups.gabinete_id == gabinete.id %}selected{% endif %}>{{ gabinete.codigo }} - {{ gabinete.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Equipos que Alimenta</label>
+                <textarea class="form-control" name="equipos_que_alimenta" rows="3" placeholder="Lista de equipos alimentados por este UPS">{{ ups.equipos_que_alimenta if ups else '' }}</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Estado</label>
+                <select class="form-select" name="estado">
+                    <option value="Activo" {% if ups and ups.estado == 'Activo' %}selected{% endif %}>Activo</option>
+                    <option value="Inactivo" {% if ups and ups.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                    <option value="Mantenimiento" {% if ups and ups.estado == 'Mantenimiento' %}selected{% endif %}>Mantenimiento</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Fecha de Alta</label>
+                <input type="date" class="form-control" name="fecha_alta" value="{{ ups.fecha_alta if ups and ups.fecha_alta else '' }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Fecha de Instalación</label>
+                <input type="date" class="form-control" name="fecha_instalacion" value="{{ ups.fecha_instalacion if ups and ups.fecha_instalacion else '' }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Latitud</label>
+                <input type="number" step="any" class="form-control" name="latitud" value="{{ ups.latitud if ups else '' }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Longitud</label>
+                <input type="number" step="any" class="form-control" name="longitud" value="{{ ups.longitud if ups else '' }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Observaciones</label>
+                <textarea class="form-control" name="observaciones" rows="3">{{ ups.observaciones if ups else '' }}</textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a href="{{ url_for('ups_list') }}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancelar</a>
+    </form>
+</div>
+{% endblock %}

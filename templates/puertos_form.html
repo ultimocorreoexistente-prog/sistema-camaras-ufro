@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if puerto else 'Nuevo' }} Puerto - Sistema UFRO{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2><i class="bi bi-ethernet"></i> {{ 'Editar' if puerto else 'Nuevo' }} Puerto Switch</h2>
+    <hr>
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Switch <span class="text-danger">*</span></label>
+                <select class="form-select" name="switch_id" required>
+                    <option value="">Seleccione switch</option>
+                    {% for switch in switches %}
+                    <option value="{{ switch.id }}" {% if puerto and puerto.switch_id == switch.id %}selected{% endif %}>{{ switch.codigo }} - {{ switch.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Número de Puerto <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" name="numero_puerto" value="{{ puerto.numero_puerto if puerto else '' }}" min="1" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Cámara Asignada</label>
+                <select class="form-select" name="camara_id">
+                    <option value="">Sin cámara</option>
+                    {% for camara in camaras %}
+                    <option value="{{ camara.id }}" {% if puerto and puerto.camara_id == camara.id %}selected{% endif %}>{{ camara.codigo }} - {{ camara.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">IP Dispositivo</label>
+                <input type="text" class="form-control" name="ip_dispositivo" value="{{ puerto.ip_dispositivo if puerto else '' }}" placeholder="192.168.1.1">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Estado</label>
+                <select class="form-select" name="estado">
+                    <option value="Disponible" {% if puerto and puerto.estado == 'Disponible' %}selected{% endif %}>Disponible</option>
+                    <option value="En uso" {% if puerto and puerto.estado == 'En uso' %}selected{% endif %}>En uso</option>
+                    <option value="Averiado" {% if puerto and puerto.estado == 'Averiado' %}selected{% endif %}>Averiado</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Tipo de Conexión</label>
+                <select class="form-select" name="tipo_conexion">
+                    <option value="">Seleccione</option>
+                    <option value="PoE" {% if puerto and puerto.tipo_conexion == 'PoE' %}selected{% endif %}>PoE</option>
+                    <option value="Fibra" {% if puerto and puerto.tipo_conexion == 'Fibra' %}selected{% endif %}>Fibra</option>
+                    <option value="Normal" {% if puerto and puerto.tipo_conexion == 'Normal' %}selected{% endif %}>Normal</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">NVR/DVR</label>
+                <select class="form-select" name="nvr_id">
+                    <option value="">Sin NVR</option>
+                    {% for nvr in nvrs %}
+                    <option value="{{ nvr.id }}" {% if puerto and puerto.nvr_id == nvr.id %}selected{% endif %}>{{ nvr.codigo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Puerto NVR</label>
+                <input type="text" class="form-control" name="puerto_nvr" value="{{ puerto.puerto_nvr if puerto else '' }}" placeholder="Número de puerto en NVR">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a href="{{ url_for('puertos_list') }}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancelar</a>
+    </form>
+</div>
+{% endblock %}

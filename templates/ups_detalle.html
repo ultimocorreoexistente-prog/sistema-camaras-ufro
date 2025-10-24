@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Detalle UPS - Sistema UFRO{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6"><h2><i class="bi bi-battery-charging"></i> Detalle del UPS</h2></div>
+        <div class="col-md-6 text-end">
+            {% if current_user.rol in ['admin', 'supervisor'] %}
+            <a href="{{ url_for('ups_editar', id=ups.id) }}" class="btn btn-warning"><i class="bi bi-pencil"></i> Editar</a>
+            {% endif %}
+            <a href="{{ url_for('ups_list') }}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Volver</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white"><h5 class="mb-0">Información General</h5></div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th style="width:40%;">Código:</th><td><strong>{{ ups.codigo }}</strong></td></tr>
+                        <tr><th>Modelo:</th><td>{{ ups.modelo or 'N/A' }}</td></tr>
+                        <tr><th>Marca:</th><td>{{ ups.marca or 'N/A' }}</td></tr>
+                        <tr><th>Capacidad:</th><td>{{ ups.capacidad_va or 'N/A' }} VA</td></tr>
+                        <tr><th>Baterías:</th><td>{{ ups.numero_baterias or 'N/A' }}</td></tr>
+                        <tr><th>Estado:</th><td><span class="badge bg-{{ 'success' if ups.estado == 'Activo' else 'danger' }}">{{ ups.estado }}</span></td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white"><h5 class="mb-0">Ubicación</h5></div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th style="width:40%;">Ubicación:</th><td>{{ ups.ubicacion.campus if ups.ubicacion else 'N/A' }} - {{ ups.ubicacion.edificio if ups.ubicacion else '' }}</td></tr>
+                        <tr><th>Gabinete:</th><td>{{ ups.gabinete.codigo if ups.gabinete else 'N/A' }}</td></tr>
+                        <tr><th>Fecha Alta:</th><td>{{ ups.fecha_alta or 'N/A' }}</td></tr>
+                        <tr><th>Fecha Instalación:</th><td>{{ ups.fecha_instalacion or 'N/A' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if ups.equipos_que_alimenta %}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white"><h5 class="mb-0">Equipos que Alimenta</h5></div>
+        <div class="card-body">
+            <p class="mb-0">{{ ups.equipos_que_alimenta }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if mantenimientos %}
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark"><h5 class="mb-0">Historial de Mantenimientos ({{ mantenimientos|length }})</h5></div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead><tr><th>Fecha</th><th>Tipo</th><th>Técnico</th><th>Descripción</th><th>Costo</th></tr></thead>
+                    <tbody>
+                        {% for mant in mantenimientos %}
+                        <tr>
+                            <td>{{ mant.fecha.strftime('%d/%m/%Y') }}</td>
+                            <td><span class="badge bg-info">{{ mant.tipo }}</span></td>
+                            <td>{{ mant.tecnico.nombre_completo if mant.tecnico else 'N/A' }}</td>
+                            <td>{{ mant.descripcion[:50] }}...</td>
+                            <td>${{ mant.costo or 0 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if ups.observaciones %}
+    <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0">Observaciones</h5></div>
+        <div class="card-body"><p>{{ ups.observaciones }}</p></div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
