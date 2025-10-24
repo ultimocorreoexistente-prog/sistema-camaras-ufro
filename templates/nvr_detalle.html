@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Detalle NVR/DVR - Sistema UFRO{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2><i class="bi bi-hdd-rack"></i> Detalle del NVR/DVR</h2>
+        </div>
+        <div class="col-md-6 text-end">
+            {% if current_user.rol in ['admin', 'supervisor'] %}
+            <a href="{{ url_for('nvr_editar', id=nvr.id) }}" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+            {% endif %}
+            <a href="{{ url_for('nvr_list') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Información General</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th style="width: 40%;">Código:</th><td><strong>{{ nvr.codigo }}</strong></td></tr>
+                        <tr><th>Tipo:</th><td><span class="badge bg-primary">{{ nvr.tipo }}</span></td></tr>
+                        <tr><th>Modelo:</th><td>{{ nvr.modelo or 'N/A' }}</td></tr>
+                        <tr><th>Marca:</th><td>{{ nvr.marca or 'N/A' }}</td></tr>
+                        <tr><th>IP:</th><td>{{ nvr.ip or 'N/A' }}</td></tr>
+                        <tr><th>Estado:</th><td><span class="badge bg-{{ 'success' if nvr.estado == 'Activo' else 'danger' }}">{{ nvr.estado }}</span></td></tr>
+                        <tr><th>Gabinete:</th><td>{{ nvr.gabinete.codigo if nvr.gabinete else 'N/A' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Capacidad de Canales</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th style="width: 40%;">Canales Totales:</th><td><span class="badge bg-primary">{{ nvr.canales_totales or 0 }}</span></td></tr>
+                        <tr><th>Canales Usados:</th><td><span class="badge bg-info">{{ nvr.canales_usados or 0 }}</span></td></tr>
+                        <tr><th>Canales Disponibles:</th><td><span class="badge bg-success">{{ (nvr.canales_totales or 0) - (nvr.canales_usados or 0) }}</span></td></tr>
+                    </table>
+                    {% if nvr.canales_totales > 0 %}
+                    <div class="mt-3">
+                        <p class="mb-2"><strong>Uso de Canales:</strong></p>
+                        <div class="progress" style="height: 25px;">
+                            {% set porcentaje_usado = (nvr.canales_usados / nvr.canales_totales * 100) | int %}
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ porcentaje_usado }}%;">
+                                {{ porcentaje_usado }}%
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if camaras %}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Cámaras Conectadas ({{ camaras|length }})</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr><th>Código</th><th>Nombre</th><th>IP</th><th>Puerto NVR</th><th>Estado</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for camara in camaras %}
+                        <tr>
+                            <td><strong>{{ camara.codigo }}</strong></td>
+                            <td>{{ camara.nombre }}</td>
+                            <td>{{ camara.ip or 'N/A' }}</td>
+                            <td>{{ camara.puerto_nvr or 'N/A' }}</td>
+                            <td><span class="badge bg-{{ 'success' if camara.estado == 'Activo' else 'danger' }}">{{ camara.estado }}</span></td>
+                            <td><a href="{{ url_for('camaras_detalle', id=camara.id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if nvr.observaciones %}
+    <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0">Observaciones</h5></div>
+        <div class="card-body"><p>{{ nvr.observaciones }}</p></div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
