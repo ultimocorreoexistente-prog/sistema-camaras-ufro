@@ -6,7 +6,7 @@ from datetime import datetime
 db = SQLAlchemy()
 
 class Usuario(UserMixin, db.Model):
-    __tablename__ = 'usuario'
+    __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
@@ -24,7 +24,7 @@ class Usuario(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 class Ubicacion(db.Model):
-    __tablename__ = 'ubicacion'
+    __tablename__ = 'ubicaciones'
     id = db.Column(db.Integer, primary_key=True)
     campus = db.Column(db.String(100), nullable=False)
     edificio = db.Column(db.String(200), nullable=False)
@@ -164,7 +164,7 @@ class Fuente_Poder(db.Model):
     gabinete = db.relationship('Gabinete', backref='fuentes_poder')
 
 class Camara(db.Model):
-    __tablename__ = 'camara'
+    __tablename__ = 'camaras'
     id = db.Column(db.Integer, primary_key=True)
     codigo = db.Column(db.String(50), unique=True, nullable=False)
     nombre = db.Column(db.String(200))
