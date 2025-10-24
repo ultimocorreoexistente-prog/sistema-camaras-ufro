@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from functools import wraps
 from datetime import datetime
@@ -37,6 +37,11 @@ def role_required(*roles):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
+
+# Función para obtener modo del sistema
+def obtener_modo_sistema():
+    """Obtiene el modo actual del sistema (demo o real)"""
+    return session.get('modo_sistema', 'real')
 
 # Función de validación anti-duplicados
 def validar_falla_duplicada(equipo_tipo, equipo_id):
@@ -570,6 +575,150 @@ def api_gabinete_equipos(id):
         } for f in fuentes]
     })
 
+# ========== ADMINISTRACIÓN DE USUARIOS ==========
+@app.route('/admin/usuarios')
+@login_required
+@role_required('superadmin', 'admin')
+def admin_usuarios():
+    """Lista todos los usuarios del sistema"""
+    usuarios = Usuario.query.order_by(Usuario.fecha_creacion.desc()).all()
+    return render_template('admin_usuarios_list.html', usuarios=usuarios)
+
+@app.route('/admin/usuarios/nuevo', methods=['GET', 'POST'])
+@login_required
+@role_required('superadmin', 'admin')
+def admin_usuarios_nuevo():
+    """Crear nuevo usuario"""
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        rol = request.form.get('rol')
+        nombre_completo = request.form.get('nombre_completo')
+        email = request.form.get('email')
+        telefono = request.form.get('telefono')
+        
+        # Validaciones
+        if Usuario.query.filter_by(username=username).first():
+            flash('El nombre de usuario ya existe', 'danger')
+            return render_template('admin_usuarios_form.html')
+        
+        # Solo SUPERADMIN puede crear otros SUPERADMIN
+        if rol == 'superadmin' and current_user.rol != 'superadmin':
+            flash('Solo un SUPERADMIN puede crear otro SUPERADMIN', 'danger')
+            return render_template('admin_usuarios_form.html')
+        
+        usuario = Usuario(
+            username=username,
+            rol=rol,
+            nombre_completo=nombre_completo,
+            email=email,
+            telefono=telefono,
+            activo=True
+        )
+        usuario.set_password(password)
+        
+        db.session.add(usuario)
+        db.session.commit()
+        flash('Usuario creado exitosamente', 'success')
+        return redirect(url_for('admin_usuarios'))
+    
+    return render_template('admin_usuarios_form.html')
+
+@app.route('/admin/usuarios/<int:id>/editar', methods=['GET', 'POST'])
+@login_required
+@role_required('superadmin', 'admin')
+def admin_usuarios_editar(id):
+    """Editar usuario existente"""
+    usuario = Usuario.query.get_or_404(id)
+    
+    # Un usuario no puede editarse a sí mismo ni cambiar su propio rol
+    if usuario.id == current_user.id:
+        flash('No puedes editar tu propio perfil desde aquí', 'warning')
+        return redirect(url_for('admin_usuarios'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        rol = request.form.get('rol')
+        nombre_completo = request.form.get('nombre_completo')
+        email = request.form.get('email')
+        telefono = request.form.get('telefono')
+        activo = request.form.get('activo') == 'on'
+        
+        # Validaciones
+        if username != usuario.username and Usuario.query.filter_by(username=username).first():
+            flash('El nombre de usuario ya existe', 'danger')
+            return render_template('admin_usuarios_form.html', usuario=usuario)
+        
+        # Solo SUPERADMIN puede asignar rol SUPERADMIN
+        if rol == 'superadmin' and current_user.rol != 'superadmin':
+            flash('Solo un SUPERADMIN puede asignar rol SUPERADMIN', 'danger')
+            return render_template('admin_usuarios_form.html', usuario=usuario)
+        
+        # No permitir que el último SUPERADMIN se desactive
+        if usuario.rol == 'superadmin' and not activo and Usuario.query.filter_by(rol='superadmin').count() <= 1:
+            flash('No se puede desactivar el último SUPERADMIN del sistema', 'danger')
+            return render_template('admin_usuarios_form.html', usuario=usuario)
+        
+        usuario.username = username
+        usuario.rol = rol
+        usuario.nombre_completo = nombre_completo
+        usuario.email = email
+        usuario.telefono = telefono
+        usuario.activo = activo
+        
+        db.session.commit()
+        flash('Usuario actualizado exitosamente', 'success')
+        return redirect(url_for('admin_usuarios'))
+    
+    return render_template('admin_usuarios_form.html', usuario=usuario)
+
+@app.route('/admin/usuarios/<int:id>/eliminar', methods=['POST'])
+@login_required
+@role_required('superadmin', 'admin')
+def admin_usuarios_eliminar(id):
+    """Eliminar usuario"""
+    usuario = Usuario.query.get_or_404(id)
+    
+    # Un usuario no puede eliminarse a sí mismo
+    if usuario.id == current_user.id:
+        flash('No puedes eliminar tu propio usuario', 'danger')
+        return redirect(url_for('admin_usuarios'))
+    
+    # No permitir eliminar el último SUPERADMIN
+    if usuario.rol == 'superadmin' and Usuario.query.filter_by(rol='superadmin').count() <= 1:
+        flash('No se puede eliminar el último SUPERADMIN del sistema', 'danger')
+        return redirect(url_for('admin_usuarios'))
+    
+    db.session.delete(usuario)
+    db.session.commit()
+    flash('Usuario eliminado exitosamente', 'success')
+    return redirect(url_for('admin_usuarios'))
+
+# ========== CONFIGURACIÓN DEL SISTEMA ==========
+@app.route('/admin/configuracion')
+@login_required
+@role_required('superadmin')
+def admin_configuracion():
+    """Panel de configuración del sistema - Solo para SUPERADMIN"""
+    return render_template('admin_configuracion.html')
+
+@app.route('/admin/configuracion/modo', methods=['POST'])
+@login_required
+@role_required('superadmin')
+def admin_configuracion_modo():
+    """Cambiar entre modo Demo y Real - Solo para SUPERADMIN"""
+    modo = request.form.get('modo')
+    
+    if modo not in ['demo', 'real']:
+        flash('Modo inválido', 'danger')
+        return redirect(url_for('admin_configuracion'))
+    
+    # Guardar modo en sesión
+    session['modo_sistema'] = modo
+    
+    flash(f'Sistema configurado en modo {modo.upper()}', 'success')
+    return redirect(url_for('admin_configuracion'))
+
 # Inicializar base de datos y crear usuarios por defecto
 @app.cli.command()
 def init_db():
@@ -579,13 +728,14 @@ def init_db():
     # Verificar si ya existen usuarios
     if Usuario.query.count() == 0:
         usuarios = [
+            Usuario(username='charles.jelvez', rol='superadmin', nombre_completo='Charles Jélvez', email='charles.jelvez@ufro.cl', activo=True),
             Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
             Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
             Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
             Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
         ]
         
-        passwords = ['admin123', 'super123', 'tecnico123', 'viz123']
+        passwords = ['charles123', 'admin123', 'super123', 'tecnico123', 'viz123']
         
         for user, password in zip(usuarios, passwords):
             user.set_password(password)

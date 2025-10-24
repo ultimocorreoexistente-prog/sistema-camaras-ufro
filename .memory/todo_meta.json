@@ -3,37 +3,37 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "CRÍTICO: Arreglar Error 404 en Railway",
+        "content": "COMPLETADO: Error 404 Railway",
         "details": "La aplicación no carga correctamente. URL actual muestra '404 Not Found'. Verificar configuración de Railway, Procfile, routes, y redeployar el sistema correctamente.",
-        "status": "in_progress",
+        "status": "completed",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "CRÍTICO: Implementar Gestión Completa de Usuarios",
+        "content": "COMPLETADO: Gestión Completa de Usuarios",
         "details": "CRUD completo de usuarios: Crear, editar, dar de baja usuarios. Asignar roles específicos por usuario. Solo accesible para superadmin y admin. Incluir validaciones y restricciones de acceso.",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "CRÍTICO: Crear Rol SUPERADMIN Exclusivo",
+        "content": "COMPLETADO: Rol SUPERADMIN Exclusivo",
         "details": "Rol especial para Charles Jélvez con acceso total. Control del modo Demo/Real. Gestión de todos los otros usuarios. Solo este usuario puede ver ciertos controles administrativos.",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "4": {
         "id": "4",
-        "content": "ALTA: Implementar Modo Demo/Real",
+        "content": "COMPLETADO: Modo Demo/Real",
         "details": "Toggle para alternar entre datos de prueba y reales. Solo visible para SUPERADMIN. Indicador visual en barra de navegación. Funcionalidad para cargar diferentes datasets según el modo.",
-        "status": "pending",
+        "status": "completed",
         "priority": "medium"
       },
       "5": {
         "id": "5",
-        "content": "ALTA: Crear Modo Claro/Oscuro",
+        "content": "COMPLETADO: Modo Claro/Oscuro",
         "details": "Toggle para cambiar tema. Preferencia guardada en navegador. Responsive para ambos temas. Aplicar CSS dinámico según el tema seleccionado.",
-        "status": "pending",
+        "status": "completed",
         "priority": "medium"
       },
       "6": {

@@ -1,5 +1,146 @@
 /* Estilos personalizados del Sistema de Cámaras UFRO */
 
+/* Estilos para Modo Oscuro */
+.dark-theme {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .card {
+    background-color: #1e1e1e !important;
+    border-color: #333333 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .navbar {
+    background-color: #1e1e1e !important;
+    border-color: #333333 !important;
+}
+
+.dark-theme .table {
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .table-striped > tbody > tr:nth-of-type(odd) > td {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark-theme .form-control,
+.dark-theme .form-select {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .form-control:focus,
+.dark-theme .form-select:focus {
+    background-color: #333333 !important;
+    border-color: #4c9aff !important;
+    color: #e0e0e0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(76, 154, 255, 0.25) !important;
+}
+
+.dark-theme .btn-outline-primary {
+    border-color: #4c9aff !important;
+    color: #4c9aff !important;
+}
+
+.dark-theme .btn-outline-primary:hover {
+    background-color: #4c9aff !important;
+    color: #ffffff !important;
+}
+
+.dark-theme .dropdown-menu {
+    background-color: #1e1e1e !important;
+    border-color: #333333 !important;
+}
+
+.dark-theme .dropdown-item {
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .dropdown-item:hover {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+.dark-theme .modal-content {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .modal-header {
+    border-bottom-color: #333333 !important;
+}
+
+.dark-theme .modal-footer {
+    border-top-color: #333333 !important;
+}
+
+.dark-theme .alert {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .badge.bg-light {
+    background-color: #333333 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .text-muted {
+    color: #999999 !important;
+}
+
+.dark-theme .border {
+    border-color: #333333 !important;
+}
+
+.dark-theme .card-header {
+    background-color: #2d2d2d !important;
+    border-bottom-color: #333333 !important;
+}
+
+.dark-theme footer {
+    background-color: #1e1e1e !important;
+    color: #999999 !important;
+    border-top-color: #333333 !important;
+}
+
+/* Animaciones suaves para transiciones */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Indicador de modo en navbar */
+.mode-indicator {
+    position: relative;
+}
+
+.mode-indicator::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background-color: #28a745;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 :root {
     --color-pendiente: #6c757d;
     --color-asignada: #0d6efd;

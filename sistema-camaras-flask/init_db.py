@@ -8,13 +8,14 @@ with app.app_context():
     
     if Usuario.query.count() == 0:
         usuarios = [
+            Usuario(username='charles.jelvez', rol='superadmin', nombre_completo='Charles Jélvez', email='charles.jelvez@ufro.cl', activo=True),
             Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
             Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
             Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
             Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
         ]
         
-        passwords = ['admin123', 'super123', 'tecnico123', 'viz123']
+        passwords = ['charles123', 'admin123', 'super123', 'tecnico123', 'viz123']
         
         for user, password in zip(usuarios, passwords):
             user.set_password(password)

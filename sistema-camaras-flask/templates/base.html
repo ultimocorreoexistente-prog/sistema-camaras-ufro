@@ -65,13 +65,52 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('informes_avanzados') }}"><i class="bi bi-file-earmark-bar-graph"></i> Informes</a>
                     </li>
+                    {% if current_user.rol in ['superadmin', 'admin'] %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear"></i> Administración
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('admin_usuarios') }}"><i class="bi bi-people"></i> Gestión de Usuarios</a></li>
+                            {% if current_user.rol == 'superadmin' %}
+                            <li><a class="dropdown-item" href="{{ url_for('admin_configuracion') }}"><i class="bi bi-sliders"></i> Configuración del Sistema</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav">
+                    <!-- Indicador de Modo Demo/Real (Solo SUPERADMIN) -->
+                    {% if current_user.rol == 'superadmin' %}
+                    <li class="nav-item me-3">
+                        <span class="badge bg-success">
+                            <i class="bi bi-database"></i> MODO REAL
+                        </span>
+                    </li>
+                    {% endif %}
+                    
+                    <!-- Toggle Modo Claro/Oscuro -->
+                    <li class="nav-item me-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                            <label class="form-check-label text-light" for="themeToggle">
+                                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                            </label>
+                        </div>
+                    </li>
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i> {{ current_user.nombre_completo }} ({{ current_user.rol }})
+                            <i class="bi bi-person-circle"></i> {{ current_user.nombre_completo }}
+                            {% if current_user.rol == 'superadmin' %}
+                                <span class="badge bg-warning ms-1">SUPERADMIN</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark ms-1">{{ current_user.rol.upper() }}</span>
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header">{{ current_user.email or 'Sin email' }}</h6></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
                         </ul>
                     </li>
@@ -121,6 +160,43 @@
     
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        // Toggle Modo Claro/Oscuro
+        function toggleTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (themeToggle.checked) {
+                // Modo Oscuro
+                document.body.classList.add('dark-theme');
+                themeIcon.className = 'bi bi-sun-fill';
+                localStorage.setItem('theme_ufro', 'dark');
+            } else {
+                // Modo Claro
+                document.body.classList.remove('dark-theme');
+                themeIcon.className = 'bi bi-moon-fill';
+                localStorage.setItem('theme_ufro', 'light');
+            }
+        }
+        
+        // Cargar tema guardado
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme_ufro');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                themeToggle.checked = true;
+                themeIcon.className = 'bi bi-sun-fill';
+                document.body.classList.add('dark-theme');
+            } else {
+                themeToggle.checked = false;
+                themeIcon.className = 'bi bi-moon-fill';
+                document.body.classList.remove('dark-theme');
+            }
+        });
+    </script>
     
     {% block extra_js %}{% endblock %}
 </body>
