@@ -3,38 +3,59 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Verificar integridad del sistema Flask existente",
-        "details": "Revisar todos los archivos del sistema Flask + Jinja2 en /workspace/sistema-camaras-flask/, verificar que todos los templates estén presentes y que la aplicación tenga toda la funcionalidad implementada según especificaciones.",
+        "content": "CRÍTICO: Arreglar Error 404 en Railway",
+        "details": "La aplicación no carga correctamente. URL actual muestra '404 Not Found'. Verificar configuración de Railway, Procfile, routes, y redeployar el sistema correctamente.",
         "status": "pending",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Preparar sistema para deployment en Railway",
-        "details": "Verificar y optimizar archivos de configuración: requirements.txt, Procfile, railway.json, .env.example. Asegurar que todo esté listo para deploy automático.",
+        "content": "CRÍTICO: Implementar Gestión Completa de Usuarios",
+        "details": "CRUD completo de usuarios: Crear, editar, dar de baja usuarios. Asignar roles específicos por usuario. Solo accesible para superadmin y admin. Incluir validaciones y restricciones de acceso.",
         "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Verificar scripts de migración de datos",
-        "details": "Revisar migrate_data.py e init_db.py para asegurar que funcionan correctamente con PostgreSQL y que la migración de los 13 archivos Excel está completa.",
+        "content": "CRÍTICO: Crear Rol SUPERADMIN Exclusivo",
+        "details": "Rol especial para Charles Jélvez con acceso total. Control del modo Demo/Real. Gestión de todos los otros usuarios. Solo este usuario puede ver ciertos controles administrativos.",
         "status": "pending",
-        "priority": "medium"
+        "priority": "high"
       },
       "4": {
         "id": "4",
-        "content": "Crear guía de deployment actualizada",
-        "details": "Actualizar DEPLOYMENT.md con pasos específicos y troubleshooting actualizado para Railway en 2025.",
+        "content": "ALTA: Implementar Modo Demo/Real",
+        "details": "Toggle para alternar entre datos de prueba y reales. Solo visible para SUPERADMIN. Indicador visual en barra de navegación. Funcionalidad para cargar diferentes datasets según el modo.",
         "status": "pending",
         "priority": "medium"
       },
       "5": {
         "id": "5",
-        "content": "Ejecutar deployment en Railway",
-        "details": "Conectar con Railway, configurar PostgreSQL, variables de entorno, ejecutar deploy e inicialización de BD con datos migrados.",
+        "content": "ALTA: Crear Modo Claro/Oscuro",
+        "details": "Toggle para cambiar tema. Preferencia guardada en navegador. Responsive para ambos temas. Aplicar CSS dinámico según el tema seleccionado.",
         "status": "pending",
-        "priority": "high"
+        "priority": "medium"
+      },
+      "6": {
+        "id": "6",
+        "content": "ALTA: Dashboard Avanzado con KPIs",
+        "details": "Estado de cámaras (Funcionando/Con Fallo/Desconectado). Gráficos interactivos con Chart.js. Indicadores de alerta. Métricas en tiempo real de los 4 campus.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "7": {
+        "id": "7",
+        "content": "MEDIA: Reportes Exportables Avanzados",
+        "details": "PDF/CSV de fallas detalladas. Análisis por casos reales (Edificio O, CFT Prat). Reportes de firmware para planeación. Generación automatizada de informes.",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "8": {
+        "id": "8",
+        "content": "MEDIA: Mapas de Red Optimizados",
+        "details": "Visualización de dependencias completas. Geolocalización con mapas interactivos (Leaflet.js). Análisis de impacto por componente. Diagramas jerárquicos mejorados.",
+        "status": "pending",
+        "priority": "medium"
       }
     }
   }
