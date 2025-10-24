@@ -3,45 +3,38 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "Verificar y preparar archivos para Railway deployment",
-        "details": "1. Verificar requirements.txt\n2. Verificar Procfile\n3. Verificar railway.json\n4. Crear .env.example con DATABASE_URL template\n5. Verificar que app.py soporte PostgreSQL",
+        "content": "Verificar integridad del sistema Flask existente",
+        "details": "Revisar todos los archivos del sistema Flask + Jinja2 en /workspace/sistema-camaras-flask/, verificar que todos los templates estén presentes y que la aplicación tenga toda la funcionalidad implementada según especificaciones.",
         "status": "pending",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "Crear archivo de configuración con DATABASE_URL",
-        "details": "1. Crear .env con DATABASE_URL proporcionada\n2. Generar SECRET_KEY segura\n3. Configurar FLASK_ENV=production",
+        "content": "Preparar sistema para deployment en Railway",
+        "details": "Verificar y optimizar archivos de configuración: requirements.txt, Procfile, railway.json, .env.example. Asegurar que todo esté listo para deploy automático.",
         "status": "pending",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "Preparar paquete de deployment",
-        "details": "1. Crear .gitignore apropiado\n2. Empaquetar sistema-camaras-flask/\n3. Verificar que planillas Excel estén incluidas\n4. Crear README de deployment",
+        "content": "Verificar scripts de migración de datos",
+        "details": "Revisar migrate_data.py e init_db.py para asegurar que funcionan correctamente con PostgreSQL y que la migración de los 13 archivos Excel está completa.",
         "status": "pending",
-        "priority": "high"
+        "priority": "medium"
       },
       "4": {
         "id": "4",
-        "content": "Crear guía de deployment Railway específica",
-        "details": "1. Pasos para subir código a GitHub\n2. Configuración Railway desde GitHub\n3. Comandos de inicialización BD\n4. Script de migración de datos\n5. Verificación post-deployment",
+        "content": "Crear guía de deployment actualizada",
+        "details": "Actualizar DEPLOYMENT.md con pasos específicos y troubleshooting actualizado para Railway en 2025.",
         "status": "pending",
-        "priority": "high"
+        "priority": "medium"
       },
       "5": {
         "id": "5",
-        "content": "Crear scripts de inicialización y migración",
-        "details": "1. Verificar init_db.py\n2. Verificar migrate_data.py\n3. Crear script de verificación post-migración\n4. Documentar comandos Railway CLI",
+        "content": "Ejecutar deployment en Railway",
+        "details": "Conectar con Railway, configurar PostgreSQL, variables de entorno, ejecutar deploy e inicialización de BD con datos migrados.",
         "status": "pending",
-        "priority": "medium"
-      },
-      "6": {
-        "id": "6",
-        "content": "Generar documentación final de deployment",
-        "details": "1. Guía paso a paso con DATABASE_URL específica\n2. Comandos completos de inicialización\n3. Checklist de verificación\n4. Troubleshooting común",
-        "status": "pending",
-        "priority": "medium"
+        "priority": "high"
       }
     }
   }
