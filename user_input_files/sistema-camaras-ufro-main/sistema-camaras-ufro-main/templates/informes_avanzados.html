@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informes Avanzados - Sistema UFRO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .informe-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+        .informe-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .informe-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .categoria-section {
+            margin-bottom: 2rem;
+        }
+        .filtro-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .mapa-preview {
+            background: #fff;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .loading-spinner {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-video me-2"></i>
+                Sistema UFRO - Informes Avanzados
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard">
+                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                </a>
+                <a class="nav-link" href="/informes">
+                    <i class="fas fa-chart-bar me-1"></i>Informes Básicos
+                </a>
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt me-1"></i>Salir
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="fas fa-network-wired text-primary me-2"></i>
+                    Informes Avanzados y Mapas de Red
+                </h1>
+                
+                <!-- Sección de Filtros -->
+                <div class="filtro-section">
+                    <h4 class="mb-3">
+                        <i class="fas fa-filter text-secondary me-2"></i>
+                        Filtros Avanzados
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Campus:</label>
+                            <select id="campusSelect" class="form-select" multiple>
+                                <option value="">Cargando campus...</option>
+                            </select>
+                            <small class="text-muted">Mantén Ctrl para seleccionar múltiples</small>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Fecha Inicio:</label>
+                            <input type="date" id="fechaInicio" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Fecha Fin:</label>
+                            <input type="date" id="fechaFin" class="form-control">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button id="limpiarFiltros" class="btn btn-outline-secondary w-100">
+                                <i class="fas fa-eraser me-1"></i>Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapas de Red -->
+                <div class="categoria-section">
+                    <h3 class="text-primary mb-3">
+                        <i class="fas fa-sitemap me-2"></i>
+                        Mapas de Red
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="mapa-red-completo">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-network-wired informe-icon text-info"></i>
+                                    <h5 class="card-title">Mapa Completo</h5>
+                                    <p class="card-text">Topología completa de la red</p>
+                                    <div class="btn-group w-100">
+                                        <button class="btn btn-outline-info btn-datos">
+                                            <i class="fas fa-table me-1"></i>Datos
+                                        </button>
+                                        <button class="btn btn-info btn-visual">
+                                            <i class="fas fa-eye me-1"></i>Visual
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="mapa-red-cascada">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-sitemap informe-icon text-warning"></i>
+                                    <h5 class="card-title">Mapa Cascada</h5>
+                                    <p class="card-text">Vista jerárquica en cascada</p>
+                                    <div class="btn-group w-100">
+                                        <button class="btn btn-outline-warning btn-datos">
+                                            <i class="fas fa-table me-1"></i>Datos
+                                        </button>
+                                        <button class="btn btn-warning btn-visual">
+                                            <i class="fas fa-eye me-1"></i>Visual
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="mapa-red-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-university informe-icon text-success"></i>
+                                    <h5 class="card-title">Mapa por Campus</h5>
+                                    <p class="card-text">Red filtrada por campus</p>
+                                    <div class="btn-group w-100">
+                                        <button class="btn btn-outline-success btn-datos">
+                                            <i class="fas fa-table me-1"></i>Datos
+                                        </button>
+                                        <button class="btn btn-success btn-visual">
+                                            <i class="fas fa-eye me-1"></i>Visual
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="mapa-jerarquico">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-project-diagram informe-icon text-primary"></i>
+                                    <h5 class="card-title">Mapa Jerárquico</h5>
+                                    <p class="card-text">Estructura jerárquica completa</p>
+                                    <div class="btn-group w-100">
+                                        <button class="btn btn-outline-primary btn-datos">
+                                            <i class="fas fa-table me-1"></i>Datos
+                                        </button>
+                                        <button class="btn btn-primary btn-visual">
+                                            <i class="fas fa-eye me-1"></i>Visual
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventarios por Campus -->
+                <div class="categoria-section">
+                    <h3 class="text-success mb-3">
+                        <i class="fas fa-list-ul me-2"></i>
+                        Inventarios por Campus
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card informe-card h-100" data-tipo="camaras-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-video informe-icon text-success"></i>
+                                    <h5 class="card-title">Cámaras por Campus</h5>
+                                    <p class="card-text">Inventario completo por campus</p>
+                                    <button class="btn btn-success w-100 btn-generar">
+                                        <i class="fas fa-download me-1"></i>Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card informe-card h-100" data-tipo="gabinetes-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-archive informe-icon text-secondary"></i>
+                                    <h5 class="card-title">Gabinetes por Campus</h5>
+                                    <p class="card-text">Inventario de gabinetes</p>
+                                    <button class="btn btn-secondary w-100 btn-generar">
+                                        <i class="fas fa-download me-1"></i>Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card informe-card h-100" data-tipo="switches-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-hdd informe-icon text-info"></i>
+                                    <h5 class="card-title">Switches por Campus</h5>
+                                    <p class="card-text">Inventario de switches</p>
+                                    <button class="btn btn-info w-100 btn-generar">
+                                        <i class="fas fa-download me-1"></i>Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informes de Fallas con Filtro de Campus -->
+                <div class="categoria-section">
+                    <h3 class="text-danger mb-3">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Informes de Fallas por Campus
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="fallas-reparadas-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-check-circle informe-icon text-success"></i>
+                                    <h5 class="card-title">Fallas Reparadas</h5>
+                                    <p class="card-text">Por campus seleccionados</p>
+                                    <button class="btn btn-success w-100 btn-generar">
+                                        <i class="fas fa-download me-1"></i>Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="fallas-pendientes-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-clock informe-icon text-warning"></i>
+                                    <h5 class="card-title">Fallas Pendientes</h5>
+                                    <p class="card-text">Por campus seleccionados</p>
+                                    <button class="btn btn-warning w-100 btn-generar">
+                                        <i class="fas fa-download me-1"></i>Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="fallas-proceso-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-cog informe-icon text-info"></i>
+                                    <h5 class="card-title">Fallas en Proceso</h5>
+                                    <p class="card-text">Por campus seleccionados</p>
+                                    <button class="btn btn-info w-100 btn-generar">
+                                        <i class="fas fa-download me-1"></i>Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card informe-card h-100" data-tipo="costos-reparacion-campus">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-dollar-sign informe-icon text-primary"></i>
+                                    <h5 class="card-title">Costos por Campus</h5>
+                                    <p class="card-text">Análisis de costos</p>
+                                    <button class="btn btn-primary w-100 btn-generar">
+                                        <i class="fas fa-download me-1"></i>Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para preview de mapas -->
+    <div class="modal fade" id="mapaModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-sitemap me-2"></i>
+                        Vista Previa del Mapa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="mapaContent" class="mapa-preview">
+                        <div class="loading-spinner">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Generando mapa...</span>
+                            </div>
+                            <p class="mt-2">Generando visualización...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="descargarMapa">
+                        <i class="fas fa-download me-1"></i>Descargar Imagen
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Variables globales
+        let campusDisponibles = [];
+        let mapaActual = null;
+
+        // Cargar campus disponibles al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarCampusDisponibles();
+            configurarEventos();
+        });
+
+        function cargarCampusDisponibles() {
+            fetch('/api/campus-disponibles')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        campusDisponibles = data.data;
+                        const select = document.getElementById('campusSelect');
+                        select.innerHTML = '';
+                        
+                        campusDisponibles.forEach(campus => {
+                            const option = document.createElement('option');
+                            option.value = campus;
+                            option.textContent = campus;
+                            select.appendChild(option);
+                        });
+                    } else {
+                        console.error('Error cargando campus:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function configurarEventos() {
+            // Botones de generar informes normales
+            document.querySelectorAll('.btn-generar').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.informe-card');
+                    const tipo = card.dataset.tipo;
+                    generarInforme(tipo);
+                });
+            });
+
+            // Botones de datos para mapas
+            document.querySelectorAll('.btn-datos').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.informe-card');
+                    const tipo = card.dataset.tipo;
+                    generarInforme(tipo);
+                });
+            });
+
+            // Botones visuales para mapas
+            document.querySelectorAll('.btn-visual').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.informe-card');
+                    const tipo = card.dataset.tipo;
+                    generarMapaVisual(tipo);
+                });
+            });
+
+            // Limpiar filtros
+            document.getElementById('limpiarFiltros').addEventListener('click', function() {
+                document.getElementById('campusSelect').selectedIndex = -1;
+                document.getElementById('fechaInicio').value = '';
+                document.getElementById('fechaFin').value = '';
+            });
+        }
+
+        function generarInforme(tipo) {
+            const campusSeleccionados = Array.from(document.getElementById('campusSelect').selectedOptions)
+                .map(option => option.value);
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+
+            let url = `/api/informes/${tipo}`;
+            
+            // Si hay filtros, usar endpoint filtrado
+            if (campusSeleccionados.length > 0 || fechaInicio || fechaFin) {
+                url = `/api/informes/${tipo}/filtro`;
+                const params = new URLSearchParams();
+                
+                campusSeleccionados.forEach(campus => {
+                    params.append('campus', campus);
+                });
+                
+                if (fechaInicio) params.append('fecha_inicio', fechaInicio);
+                if (fechaFin) params.append('fecha_fin', fechaFin);
+                
+                url += '?' + params.toString();
+            }
+
+            // Mostrar indicador de carga
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Generando...';
+            btn.disabled = true;
+
+            // Descargar archivo
+            window.location.href = url;
+
+            // Restaurar botón después de un tiempo
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        function generarMapaVisual(tipo) {
+            const campusSeleccionados = Array.from(document.getElementById('campusSelect').selectedOptions)
+                .map(option => option.value);
+
+            let url = `/api/mapa-visual/${tipo}`;
+            const params = new URLSearchParams();
+            
+            if (campusSeleccionados.length > 0) {
+                params.append('campus', campusSeleccionados[0]); // Usar primer campus seleccionado
+            }
+            
+            if (params.toString()) {
+                url += '?' + params.toString();
+            }
+
+            // Mostrar modal y cargar mapa
+            const modal = new bootstrap.Modal(document.getElementById('mapaModal'));
+            const content = document.getElementById('mapaContent');
+            const loading = content.querySelector('.loading-spinner');
+            
+            loading.style.display = 'block';
+            content.innerHTML = '<div class="loading-spinner"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Generando mapa...</span></div><p class="mt-2">Generando visualización...</p></div>';
+            
+            modal.show();
+            mapaActual = url;
+
+            // Simular carga (en implementación real, cargaría la imagen)
+            setTimeout(() => {
+                content.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-image fa-5x text-muted mb-3"></i>
+                        <h5>Mapa de Red - ${tipo.replace('-', ' ').toUpperCase()}</h5>
+                        <p class="text-muted">La visualización se generará al descargar</p>
+                        <small class="text-muted">Campus: ${campusSeleccionados.join(', ') || 'Todos'}</small>
+                    </div>
+                `;
+            }, 1500);
+        }
+
+        // Descargar mapa desde modal
+        document.getElementById('descargarMapa').addEventListener('click', function() {
+            if (mapaActual) {
+                window.location.href = mapaActual;
+            }
+        });
+    </script>
+</body>
+</html>

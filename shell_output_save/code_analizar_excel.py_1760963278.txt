@@ -1,0 +1,59 @@
+=== ARCHIVOS EXCEL ENCONTRADOS ===
+- Catalogo_Tipos_Fallas.xlsx
+- Ejemplos_Fallas_Reales.xlsx
+- Equipos_Tecnicos.xlsx
+- Fallas_Actualizada.xlsx
+- Gabinetes.xlsx
+- Listadecámaras.xlsx
+- Listadecámaras_modificada.xlsx
+- Mantenimientos.xlsx
+- Puertos_Switch.xlsx
+- Switches.xlsx
+- Ubicaciones.xlsx
+
+=== ANÁLISIS DE ESTRUCTURA DE DATOS ===
+
+
+📊 Catalogo_Tipos_Fallas.xlsx
+   Filas: 17
+   Columnas (6): ['Categoría Principal', 'Tipo de Falla', 'Impacto Típico', 'Tipo de Mantenimiento', 'Prioridad Sugerida', 'Frecuencia Observada']
+
+📊 Ejemplos_Fallas_Reales.xlsx
+   Filas: 5
+   Columnas (14): ['ID Falla', 'Fecha de Reporte', 'Reportado Por', 'Tipo de Falla', 'Subtipo', 'Cámara Afectada', 'Ubicación', 'Descripción', 'Impacto en Visibilidad', 'Afecta Visión Nocturna', 'Estado', 'Prioridad', 'Técnico Asignado', 'Observaciones']
+
+📊 Equipos_Tecnicos.xlsx
+   Filas: 4
+   Columnas (14): ['ID Equipo', 'Tipo de Equipo', 'Marca', 'Modelo', 'Número de Serie', 'Capacidad (VA/W/Canales)', 'Número de Baterías', 'Gabinete Asociado', 'Alimenta a', 'Estado', 'Fecha de Instalación', 'Fecha de Último Mantenimiento', 'Tipo de Mantenimiento', 'Observaciones']
+
+📊 Fallas_Actualizada.xlsx
+   Filas: 1
+   Columnas (22): ['ID Falla', 'Fecha de Reporte', 'Reportado Por', 'Tipo de Falla', 'Subtipo', 'Cámara Afectada', 'Nombre de Cámara', 'IP de Cámara', 'Ubicación', 'Gabinete Relacionado', 'Switch Relacionado', 'Puerto Afectado', 'Descripción', 'Impacto en Visibilidad', 'Afecta Visión Nocturna', 'Estado', 'Prioridad', 'Técnico Asignado', 'Fecha de Resolución', 'Solución Aplicada', 'Materiales Utilizados', 'Observaciones']
+
+📊 Gabinetes.xlsx
+   Filas: 3
+   Columnas (15): ['ID Gabinete', 'Nombre de Gabinete', 'Tipo de Ubicación General', 'Tipo de Ubicación Detallada', 'Campus/Edificio', 'Piso/Nivel', 'Ubicación Detallada', 'Referencia de Ubicación', 'Estado', 'Fecha de Última Revisión', 'Tiene UPS', 'Tiene Switch', 'Tiene NVR/DVR', 'Conexión Fibra Óptica', 'Observaciones']
+
+📊 Listadecámaras.xlsx
+   Filas: 467
+   Columnas (12): ['Nombre de cámara', 'Dirección IP del dispositivo', 'Nombre de dispositivo', 'N.º de serie del dispositivo.', 'N.º de versión del dispositivo', 'Estado en línea', 'Configuración del horario de grabación', 'Ajustes de almacenamiento de imágenes', 'Área', 'Fabricante', 'Configurar el nombre del servidor de transmisión', 'Configurar la dirección del servidor de transmisión']
+
+📊 Listadecámaras_modificada.xlsx
+   Filas: 467
+   Columnas (25): ['Nombre de Cámara', 'IP de Cámara', 'Ubicación Específica', 'Campus/Edificio', 'Gabinete Asociado', 'Switch Asociado', 'Puerto Switch', 'NVR Asociado (Cámara)', 'Puerto NVR (Cámara)', 'Tipo de Cámara', 'Requiere POE Adicional', 'Tipo de Conexión', 'Estado de Funcionamiento', 'Instalador', 'Fecha de Instalación', 'NVR/DVR Asociado (Original)', 'Número de Serie NVR/DVR (Original)', 'Versión Firmware NVR/DVR (Original)', 'Fabricante NVR/DVR (Original)', 'Estado de Conexión', 'Horario de Grabación', 'Almacenamiento', 'Configurar el nombre del servidor de transmisión', 'Configurar la dirección del servidor de transmisión', 'Observaciones']
+
+📊 Mantenimientos.xlsx
+   Filas: 1
+   Columnas (15): ['ID Mantenimiento', 'Fecha Programada', 'Fecha de Realización', 'Tipo de Mantenimiento', 'Categoría', 'Equipo/Gabinete', 'Ubicación', 'Descripción del Trabajo', 'Estado', 'Técnico Responsable', 'Materiales Utilizados', 'Costo Aproximado', 'Equipos/Cámaras Afectadas', 'Tiempo de Ejecución', 'Observaciones']
+
+📊 Puertos_Switch.xlsx
+   Filas: 6
+   Columnas (9): ['ID Switch', 'Número de Puerto', 'Estado Puerto', 'Dispositivo Conectado', 'IP Dispositivo', 'Tipo de Conexión', 'NVR Asociado (Puerto)', 'Puerto NVR (Puerto)', 'Observaciones']
+
+📊 Switches.xlsx
+   Filas: 3
+   Columnas (13): ['ID Switch', 'Nombre/Modelo', 'Marca', 'Número de Serie', 'Gabinete Asociado', 'Número Total de Puertos', 'Puertos Usados', 'Puertos Disponibles', 'Soporta PoE', 'Estado', 'Fecha de Instalación', 'Fecha de Último Mantenimiento', 'Observaciones']
+
+📊 Ubicaciones.xlsx
+   Filas: 3
+   Columnas (8): ['ID Ubicación', 'Campus', 'Edificio', 'Piso/Nivel', 'Zona', 'Gabinetes en Ubicación', 'Cantidad de Cámaras', 'Observaciones']

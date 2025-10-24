@@ -1,0 +1,4 @@
+# TRIGGER: Deploy actualizado Charles Jélvez SUPERADMIN
+# Fecha: 2025-10-24 21:10:00
+# Cambios: Ruta /crear-charles-superadmin agregada
+# Incluye: Scripts de inicialización de usuarios Railway PostgreSQL

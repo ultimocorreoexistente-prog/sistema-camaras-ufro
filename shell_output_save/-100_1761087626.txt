@@ -1,0 +1,73 @@
+Traceback (most recent call last):
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: catalogo_tipo_falla
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/code/insertar_datos_ficticios.py", line 283, in main
+    tipos = insertar_tipos_fallas()
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/code/insertar_datos_ficticios.py", line 42, in insertar_tipos_fallas
+    existe = Catalogo_Tipo_Falla.query.filter_by(nombre=tipo_data['nombre']).first()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2759, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: catalogo_tipo_falla
+[SQL: SELECT catalogo_tipo_falla.id AS catalogo_tipo_falla_id, catalogo_tipo_falla.nombre AS catalogo_tipo_falla_nombre, catalogo_tipo_falla.categoria AS catalogo_tipo_falla_categoria, catalogo_tipo_falla.descripcion AS catalogo_tipo_falla_descripcion, catalogo_tipo_falla.gravedad AS catalogo_tipo_falla_gravedad, catalogo_tipo_falla.tiempo_estimado_resolucion AS catalogo_tipo_falla_tiempo_estimado_resolucion 
+FROM catalogo_tipo_falla 
+WHERE catalogo_tipo_falla.nombre = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('Tela de araña', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+============================================================
+INSERCIÓN DE DATOS FICTICIOS Y PLACEHOLDER
+Base de Datos: Railway PostgreSQL
+============================================================
+
+=== INSERTANDO TIPOS DE FALLAS ===
+
+❌ ERROR: (sqlite3.OperationalError) no such table: catalogo_tipo_falla
+[SQL: SELECT catalogo_tipo_falla.id AS catalogo_tipo_falla_id, catalogo_tipo_falla.nombre AS catalogo_tipo_falla_nombre, catalogo_tipo_falla.categoria AS catalogo_tipo_falla_categoria, catalogo_tipo_falla.descripcion AS catalogo_tipo_falla_descripcion, catalogo_tipo_falla.gravedad AS catalogo_tipo_falla_gravedad, catalogo_tipo_falla.tiempo_estimado_resolucion AS catalogo_tipo_falla_tiempo_estimado_resolucion 
+FROM catalogo_tipo_falla 
+WHERE catalogo_tipo_falla.nombre = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('Tela de araña', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

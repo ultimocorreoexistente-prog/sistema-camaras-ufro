@@ -1,0 +1,115 @@
+Traceback (most recent call last):
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.NotNullViolation: null value in column "switch_id" of relation "puerto_switch" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, Disponible, null, null, null).
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/code/ejecutar_migracion_railway.py", line 32, in <module>
+    migrar_datos()
+  File "/workspace/sistema-camaras-flask/migrate_data.py", line 217, in migrar_datos
+    db.session.commit()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1311, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1286, in _prepare_impl
+    self.session.flush()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 1143, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2126, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+  File "/tmp/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) null value in column "switch_id" of relation "puerto_switch" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, Disponible, null, null, null).
+
+[SQL: INSERT INTO puerto_switch (switch_id, numero_puerto, camara_id, ip_dispositivo, estado, tipo_conexion, nvr_id, puerto_nvr) SELECT p0::INTEGER, p1::INTEGER, p2::INTEGER, p3::VARCHAR, p4::VARCHAR, p5::VARCHAR, p6::INTEGER, p7::VARCHAR FROM (VALUES (%(s ... 968 characters truncated ...  p5, p6, p7, sen_counter) ORDER BY sen_counter RETURNING puerto_switch.id, puerto_switch.id AS id__1]
+[parameters: {'camara_id__0': None, 'puerto_nvr__0': None, 'tipo_conexion__0': None, 'estado__0': 'Disponible', 'switch_id__0': None, 'numero_puerto__0': None, 'nvr_id__0': None, 'ip_dispositivo__0': None, 'camara_id__1': None, 'puerto_nvr__1': None, 'tipo_conexion__1': None, 'estado__1': 'Disponible', 'switch_id__1': None, 'numero_puerto__1': None, 'nvr_id__1': None, 'ip_dispositivo__1': None, 'camara_id__2': None, 'puerto_nvr__2': None, 'tipo_conexion__2': None, 'estado__2': 'Disponible', 'switch_id__2': None, 'numero_puerto__2': None, 'nvr_id__2': None, 'ip_dispositivo__2': None, 'camara_id__3': None, 'puerto_nvr__3': None, 'tipo_conexion__3': None, 'estado__3': 'Disponible', 'switch_id__3': None, 'numero_puerto__3': None, 'nvr_id__3': None, 'ip_dispositivo__3': None, 'camara_id__4': None, 'puerto_nvr__4': None, 'tipo_conexion__4': None, 'estado__4': 'Disponible', 'switch_id__4': None, 'numero_puerto__4': None, 'nvr_id__4': None, 'ip_dispositivo__4': None, 'camara_id__5': None, 'puerto_nvr__5': None, 'tipo_conexion__5': None, 'estado__5': 'Disponible', 'switch_id__5': None, 'numero_puerto__5': None, 'nvr_id__5': None, 'ip_dispositivo__5': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+============================================================
+MIGRACIÓN DE DATOS A RAILWAY
+============================================================
+Directorio de trabajo: /workspace/sistema-camaras-flask
+Base de datos: tramway.proxy.rlwy.net:34726/railway
+============================================================
+
+=== INICIANDO MIGRACIÓN DE DATOS ===
+
+1. Migrando Ubicaciones...
+   ✓ 8 ubicaciones insertadas
+
+2. Migrando Equipos Técnicos...
+   ✓ 0 equipos técnicos insertados (6 filas omitidas por datos incompletos)
+
+3. Migrando Catálogo de Tipos de Fallas...
+   ✓ 0 tipos de fallas insertados (17 filas omitidas)
+
+4. Migrando Gabinetes...
+   ✓ 0 gabinetes insertados (6 filas omitidas)
+
+5. Migrando Switches...
+   ✓ 0 switches insertados (6 filas omitidas)
+
+6. Migrando Puertos de Switch...
+
+⚠⚠⚠ ERROR EN MIGRACIÓN: (psycopg2.errors.NotNullViolation) null value in column "switch_id" of relation "puerto_switch" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, Disponible, null, null, null).
+
+[SQL: INSERT INTO puerto_switch (switch_id, numero_puerto, camara_id, ip_dispositivo, estado, tipo_conexion, nvr_id, puerto_nvr) SELECT p0::INTEGER, p1::INTEGER, p2::INTEGER, p3::VARCHAR, p4::VARCHAR, p5::VARCHAR, p6::INTEGER, p7::VARCHAR FROM (VALUES (%(s ... 968 characters truncated ...  p5, p6, p7, sen_counter) ORDER BY sen_counter RETURNING puerto_switch.id, puerto_switch.id AS id__1]
+[parameters: {'camara_id__0': None, 'puerto_nvr__0': None, 'tipo_conexion__0': None, 'estado__0': 'Disponible', 'switch_id__0': None, 'numero_puerto__0': None, 'nvr_id__0': None, 'ip_dispositivo__0': None, 'camara_id__1': None, 'puerto_nvr__1': None, 'tipo_conexion__1': None, 'estado__1': 'Disponible', 'switch_id__1': None, 'numero_puerto__1': None, 'nvr_id__1': None, 'ip_dispositivo__1': None, 'camara_id__2': None, 'puerto_nvr__2': None, 'tipo_conexion__2': None, 'estado__2': 'Disponible', 'switch_id__2': None, 'numero_puerto__2': None, 'nvr_id__2': None, 'ip_dispositivo__2': None, 'camara_id__3': None, 'puerto_nvr__3': None, 'tipo_conexion__3': None, 'estado__3': 'Disponible', 'switch_id__3': None, 'numero_puerto__3': None, 'nvr_id__3': None, 'ip_dispositivo__3': None, 'camara_id__4': None, 'puerto_nvr__4': None, 'tipo_conexion__4': None, 'estado__4': 'Disponible', 'switch_id__4': None, 'numero_puerto__4': None, 'nvr_id__4': None, 'ip_dispositivo__4': None, 'camara_id__5': None, 'puerto_nvr__5': None, 'tipo_conexion__5': None, 'estado__5': 'Disponible', 'switch_id__5': None, 'numero_puerto__5': None, 'nvr_id__5': None, 'ip_dispositivo__5': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+❌ ERROR DURANTE LA MIGRACIÓN: (psycopg2.errors.NotNullViolation) null value in column "switch_id" of relation "puerto_switch" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, null, null, Disponible, null, null, null).
+
+[SQL: INSERT INTO puerto_switch (switch_id, numero_puerto, camara_id, ip_dispositivo, estado, tipo_conexion, nvr_id, puerto_nvr) SELECT p0::INTEGER, p1::INTEGER, p2::INTEGER, p3::VARCHAR, p4::VARCHAR, p5::VARCHAR, p6::INTEGER, p7::VARCHAR FROM (VALUES (%(s ... 968 characters truncated ...  p5, p6, p7, sen_counter) ORDER BY sen_counter RETURNING puerto_switch.id, puerto_switch.id AS id__1]
+[parameters: {'camara_id__0': None, 'puerto_nvr__0': None, 'tipo_conexion__0': None, 'estado__0': 'Disponible', 'switch_id__0': None, 'numero_puerto__0': None, 'nvr_id__0': None, 'ip_dispositivo__0': None, 'camara_id__1': None, 'puerto_nvr__1': None, 'tipo_conexion__1': None, 'estado__1': 'Disponible', 'switch_id__1': None, 'numero_puerto__1': None, 'nvr_id__1': None, 'ip_dispositivo__1': None, 'camara_id__2': None, 'puerto_nvr__2': None, 'tipo_conexion__2': None, 'estado__2': 'Disponible', 'switch_id__2': None, 'numero_puerto__2': None, 'nvr_id__2': None, 'ip_dispositivo__2': None, 'camara_id__3': None, 'puerto_nvr__3': None, 'tipo_conexion__3': None, 'estado__3': 'Disponible', 'switch_id__3': None, 'numero_puerto__3': None, 'nvr_id__3': None, 'ip_dispositivo__3': None, 'camara_id__4': None, 'puerto_nvr__4': None, 'tipo_conexion__4': None, 'estado__4': 'Disponible', 'switch_id__4': None, 'numero_puerto__4': None, 'nvr_id__4': None, 'ip_dispositivo__4': None, 'camara_id__5': None, 'puerto_nvr__5': None, 'tipo_conexion__5': None, 'estado__5': 'Disponible', 'switch_id__5': None, 'numero_puerto__5': None, 'nvr_id__5': None, 'ip_dispositivo__5': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

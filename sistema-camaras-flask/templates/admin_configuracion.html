@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+
+{% block title %}Configuración del Sistema - Sistema Cámaras UFRO{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1><i class="fas fa-cogs"></i> Configuración del Sistema</h1>
+                    <span class="badge bg-primary fs-6">
+                        <i class="fas fa-crown"></i> Panel SUPERADMIN
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Modo del Sistema -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-database"></i> Modo de Datos
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">
+                        Controla si el sistema muestra datos reales o de demostración.
+                    </p>
+                    
+                    <form method="POST" action="{{ url_for('admin_configuracion_modo') }}">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="modo" id="modo_real" value="real" checked>
+                                    <label class="form-check-label" for="modo_real">
+                                        <strong><i class="fas fa-building text-success"></i> Modo REAL</strong>
+                                        <br><small class="text-muted">Datos reales de las 467 cámaras UFRO</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="modo" id="modo_demo" value="demo">
+                                    <label class="form-check-label" for="modo_demo">
+                                        <strong><i class="fas fa-flask text-warning"></i> Modo DEMO</strong>
+                                        <br><small class="text-muted">Datos de prueba para demostraciones</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Cambiar Modo del Sistema
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Estado Actual:</strong> 
+                        <span id="estado_actual" class="badge bg-{{ 'success' if session.get('modo_sistema', 'real') == 'real' else 'warning' }} ms-2">
+                            {{ session.get('modo_sistema', 'real').upper() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuración de Apariencia -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-palette"></i> Apariencia
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">
+                        Configura la apariencia del sistema para todos los usuarios.
+                    </p>
+                    
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Tema del Sistema</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tema" id="tema_claro" value="claro" checked>
+                                    <label class="form-check-label" for="tema_claro">
+                                        <i class="fas fa-sun text-warning"></i> Tema Claro
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tema" id="tema_oscuro" value="oscuro">
+                                    <label class="form-check-label" for="tema_oscuro">
+                                        <i class="fas fa-moon text-primary"></i> Tema Oscuro
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-primary" onclick="aplicarTema()">
+                                <i class="fas fa-paint-brush"></i> Aplicar Tema
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas del Sistema -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar"></i> Estadísticas del Sistema
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-primary">{{ total_camaras or 467 }}</h3>
+                                <p class="text-muted mb-0">Cámaras Totales</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-success">{{ usuarios_activos or 5 }}</h3>
+                                <p class="text-muted mb-0">Usuarios Activos</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-warning">{{ ubicaciones or 58 }}</h3>
+                                <p class="text-muted mb-0">Ubicaciones</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-info">{{ campus or 4 }}</h3>
+                                <p class="text-muted mb-0">Campus</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información del Sistema -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle"></i> Información del Sistema
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Sistema:</strong></td>
+                                    <td>Sistema de Gestión de Cámaras UFRO</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Versión:</strong></td>
+                                    <td>2.0.0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Desarrollado para:</strong></td>
+                                    <td>Universidad de La Frontera (UFRO)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Última Actualización:</strong></td>
+                                    <td>24/10/2025</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Contador Total:</strong></td>
+                                    <td>467 cámaras de seguridad</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cobertura:</strong></td>
+                                    <td>4 campus universitarios</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Estado:</strong></td>
+                                    <td><span class="badge bg-success">Operativo</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Soporte Técnico:</strong></td>
+                                    <td>Charles Jélvez - TI UFRO</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Aplicar tema dinámico
+function aplicarTema() {
+    const temaOscuro = document.getElementById('tema_oscuro').checked;
+    
+    if (temaOscuro) {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('tema_ufro', 'oscuro');
+    } else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('tema_ufro', 'claro');
+    }
+    
+    // Mostrar notificación
+    const badge = document.createElement('span');
+    badge.className = 'badge bg-success position-fixed';
+    badge.style.cssText = 'top: 100px; right: 20px; z-index: 9999;';
+    badge.innerHTML = '<i class="fas fa-check"></i> Tema aplicado';
+    document.body.appendChild(badge);
+    
+    setTimeout(() => {
+        badge.remove();
+    }, 3000);
+}
+
+// Cargar tema guardado
+window.addEventListener('DOMContentLoaded', function() {
+    const temaGuardado = localStorage.getItem('tema_ufro');
+    if (temaGuardado === 'oscuro') {
+        document.getElementById('tema_oscuro').checked = true;
+        document.getElementById('tema_claro').checked = false;
+        document.body.classList.add('dark-theme');
+    } else {
+        document.getElementById('tema_claro').checked = true;
+        document.getElementById('tema_oscuro').checked = false;
+        document.body.classList.remove('dark-theme');
+    }
+});
+
+// Estilos para modo oscuro
+const estilosOscuros = `
+.dark-theme {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.dark-theme .card {
+    background-color: #2d2d2d;
+    border-color: #404040;
+}
+
+.dark-theme .navbar {
+    background-color: #2d2d2d !important;
+}
+
+.dark-theme .table {
+    color: #ffffff;
+}
+
+.dark-theme .form-control, .dark-theme .form-select {
+    background-color: #404040;
+    border-color: #606060;
+    color: #ffffff;
+}
+
+.dark-theme .modal-content {
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+
+.dark-theme .btn-outline-primary {
+    border-color: #4c9aff;
+    color: #4c9aff;
+}
+
+.dark-theme .btn-outline-primary:hover {
+    background-color: #4c9aff;
+    color: #ffffff;
+}
+`;
+
+// Agregar estilos al head
+const styleSheet = document.createElement('style');
+styleSheet.textContent = estilosOscuros;
+document.head.appendChild(styleSheet);
+</script>
+{% endblock %}

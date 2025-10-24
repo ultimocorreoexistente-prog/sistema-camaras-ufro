@@ -1,0 +1,107 @@
+=== CONSOLIDACIÓN DE FALLAS Y MANTENIMIENTOS DUPLICADOS ===
+
+Problema identificado:
+- Durante la migración, algunos casos_reales y fallas_especificas
+  se duplicaron con equipo_tipo='MULTIPLE' y equipo específico
+
+Solución:
+- Mantener fallas con equipo específico
+- Eliminar fallas tipo MULTIPLE duplicadas
+- Eliminar mantenimientos de fallas MULTIPLE duplicadas
+
+================================================================================
+
+1. IDENTIFICANDO DUPLICADOS
+
+Fallas duplicadas identificadas:
+
+  Caso: Cable NVR CFT Prat - 2024-10-14
+    ✓ Mantener Falla #1: Cable ethernet - cable-nvr-internet-cft
+    ✗ Eliminar Falla #6: MULTIPLE - Falla Cable NVR CFT Prat
+
+  Caso: Fibra Óptica Bicicletero - 2025-10-16
+    ✓ Mantener Falla #2: Cable fibra óptica - fibra-edificio-l-bicicletero
+    ✗ Eliminar Falla #8: MULTIPLE - Falla Fibra Óptica Bicicletero Principal
+
+  Caso: Caída cámaras ZM - Falla Eléctrica - 2025-10-17
+    ✓ Mantener Falla #3: Automático eléctrico - automatico-caseta-guardia-taller
+    ✗ Eliminar Falla #7: MULTIPLE - Caída cámaras ZM - Falla Eléctrica
+
+================================================================================
+
+2. ELIMINANDO MANTENIMIENTOS DE FALLAS DUPLICADAS
+
+  Relacionado con Falla Cable NVR CFT Prat
+    ✓ Mantener Mant. #3: Cable ethernet - cable-nvr-internet-cft
+    ✗ Eliminar Mant. #8: MULTIPLE - Falla Cable NVR CFT Prat
+    ✓ Mantenimiento #8 eliminado
+
+  Relacionado con Falla Fibra Óptica Bicicletero
+    ✓ Mantener Mant. #4: Cable fibra óptica - fibra-edificio-l-bicicletero
+    ✗ Eliminar Mant. #10: MULTIPLE - Falla Fibra Óptica Bicicletero Principal
+    ✓ Mantenimiento #10 eliminado
+
+  Relacionado con Falla Caída cámaras ZM
+    ✓ Mantener Mant. #5: Automático eléctrico - automatico-caseta-guardia-taller
+    ✗ Eliminar Mant. #9: MULTIPLE - Caída cámaras ZM - Falla Eléctrica
+    ✓ Mantenimiento #9 eliminado
+
+================================================================================
+
+3. ELIMINANDO FALLAS DUPLICADAS (TIPO MULTIPLE)
+
+  ✓ Eliminada Falla #6 (Cable NVR CFT Prat - 2024-10-14)
+  ✓ Eliminada Falla #8 (Fibra Óptica Bicicletero - 2025-10-16)
+  ✓ Eliminada Falla #7 (Caída cámaras ZM - Falla Eléctrica - 2025-10-17)
+
+================================================================================
+
+4. VERIFICACIÓN FINAL
+
+Total fallas: 6
+
+Fallas por estado:
+  - Cerrada: 5
+  - Pendiente: 1
+
+Fallas por tipo de equipo:
+  - MULTIPLE: 2
+  - Cable fibra óptica: 1
+  - Cable ethernet: 1
+  - Automático eléctrico: 1
+  - None: 1
+
+================================================================================
+
+Total mantenimientos: 5
+
+Mantenimientos por tipo:
+  - Correctivo: 4 (Costo total: $0.00)
+  - Preventivo: 1 (Costo total: $45,000.00)
+
+
+Lista de fallas finales:
+  Falla #1: Cable ethernet - cable-nvr-internet-cft | Cerrada | 2024-10-14
+  Falla #2: Cable fibra óptica - fibra-edificio-l-bicicletero | Cerrada | 2025-10-16
+  Falla #3: Automático eléctrico - automatico-caseta-guardia-taller | Cerrada | 2025-10-17
+  Falla #4: MULTIPLE - Telas de araña - Bunker | Cerrada | 2024-10-12
+  Falla #5: MULTIPLE - Mantenimiento UPS Edificio O | Cerrada | 2024-10-13
+  Falla #9: None - (sin ID) | Pendiente | 16/10/2025
+
+
+Lista de mantenimientos finales:
+  Mant. #6: 2024-10-12 | MULTIPLE - Telas de araña - Bunker | $0.00
+  Mant. #1: 2024-10-13 | UPS - ups-edificio-o-p3 | $45,000.00
+  Mant. #3: 2024-10-15 | Cable ethernet - cable-nvr-internet-cft | $0.00
+  Mant. #4: 2025-10-16 | Cable fibra óptica - fibra-edificio-l-bicicletero | $0.00
+  Mant. #5: 2025-10-17 | Automático eléctrico - automatico-caseta-guardia-taller | $0.00
+
+================================================================================
+
+✓ CONSOLIDACIÓN COMPLETADA EXITOSAMENTE
+
+Resultado:
+  - 6 fallas (sin duplicados)
+  - 5 mantenimientos (sin duplicados)
+  - Todas las soluciones de casos_reales están en mantenimientos_realizados
+  - La tabla casos_reales ya no existe (consolidada en fallas)
