@@ -3,57 +3,29 @@
     "Coordinator": {
       "1": {
         "id": "1",
-        "content": "COMPLETADO: Error 404 Railway",
-        "details": "La aplicación no carga correctamente. URL actual muestra '404 Not Found'. Verificar configuración de Railway, Procfile, routes, y redeployar el sistema correctamente.",
-        "status": "completed",
+        "content": "Verificar deployment automático de cambios en Railway",
+        "details": "Charles como SUPERADMIN no existe en Railway. Cambios preparados pero no desplegados automáticamente. Monitorear Railway dashboard para ver si se despliega automáticamente.",
+        "status": "pending",
         "priority": "high"
       },
       "2": {
         "id": "2",
-        "content": "COMPLETADO: Gestión Completa de Usuarios",
-        "details": "CRUD completo de usuarios: Crear, editar, dar de baja usuarios. Asignar roles específicos por usuario. Solo accesible para superadmin y admin. Incluir validaciones y restricciones de acceso.",
-        "status": "completed",
+        "content": "Acceso temporal con admin/admin123",
+        "details": "Usar credenciales admin/admin123 como solución temporal. Tiene acceso completo a todas las funcionalidades del sistema: gestión de equipos, fallas, mantenimientos, mapas, reportes.",
+        "status": "in_progress",
         "priority": "high"
       },
       "3": {
         "id": "3",
-        "content": "COMPLETADO: Rol SUPERADMIN Exclusivo",
-        "details": "Rol especial para Charles Jélvez con acceso total. Control del modo Demo/Real. Gestión de todos los otros usuarios. Solo este usuario puede ver ciertos controles administrativos.",
-        "status": "completed",
-        "priority": "high"
+        "content": "Deployment manual si automático falla",
+        "details": "Si Railway no despliega automáticamente, usar archivos preparados: deploy_manual.sh, scripts de inicialización, y subir manualmente a Railway.",
+        "status": "pending",
+        "priority": "medium"
       },
       "4": {
         "id": "4",
-        "content": "COMPLETADO: Modo Demo/Real",
-        "details": "Toggle para alternar entre datos de prueba y reales. Solo visible para SUPERADMIN. Indicador visual en barra de navegación. Funcionalidad para cargar diferentes datasets según el modo.",
-        "status": "completed",
-        "priority": "medium"
-      },
-      "5": {
-        "id": "5",
-        "content": "COMPLETADO: Modo Claro/Oscuro",
-        "details": "Toggle para cambiar tema. Preferencia guardada en navegador. Responsive para ambos temas. Aplicar CSS dinámico según el tema seleccionado.",
-        "status": "completed",
-        "priority": "medium"
-      },
-      "6": {
-        "id": "6",
-        "content": "ALTA: Dashboard Avanzado con KPIs",
-        "details": "Estado de cámaras (Funcionando/Con Fallo/Desconectado). Gráficos interactivos con Chart.js. Indicadores de alerta. Métricas en tiempo real de los 4 campus.",
-        "status": "pending",
-        "priority": "medium"
-      },
-      "7": {
-        "id": "7",
-        "content": "MEDIA: Reportes Exportables Avanzados",
-        "details": "PDF/CSV de fallas detalladas. Análisis por casos reales (Edificio O, CFT Prat). Reportes de firmware para planeación. Generación automatizada de informes.",
-        "status": "pending",
-        "priority": "medium"
-      },
-      "8": {
-        "id": "8",
-        "content": "MEDIA: Mapas de Red Optimizados",
-        "details": "Visualización de dependencias completas. Geolocalización con mapas interactivos (Leaflet.js). Análisis de impacto por componente. Diagramas jerárquicos mejorados.",
+        "content": "Implementar 3 funcionalidades restantes del sistema",
+        "details": "Dashboard Avanzado con KPIs, Reportes Exportables Avanzados, Mapas de Red Optimizados. Actualmente 5/8 funcionalidades completadas (62.5%).",
         "status": "pending",
         "priority": "medium"
       }

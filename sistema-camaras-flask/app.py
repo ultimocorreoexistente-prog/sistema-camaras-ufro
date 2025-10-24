@@ -746,13 +746,11 @@ def init_db():
     else:
         print('Los usuarios ya existen')
 
-# ========== RUTA TEMPORAL PARA INICIALIZAR USUARIOS EN RAILWAY ==========
+# ========== RUTAS TEMPORALES PARA INICIALIZACIÓN EN RAILWAY ==========
 @app.route('/init-usuarios-railway')
 def init_usuarios_temporal():
     """Ruta temporal para inicializar usuarios en Railway PostgreSQL"""
     try:
-        from werkzeug.security import generate_password_hash
-        
         # Limpiar usuarios existentes
         Usuario.query.delete()
         db.session.commit()
@@ -795,6 +793,74 @@ def init_usuarios_temporal():
         
     except Exception as e:
         return f"<h1>❌ Error</h1><p>{str(e)}</p>"
+
+@app.route('/crear-charles-superadmin')
+def crear_charles_superadmin():
+    """Ruta para crear específicamente Charles como SUPERADMIN"""
+    try:
+        # Verificar si Charles ya existe
+        charles = Usuario.query.filter_by(username='charles.jelvez').first()
+        
+        if charles:
+            # Actualizar contraseña y rol
+            charles.set_password('charles123')
+            charles.rol = 'superadmin'
+            charles.activo = True
+            db.session.commit()
+            mensaje = f"✅ Charles actualizado: {charles.username} ({charles.rol})"
+        else:
+            # Crear nuevo Charles
+            charles = Usuario(
+                username='charles.jelvez',
+                rol='superadmin',
+                nombre_completo='Charles Jélvez',
+                email='charles.jelvez@ufro.cl',
+                activo=True
+            )
+            charles.set_password('charles123')
+            db.session.add(charles)
+            db.session.commit()
+            mensaje = f"✅ Charles creado: {charles.username} ({charles.rol})"
+        
+        # Mostrar todos los usuarios
+        usuarios = Usuario.query.order_by(Usuario.rol.desc()).all()
+        
+        usuarios_html = ""
+        credenciales = {
+            'charles.jelvez': 'charles123',
+            'admin': 'admin123',
+            'supervisor': 'super123',
+            'tecnico1': 'tecnico123',
+            'visualizador': 'viz123'
+        }
+        
+        for usuario in usuarios:
+            pwd = credenciales.get(usuario.username, 'N/A')
+            usuarios_html += f"<tr><td>{usuario.username}</td><td>{usuario.rol}</td><td>{pwd}</td><td>{'✅' if usuario.activo else '❌'}</td></tr>"
+        
+        return f"""
+        <h1>👑 Configuración SUPERADMIN</h1>
+        <p>{mensaje}</p>
+        <h2>Usuarios en el Sistema:</h2>
+        <table border="1" style="border-collapse: collapse; width: 100%;">
+            <tr style="background: #f0f0f0;">
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Contraseña</th>
+                <th>Estado</th>
+            </tr>
+            {usuarios_html}
+        </table>
+        <h2>🎯 Credenciales para Charles:</h2>
+        <p><strong>URL:</strong> https://gestion-camaras-ufro.up.railway.app/</p>
+        <p><strong>Usuario:</strong> charles.jelvez</p>
+        <p><strong>Contraseña:</strong> charles123</p>
+        <p><a href="/login">🔗 Ir al login</a></p>
+        """
+        
+    except Exception as e:
+        import traceback
+        return f"<h1>❌ Error</h1><p>{str(e)}</p><pre>{traceback.format_exc()}</pre>"
 
 if __name__ == '__main__':
     with app.app_context():
