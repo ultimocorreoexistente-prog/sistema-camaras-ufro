@@ -1,15 +1,28 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, send_file
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from functools import wraps
 from datetime import datetime
 from sqlalchemy import or_, func
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
+import uuid
 
 from models import db, Usuario, Ubicacion, Camara, Gabinete, Switch, Puerto_Switch, UPS, NVR_DVR, Fuente_Poder, Catalogo_Tipo_Falla, Falla, Mantenimiento, Equipo_Tecnico, Historial_Estado_Equipo
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+
+# Configuración para subida de archivos
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB máximo
+app.config['UPLOAD_FOLDER'] = 'static/uploads/fallas'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'}
+
+# Crear carpeta de uploads si no existe
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Soportar SQLite (desarrollo) y PostgreSQL (producción)
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///sistema_camaras.db')
@@ -420,15 +433,60 @@ def fallas_reparar(id):
         falla.materiales_utilizados = request.form.get('materiales_utilizados')
         falla.costo_reparacion = float(request.form.get('costo_reparacion', 0))
         
+        # Manejar subida de fotos
+        fotos_uploaded = []
+        if 'fotos' in request.files:
+            for file in request.files.getlist('fotos'):
+                if file and file.filename and allowed_file(file.filename):
+                    # Generar nombre único para el archivo
+                    original_filename = secure_filename(file.filename)
+                    extension = original_filename.rsplit('.', 1)[1].lower()
+                    unique_filename = f"falla_{id}_{uuid.uuid4().hex}.{extension}"
+                    file_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+                    file.save(file_path)
+                    fotos_uploaded.append(f"/static/uploads/fallas/{unique_filename}")
+        
+        # Actualizar fotos existentes o agregar las nuevas
+        if fotos_uploaded:
+            if falla.fotos_reparacion:
+                # Agregar a las fotos existentes
+                fotos_existentes = falla.fotos_reparacion.split(',')
+                falla.fotos_reparacion = ','.join(fotos_existentes + fotos_uploaded)
+            else:
+                # Primera foto
+                falla.fotos_reparacion = ','.join(fotos_uploaded)
+        
         if falla.fecha_inicio_reparacion:
             delta = falla.fecha_fin_reparacion - falla.fecha_inicio_reparacion
             falla.tiempo_resolucion_horas = delta.total_seconds() / 3600
         
         db.session.commit()
-        flash('Falla marcada como reparada', 'success')
+        flash('Falla marcada como reparada' + (' con fotos subidas' if fotos_uploaded else ''), 'success')
         return redirect(url_for('fallas_detalle', id=id))
     
     return render_template('fallas_reparar.html', falla=falla)
+
+@app.route('/fallas/<int:id>/eliminar-foto', methods=['POST'])
+@login_required
+def eliminar_foto_reparacion(id):
+    falla = Falla.query.get_or_404(id)
+    foto_url = request.form.get('foto_url')
+    
+    if falla.fotos_reparacion and foto_url:
+        fotos_list = falla.fotos_reparacion.split(',')
+        if foto_url in fotos_list:
+            fotos_list.remove(foto_url)
+            falla.fotos_reparacion = ','.join(fotos_list) if fotos_list else None
+            
+            # Eliminar archivo físico
+            photo_path = os.path.join(os.getcwd(), foto_url.lstrip('/'))
+            if os.path.exists(photo_path):
+                os.remove(photo_path)
+            
+            db.session.commit()
+            flash('Foto eliminada exitosamente', 'success')
+    
+    return redirect(url_for('fallas_reparar', id=id))
 
 @app.route('/fallas/<int:id>/cerrar', methods=['POST'])
 @login_required

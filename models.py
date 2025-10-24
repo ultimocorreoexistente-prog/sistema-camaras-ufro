@@ -224,6 +224,7 @@ class Falla(db.Model):
     solucion_aplicada = db.Column(db.Text)
     materiales_utilizados = db.Column(db.Text)
     costo_reparacion = db.Column(db.Float)
+    fotos_reparacion = db.Column(db.Text)  # Rutas de fotos separadas por coma
     observaciones = db.Column(db.Text)
     fecha_cierre = db.Column(db.DateTime)
     
