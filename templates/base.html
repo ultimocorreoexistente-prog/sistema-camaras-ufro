@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Gestión de Cámaras UFRO{% endblock %}</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    {% if current_user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('dashboard') }}">
+                <img src="{{ url_for('static', filename='images/logo-ufro.png') }}" alt="Logo UFRO" class="me-2" style="height: 40px; width: auto;">
+                <span class="d-none d-md-inline">Sistema Cámaras UFRO</span>
+                <i class="bi bi-camera-video d-md-none ms-2"></i>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-grid-3x3"></i> Equipos
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('camaras_list') }}">Cámaras</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('gabinetes_list') }}">Gabinetes</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/switches">Switches</a></li>
+                            <li><a class="dropdown-item" href="/nvr">NVR/DVR</a></li>
+                            <li><a class="dropdown-item" href="/ups">UPS</a></li>
+                            <li><a class="dropdown-item" href="/fuentes">Fuentes de Poder</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('fallas_list') }}"><i class="bi bi-exclamation-triangle"></i> Fallas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('mantenimientos_list') }}"><i class="bi bi-tools"></i> Mantenimientos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-map"></i> Mapas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('mapa_red') }}">Topología de Red</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('mapa_geolocalizacion') }}">Geolocalización</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('informes_avanzados') }}"><i class="bi bi-file-earmark-bar-graph"></i> Informes</a>
+                    </li>
+                    {% if current_user.rol in ['superadmin', 'admin'] %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear"></i> Administración
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('admin_usuarios') }}"><i class="bi bi-people"></i> Gestión de Usuarios</a></li>
+                            {% if current_user.rol == 'superadmin' %}
+                            <li><a class="dropdown-item" href="{{ url_for('admin_configuracion') }}"><i class="bi bi-sliders"></i> Configuración del Sistema</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    <!-- Indicador de Modo Demo/Real (Solo SUPERADMIN) -->
+                    {% if current_user.rol == 'superadmin' %}
+                    <li class="nav-item me-3">
+                        <span class="badge bg-success">
+                            <i class="bi bi-database"></i> MODO REAL
+                        </span>
+                    </li>
+                    {% endif %}
+                    
+                    <!-- Toggle Modo Claro/Oscuro -->
+                    <li class="nav-item me-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                            <label class="form-check-label text-light" for="themeToggle">
+                                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                            </label>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> {{ current_user.nombre_completo }}
+                            {% if current_user.rol == 'superadmin' %}
+                                <span class="badge bg-warning ms-1">SUPERADMIN</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark ms-1">{{ current_user.rol.upper() }}</span>
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header">{{ current_user.email or 'Sin email' }}</h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+    
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-3">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Contenido -->
+    <main class="py-4">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-light text-center text-muted py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">Sistema de Gestión de Cámaras UFRO - 2025</p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        // Toggle Modo Claro/Oscuro
+        function toggleTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (themeToggle.checked) {
+                // Modo Oscuro
+                document.body.classList.add('dark-theme');
+                themeIcon.className = 'bi bi-sun-fill';
+                localStorage.setItem('theme_ufro', 'dark');
+            } else {
+                // Modo Claro
+                document.body.classList.remove('dark-theme');
+                themeIcon.className = 'bi bi-moon-fill';
+                localStorage.setItem('theme_ufro', 'light');
+            }
+        }
+        
+        // Cargar tema guardado
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme_ufro');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                themeToggle.checked = true;
+                themeIcon.className = 'bi bi-sun-fill';
+                document.body.classList.add('dark-theme');
+            } else {
+                themeToggle.checked = false;
+                themeIcon.className = 'bi bi-moon-fill';
+                document.body.classList.remove('dark-theme');
+            }
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

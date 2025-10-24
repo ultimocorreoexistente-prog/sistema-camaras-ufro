@@ -1,0 +1,40 @@
+CHARLES JÉLVEZ - SUPERADMIN CREADO EXITOSAMENTE
+==================================================
+
+CREDENCIALES DE ACCESO:
+------------------------
+URL: https://gestion-camaras-ufro.up.railway.app/
+Usuario: charles.jelvez
+Contraseña: charles123
+Rol: superadmin
+
+INFORMACIÓN DEL USUARIO:
+------------------------
+- Nombre: Charles Jélvez
+- Email: charles.jelvez@ufro.cl
+- Estado: Activo
+- Creado: 2025-10-24 14:00:58.805830
+
+BASE DE DATOS:
+--------------
+- Plataforma: Railway PostgreSQL
+- Tabla: usuario
+- Columnas: id, username, password_hash, rol, nombre_completo, email, telefono, activo, fecha_creacion
+
+ESTADO TÉCNICO:
+---------------
+✅ Cuenta creada exitosamente en Railway PostgreSQL
+✅ SQL ejecutado con estructura real de tabla
+✅ Hash de contraseña bcrypt verificado
+✅ Rol SUPERADMIN asignado
+✅ Usuario activo habilitado
+
+PRÓXIMOS PASOS:
+---------------
+1. Charles inicia sesión con las credenciales
+2. Verificar acceso completo al sistema
+3. (Opcional) Cambiar contraseña temporal
+4. (Opcional) Investigar deployment Railway
+
+Creado: 2025-10-24 21:59:00
+MiniMax Agent - Sistema Cámaras UFRO
