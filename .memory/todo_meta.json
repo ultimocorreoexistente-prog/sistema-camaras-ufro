@@ -5,7 +5,7 @@
         "id": "1",
         "content": "CRÍTICO: Arreglar Error 404 en Railway",
         "details": "La aplicación no carga correctamente. URL actual muestra '404 Not Found'. Verificar configuración de Railway, Procfile, routes, y redeployar el sistema correctamente.",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "high"
       },
       "2": {
