@@ -746,6 +746,56 @@ def init_db():
     else:
         print('Los usuarios ya existen')
 
+# ========== RUTA TEMPORAL PARA INICIALIZAR USUARIOS EN RAILWAY ==========
+@app.route('/init-usuarios-railway')
+def init_usuarios_temporal():
+    """Ruta temporal para inicializar usuarios en Railway PostgreSQL"""
+    try:
+        from werkzeug.security import generate_password_hash
+        
+        # Limpiar usuarios existentes
+        Usuario.query.delete()
+        db.session.commit()
+        
+        # Crear usuarios
+        usuarios_data = [
+            ('charles.jelvez', 'charles123', 'superadmin', 'Charles Jélvez', 'charles.jelvez@ufro.cl'),
+            ('admin', 'admin123', 'admin', 'Administrador', 'admin@ufro.cl'),
+            ('supervisor', 'super123', 'supervisor', 'Supervisor', 'supervisor@ufro.cl'),
+            ('tecnico1', 'tecnico123', 'tecnico', 'Técnico 1', 'tecnico1@ufro.cl'),
+            ('visualizador', 'viz123', 'visualizador', 'Visualizador', 'visualizador@ufro.cl')
+        ]
+        
+        for username, password, rol, nombre, email in usuarios_data:
+            usuario = Usuario(
+                username=username,
+                rol=rol,
+                nombre_completo=nombre,
+                email=email,
+                activo=True
+            )
+            usuario.set_password(password)
+            db.session.add(usuario)
+        
+        db.session.commit()
+        
+        return f"""
+        <h1>✅ Inicialización Exitosa</h1>
+        <p><strong>Usuarios creados en Railway PostgreSQL:</strong></p>
+        <ul>
+        <li><strong>charles.jelvez</strong> / charles123 (SUPERADMIN)</li>
+        <li><strong>admin</strong> / admin123 (ADMIN)</li>
+        <li><strong>supervisor</strong> / super123 (SUPERVISOR)</li>
+        <li><strong>tecnico1</strong> / tecnico123 (TÉCNICO)</li>
+        <li><strong>visualizador</strong> / viz123 (VISUALIZADOR)</li>
+        </ul>
+        <p>🔗 <a href="/login">Ir al login</a></p>
+        <p><em>Esta ruta se eliminará después de la inicialización</em></p>
+        """
+        
+    except Exception as e:
+        return f"<h1>❌ Error</h1><p>{str(e)}</p>"
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
