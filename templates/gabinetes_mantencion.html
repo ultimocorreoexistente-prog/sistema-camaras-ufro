@@ -26,9 +26,7 @@
                 </div>
                 <div class="col-md-3">
                     <strong>Ubicación:</strong> 
-                    {% if gabinete.ubicacion %}
-                    {{ gabinete.ubicacion.campus }} - {{ gabinete.ubicacion.edificio }}
-                    {% endif %}
+                    {{ gabinete.tipo_ubicacion_general or 'N/A' }} - {{ gabinete.tipo_ubicacion_detallada or 'N/A' }}
                 </div>
                 <div class="col-md-3">
                     <strong>Estado:</strong>

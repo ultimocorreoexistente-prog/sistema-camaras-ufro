@@ -15,7 +15,7 @@
                         <tr>
                             <td>{{ gabinete.codigo }}</td>
                             <td>{{ gabinete.nombre }}</td>
-                            <td>{{ gabinete.ubicacion.campus if gabinete.ubicacion else 'N/A' }}</td>
+                            <td>{{ gabinete.tipo_ubicacion_general or 'N/A' }}</td>
                             <td><span class="badge bg-{{ 'success' if gabinete.estado == 'Activo' else 'danger' }}">{{ gabinete.estado }}</span></td>
                             <td>
                                 <a href="{{ url_for('gabinetes_mantencion', id=gabinete.id) }}" class="btn btn-sm btn-warning">
