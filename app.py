@@ -858,7 +858,7 @@ def crear_charles_superadmin():
             {usuarios_html}
         </table>
         <h2>🎯 Credenciales para Charles:</h2>
-        <p><strong>URL:</strong> https://gestion-camaras-ufro.up.railway.app/</p>
+        <p><strong>URL:</strong> https://sistema-camaras-flask-production.up.railway.app/</p>
         <p><strong>Usuario:</strong> charles.jelvez</p>
         <p><strong>Contraseña:</strong> charles123</p>
         <p><a href="/login">🔗 Ir al login</a></p>
@@ -871,4 +871,7 @@ def crear_charles_superadmin():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Usar el puerto de la variable de entorno (Railway) o 5000 por defecto (desarrollo)
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('DEBUG', 'False').lower() == 'true'
+    app.run(host='0.0.0.0', port=port, debug=debug)
