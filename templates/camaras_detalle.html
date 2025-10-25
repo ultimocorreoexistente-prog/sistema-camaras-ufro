@@ -14,9 +14,7 @@
                 <div class="col-md-4 mt-2"><strong>Fabricante:</strong> {{ camara.fabricante }}</div>
                 <div class="col-md-4 mt-2"><strong>Tipo:</strong> {{ camara.tipo_camara }}</div>
                 <div class="col-md-12 mt-3"><strong>Ubicación:</strong> 
-                    {% if camara.ubicacion %}
-                    {{ camara.ubicacion.campus }} - {{ camara.ubicacion.edificio }} - {{ camara.ubicacion.piso }}
-                    {% endif %}
+                    {{ camara.tipo_ubicacion_general or 'N/A' }} - {{ camara.tipo_ubicacion_detallada or 'N/A' }}
                 </div>
                 <div class="col-md-4 mt-2"><strong>Estado:</strong> 
                     <span class="badge bg-{{ 'success' if camara.estado == 'Activo' else 'danger' }}">{{ camara.estado }}</span>

@@ -72,9 +72,7 @@
                             <td>{{ camara.ip }}</td>
                             <td>{{ camara.tipo_camara }}</td>
                             <td>
-                                {% if camara.ubicacion %}
-                                {{ camara.ubicacion.campus }} - {{ camara.ubicacion.edificio }}
-                                {% endif %}
+                                {{ camara.tipo_ubicacion_general or 'N/A' }}
                             </td>
                             <td>
                                 <span class="badge bg-{{ 'success' if camara.estado == 'Activo' else 'danger' }}">
