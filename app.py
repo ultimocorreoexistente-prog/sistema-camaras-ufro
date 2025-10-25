@@ -163,9 +163,17 @@ def dashboard():
     fallas_pendientes = Falla.query.filter_by(estado='Pendiente').count()
     fallas_asignadas = Falla.query.filter_by(estado='Asignada').count()
     fallas_en_proceso = Falla.query.filter_by(estado='En Proceso').count()
+    # Mantenimientos del mes - versión corregida
+    from datetime import date
+    inicio_mes = date(datetime.now().year, datetime.now().month, 1)
+    if datetime.now().month == 12:
+        fin_mes = date(datetime.now().year + 1, 1, 1)
+    else:
+        fin_mes = date(datetime.now().year, datetime.now().month + 1, 1)
+    
     mantenimientos_mes = Mantenimiento.query.filter(
-        func.extract('month', Mantenimiento.fecha) == datetime.now().month,
-        func.extract('year', Mantenimiento.fecha) == datetime.now().year
+        Mantenimiento.fecha >= inicio_mes,
+        Mantenimiento.fecha < fin_mes
     ).count()
     
     # Últimas fallas
