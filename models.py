@@ -5,7 +5,60 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+class Usuario(UserMixin, db.Model):
+    __tablename__ = 'usuarios'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    nombre = db.Column(db.String(255), nullable=False)
+    rol = db.Column(db.String(50), nullable=False)
+    activo = db.Column(db.Boolean, default=True)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+    
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+    
+    def __repr__(self):
+        return f'<Usuario {self.email}>'
 
+class Ubicacion(db.Model):
+    __tablename__ = 'ubicaciones'
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    descripcion = db.Column(db.Text)
+    campus = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f'<Ubicacion {self.nombre}>'
+
+class Camara(db.Model):
+    __tablename__ = 'camaras'
+    id = db.Column(db.Integer, primary_key=True)
+    codigo = db.Column(db.String(50), unique=True, nullable=False)
+    nombre = db.Column(db.String(100), nullable=False)
+    ip_address = db.Column(db.String(15))
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
+    estado = db.Column(db.String(20), nullable=False, default='Activo')
+    tipo = db.Column(db.String(50))
+    marca = db.Column(db.String(50))
+    modelo = db.Column(db.String(50))
+    nvr_id = db.Column(db.Integer, db.ForeignKey('nvr_dvr.id'))
+    puerto = db.Column(db.Integer)
+    observaciones = db.Column(db.Text)
+    fecha_instalacion = db.Column(db.Date)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationships
+    ubicacion = db.relationship('Ubicacion', backref='camaras')
+    nvr = db.relationship('NVR_DVR', backref='camaras')
+    
+    def __repr__(self):
+        return f'<Camara {self.codigo}>'
 
 class Gabinete(db.Model):
     __tablename__ = 'gabinetes'
@@ -14,7 +67,7 @@ class Gabinete(db.Model):
     nombre = db.Column(db.String(200))
     tipo_ubicacion_general = db.Column(db.String(50))  # Interior/Exterior/Subterraneo
     tipo_ubicacion_detallada = db.Column(db.String(200))
-    # ubicacion_id eliminado
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     capacidad = db.Column(db.Integer)
     tiene_ups = db.Column(db.Boolean, default=False)
     tiene_switch = db.Column(db.Boolean, default=False)
@@ -29,7 +82,8 @@ class Gabinete(db.Model):
     latitud = db.Column(db.Float)
     longitud = db.Column(db.Float)
     
-    # ubicacion relationship eliminado
+    # Relationships
+    ubicacion = db.relationship('Ubicacion', backref='gabinetes')
 
 class Switch(db.Model):
     __tablename__ = 'switch'
@@ -78,7 +132,7 @@ class UPS(db.Model):
     marca = db.Column(db.String(100))
     capacidad_va = db.Column(db.Integer)
     numero_baterias = db.Column(db.Integer)
-    # ubicacion_id eliminado
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     gabinete_id = db.Column(db.Integer, db.ForeignKey('gabinetes.id'))
     equipos_que_alimenta = db.Column(db.Text)
     estado = db.Column(db.String(20), default='Activo')
@@ -91,8 +145,9 @@ class UPS(db.Model):
     latitud = db.Column(db.Float)
     longitud = db.Column(db.Float)
     
-    # ubicacion relationships eliminados
-    gabinete = db.relationship('Gabinete', backref='ups_list')
+    # Relationships
+    ubicacion = db.relationship('Ubicacion', backref='ups')
+    gabinete = db.relationship('Gabinete', backref='ups')
 
 class NVR_DVR(db.Model):
     __tablename__ = 'nvr_dvr'
@@ -104,7 +159,7 @@ class NVR_DVR(db.Model):
     canales_totales = db.Column(db.Integer)
     canales_usados = db.Column(db.Integer, default=0)
     ip = db.Column(db.String(45))
-    # ubicacion_id eliminado
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     gabinete_id = db.Column(db.Integer, db.ForeignKey('gabinetes.id'))
     estado = db.Column(db.String(20), default='Activo')
     fecha_alta = db.Column(db.Date)
@@ -114,8 +169,9 @@ class NVR_DVR(db.Model):
     latitud = db.Column(db.Float)
     longitud = db.Column(db.Float)
     
-    # ubicacion relationships eliminados
-    gabinete = db.relationship('Gabinete', backref='nvr_dvr_list')
+    # Relationships
+    ubicacion = db.relationship('Ubicacion', backref='nvr_dvr')
+    gabinete = db.relationship('Gabinete', backref='nvr_dvr')
 
 class Fuente_Poder(db.Model):
     __tablename__ = 'fuente_poder'
@@ -125,7 +181,7 @@ class Fuente_Poder(db.Model):
     voltaje = db.Column(db.String(20))
     amperaje = db.Column(db.String(20))
     equipos_que_alimenta = db.Column(db.Text)
-    # ubicacion_id eliminado
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     gabinete_id = db.Column(db.Integer, db.ForeignKey('gabinetes.id'))
     estado = db.Column(db.String(20), default='Activo')
     fecha_alta = db.Column(db.Date)
@@ -133,7 +189,8 @@ class Fuente_Poder(db.Model):
     motivo_baja = db.Column(db.Text)
     observaciones = db.Column(db.Text)
     
-    # ubicacion relationships eliminados
+    # Relationships
+    ubicacion = db.relationship('Ubicacion', backref='fuentes_poder')
     gabinete = db.relationship('Gabinete', backref='fuentes_poder')
 
 
