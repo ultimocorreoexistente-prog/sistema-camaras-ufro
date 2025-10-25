@@ -37,7 +37,7 @@ class Ubicacion(db.Model):
     activo = db.Column(db.Boolean, default=True)
 
 class Gabinete(db.Model):
-    __tablename__ = 'gabinete'
+    __tablename__ = 'gabinetes'
     id = db.Column(db.Integer, primary_key=True)
     codigo = db.Column(db.String(50), unique=True, nullable=False)
     nombre = db.Column(db.String(200))
