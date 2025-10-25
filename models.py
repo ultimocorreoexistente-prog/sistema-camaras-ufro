@@ -41,7 +41,7 @@ class Gabinete(db.Model):
     nombre = db.Column(db.String(200))
     tipo_ubicacion_general = db.Column(db.String(50))  # Interior/Exterior/Subterraneo
     tipo_ubicacion_detallada = db.Column(db.String(200))
-    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     capacidad = db.Column(db.Integer)
     tiene_ups = db.Column(db.Boolean, default=False)
     tiene_switch = db.Column(db.Boolean, default=False)
@@ -88,7 +88,7 @@ class Puerto_Switch(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     switch_id = db.Column(db.Integer, db.ForeignKey('switch.id'), nullable=False)
     numero_puerto = db.Column(db.Integer, nullable=False)
-    camara_id = db.Column(db.Integer, db.ForeignKey('camara.id'))
+    camara_id = db.Column(db.Integer, db.ForeignKey('camaras.id'))
     ip_dispositivo = db.Column(db.String(45))
     estado = db.Column(db.String(20), default='Disponible')  # En uso/Disponible/Averiado
     tipo_conexion = db.Column(db.String(20))  # PoE/Fibra/Normal
@@ -124,8 +124,8 @@ class Enlace(db.Model):
     codigo = db.Column(db.String(50), unique=True, nullable=False)
     nombre = db.Column(db.String(200))
     tipo_enlace = db.Column(db.String(50), nullable=False)  # Fibra/Inalambrico/Cobre
-    origen_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
-    destino_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    origen_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
+    destino_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     switch_origen_id = db.Column(db.Integer, db.ForeignKey('switch.id'))
     switch_destino_id = db.Column(db.Integer, db.ForeignKey('switch.id'))
     latencia_ms = db.Column(db.Float)
@@ -150,7 +150,7 @@ class UPS(db.Model):
     marca = db.Column(db.String(100))
     capacidad_va = db.Column(db.Integer)
     numero_baterias = db.Column(db.Integer)
-    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     gabinete_id = db.Column(db.Integer, db.ForeignKey('gabinete.id'))
     equipos_que_alimenta = db.Column(db.Text)
     estado = db.Column(db.String(20), default='Activo')
@@ -181,7 +181,7 @@ class NVR_DVR(db.Model):
     canales_totales = db.Column(db.Integer)
     canales_usados = db.Column(db.Integer, default=0)
     ip = db.Column(db.String(45))
-    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     gabinete_id = db.Column(db.Integer, db.ForeignKey('gabinete.id'))
     estado = db.Column(db.String(20), default='Activo')
     fecha_alta = db.Column(db.Date)
@@ -202,7 +202,7 @@ class Fuente_Poder(db.Model):
     voltaje = db.Column(db.String(20))
     amperaje = db.Column(db.String(20))
     equipos_que_alimenta = db.Column(db.Text)
-    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     gabinete_id = db.Column(db.Integer, db.ForeignKey('gabinete.id'))
     estado = db.Column(db.String(20), default='Activo')
     fecha_alta = db.Column(db.Date)
@@ -222,7 +222,7 @@ class Camara(db.Model):
     modelo = db.Column(db.String(100))
     fabricante = db.Column(db.String(100))
     tipo_camara = db.Column(db.String(20))  # Domo/PTZ/Bullet
-    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     gabinete_id = db.Column(db.Integer, db.ForeignKey('gabinete.id'))
     switch_id = db.Column(db.Integer, db.ForeignKey('switch.id'))
     puerto_switch_id = db.Column(db.Integer, db.ForeignKey('puerto_switch.id'))
@@ -268,10 +268,10 @@ class Falla(db.Model):
     descripcion = db.Column(db.Text)
     prioridad = db.Column(db.String(20))  # Baja/Media/Alta/Critica
     fecha_reporte = db.Column(db.DateTime, default=datetime.utcnow)
-    reportado_por_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    reportado_por_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
     estado = db.Column(db.String(20), default='Pendiente')  # Pendiente/Asignada/En Proceso/Reparada/Cerrada/Cancelada
     fecha_asignacion = db.Column(db.DateTime)
-    tecnico_asignado_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    tecnico_asignado_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
     fecha_inicio_reparacion = db.Column(db.DateTime)
     fecha_fin_reparacion = db.Column(db.DateTime)
     tiempo_resolucion_horas = db.Column(db.Float)
@@ -293,7 +293,7 @@ class Mantenimiento(db.Model):
     equipo_id = db.Column(db.Integer, nullable=False)
     tipo = db.Column(db.String(20), nullable=False)  # Preventivo/Correctivo/Predictivo
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
-    tecnico_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    tecnico_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
     descripcion = db.Column(db.Text)
     materiales_utilizados = db.Column(db.Text)
     equipos_afectados = db.Column(db.Text)
@@ -323,7 +323,7 @@ class Historial_Estado_Equipo(db.Model):
     estado_nuevo = db.Column(db.String(20), nullable=False)
     fecha_cambio = db.Column(db.DateTime, default=datetime.utcnow)
     motivo = db.Column(db.Text)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
     
     usuario = db.relationship('Usuario', backref='cambios_estado')
 
@@ -353,8 +353,8 @@ class ConexionTopologia(db.Model):
     velocidad_conexion = db.Column(db.String(20))  # 100Mbps/1Gbps/10Gbps/etc
     
     # Ubicaciones (para conexiones entre gabinetes)
-    origen_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
-    destino_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    origen_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
+    destino_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicaciones.id'))
     
     observaciones = db.Column(db.Text)
     
