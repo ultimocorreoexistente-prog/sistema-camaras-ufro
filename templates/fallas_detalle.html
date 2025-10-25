@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-</head>
 {% extends "base.html" %}
 {% block title %}Falla #{{ falla.id }} - Sistema UFRO{% endblock %}
 {% block content %}
@@ -48,78 +43,5 @@
         <button type="submit" class="btn btn-success mb-3">Cerrar Falla</button>
     </form>
     {% endif %}
-    
-    <!-- Sección de información de reparación -->
-    {% if falla.estado in ['Reparada', 'Cerrada'] and falla.solucion_aplicada %}
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white">
-            <h5 class="mb-0"><i class="bi bi-tools"></i> Información de Reparación</h5>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6"><strong>Solución Aplicada:</strong><br>{{ falla.solucion_aplicada }}</div>
-                {% if falla.materiales_utilizados %}
-                <div class="col-md-6"><strong>Materiales Utilizados:</strong><br>{{ falla.materiales_utilizados }}</div>
-                {% endif %}
-                {% if falla.costo_reparacion and falla.costo_reparacion > 0 %}
-                <div class="col-md-6 mt-2"><strong>Costo de Reparación:</strong><br>${{ "%.2f"|format(falla.costo_reparacion) }}</div>
-                {% endif %}
-                {% if falla.fecha_fin_reparacion %}
-                <div class="col-md-6 mt-2"><strong>Fecha de Reparación:</strong><br>{{ falla.fecha_fin_reparacion.strftime('%d/%m/%Y %H:%M') }}</div>
-                {% endif %}
-                {% if falla.tiempo_resolucion_horas %}
-                <div class="col-md-6 mt-2"><strong>Tiempo de Resolución:</strong><br>{{ "%.1f"|format(falla.tiempo_resolucion_horas) }} horas</div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    
-    <!-- Sección de fotos de reparación -->
-    {% if falla.fotos_reparacion and falla.estado in ['Reparada', 'Cerrada'] %}
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white">
-            <h5 class="mb-0"><i class="bi bi-camera"></i> Fotos de la Reparación</h5>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                {% for foto_url in falla.fotos_reparacion.split(',') %}
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="{{ foto_url }}" class="card-img-top" style="height: 250px; object-fit: cover; cursor: pointer;" 
-                             alt="Foto de reparación" onclick="showImageModal('{{ foto_url }}')">
-                        <div class="card-body p-2">
-                            <small class="text-muted">Foto {{ loop.index }}</small>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    
 </div>
-
-<!-- Modal para mostrar imagen ampliada -->
-<div class="modal fade" id="imageModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Foto de Reparación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Foto ampliada">
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-function showImageModal(imageSrc) {
-    document.getElementById('modalImage').src = imageSrc;
-    new bootstrap.Modal(document.getElementById('imageModal')).show();
-}
-</script>
 {% endblock %}

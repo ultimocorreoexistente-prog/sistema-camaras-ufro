@@ -35,103 +35,48 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
                     </li>
-                    
-                    <!-- INVENTARIO DE EQUIPOS -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-grid-3x3"></i> Inventario
+                            <i class="bi bi-grid-3x3"></i> Equipos
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('camaras_list') }}"><i class="bi bi-camera-video"></i> Cámaras</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('gabinetes_list') }}"><i class="bi bi-box"></i> Gabinetes</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('camaras_list') }}">Cámaras</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('gabinetes_list') }}">Gabinetes</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/switches"><i class="bi bi-hdd-network"></i> Switches</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('vlans') }}"><i class="bi bi-diagram-3"></i> VLANs</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('enlaces') }}"><i class="bi bi-arrows-angle-expand"></i> Enlaces</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/nvr"><i class="bi bi-server"></i> NVR/DVR</a></li>
-                            <li><a class="dropdown-item" href="/ups"><i class="bi bi-battery-charging"></i> UPS</a></li>
-                            <li><a class="dropdown-item" href="/fuentes"><i class="bi bi-plug"></i> Fuentes de Poder</a></li>
+                            <li><a class="dropdown-item" href="/switches">Switches</a></li>
+                            <li><a class="dropdown-item" href="/nvr">NVR/DVR</a></li>
+                            <li><a class="dropdown-item" href="/ups">UPS</a></li>
+                            <li><a class="dropdown-item" href="/fuentes">Fuentes de Poder</a></li>
                         </ul>
                     </li>
-                    
-                    <!-- MANTENIMIENTOS POR COMPONENTE -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-success" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-tools"></i> Mantenimientos
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><h6 class="dropdown-header">Mantenimientos Generales</h6></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_list') }}"><i class="bi bi-list-ul"></i> Todos los Mantenimientos</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_form') }}"><i class="bi bi-plus-circle"></i> Nuevo Mantenimiento</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><h6 class="dropdown-header">Por Tipo de Equipo</h6></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_list') }}?tipo=camara"><i class="bi bi-camera-video"></i> Cámaras</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_list') }}?tipo=gabinete"><i class="bi bi-box"></i> Gabinetes</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_list') }}?tipo=switch"><i class="bi bi-hdd-network"></i> Switches</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_list') }}?tipo=nvr"><i class="bi bi-server"></i> NVR/DVR</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_list') }}?tipo=ups"><i class="bi bi-battery-charging"></i> UPS</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mantenimientos_list') }}?tipo=fuente"><i class="bi bi-plug"></i> Fuentes de Poder</a></li>
-                        </ul>
-                    </li>
-                    
-                    <!-- FALLAS -->
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="{{ url_for('fallas_list') }}"><i class="bi bi-exclamation-triangle"></i> Fallas</a>
+                        <a class="nav-link" href="{{ url_for('fallas_list') }}"><i class="bi bi-exclamation-triangle"></i> Fallas</a>
                     </li>
-                    
-                    <!-- MAPAS -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('mantenimientos_list') }}"><i class="bi bi-tools"></i> Mantenimientos</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-map"></i> Mapas
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('mapa_red') }}"><i class="bi bi-diagram-3"></i> Topología de Red</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mapa_geolocalizacion') }}"><i class="bi bi-geo-alt"></i> Geolocalización</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('dashboard_conectividad') }}"><i class="bi bi-speedometer2"></i> Dashboard Conectividad</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('mapa_red') }}">Topología de Red</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('mapa_geolocalizacion') }}">Geolocalización</a></li>
                         </ul>
                     </li>
-                    
-                    <!-- INFORMES -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('informes_avanzados') }}"><i class="bi bi-file-earmark-bar-graph"></i> Informes</a>
                     </li>
-                    
-                    <!-- TOPOLOGÍA DE RED -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-diagram-3"></i> Topología
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('conexiones_lista') }}"><i class="bi bi-plug"></i> Gestión de Conexiones</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('conexiones_nueva') }}"><i class="bi bi-plus-circle"></i> Nueva Conexión</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><h6 class="dropdown-header">Visualización</h6></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mapa_red') }}"><i class="bi bi-diagram-3"></i> Topología de Red</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('mapa_geolocalizacion') }}"><i class="bi bi-geo-alt"></i> Geolocalización</a></li>
-                        </ul>
-                    </li>
-                    
-                    <!-- USUARIOS (visible para admin y superadmin) -->
                     {% if current_user.rol in ['superadmin', 'admin'] %}
-                    <li class="nav-item">
-                        <a class="nav-link text-info" href="{{ url_for('admin_usuarios') }}"><i class="bi bi-people"></i> Usuarios</a>
-                    </li>
-                    {% endif %}
-                    
-                    <!-- ADMINISTRACIÓN AVANZADA (solo superadmin) -->
-                    {% if current_user.rol == 'superadmin' %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-danger" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear"></i> Admin
+                        <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear"></i> Administración
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item text-danger" href="{{ url_for('camaras_masivo') }}">
-                                <i class="bi bi-lightning-charge"></i> Modificación Masiva de Cámaras
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin_usuarios') }}"><i class="bi bi-people"></i> Gestión de Usuarios</a></li>
+                            {% if current_user.rol == 'superadmin' %}
                             <li><a class="dropdown-item" href="{{ url_for('admin_configuracion') }}"><i class="bi bi-sliders"></i> Configuración del Sistema</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                     {% endif %}
