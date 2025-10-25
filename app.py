@@ -201,6 +201,10 @@ def camaras_nuevo():
             fecha_alta=datetime.strptime(request.form.get('fecha_alta'), '%Y-%m-%d').date() if request.form.get('fecha_alta') else None,
             latitud=float(request.form.get('latitud')) if request.form.get('latitud') else None,
             longitud=float(request.form.get('longitud')) if request.form.get('longitud') else None,
+            # PRIORIDAD 2: Campos de firmware
+            version_firmware=request.form.get('version_firmware'),
+            fecha_actualizacion_firmware=datetime.strptime(request.form.get('fecha_actualizacion_firmware'), '%Y-%m-%d').date() if request.form.get('fecha_actualizacion_firmware') else None,
+            proxima_revision_firmware=datetime.strptime(request.form.get('proxima_revision_firmware'), '%Y-%m-%d').date() if request.form.get('proxima_revision_firmware') else None,
             observaciones=request.form.get('observaciones')
         )
         db.session.add(camara)
@@ -253,6 +257,10 @@ def camaras_editar(id):
         camara.estado = request.form.get('estado')
         camara.latitud = float(request.form.get('latitud')) if request.form.get('latitud') else None
         camara.longitud = float(request.form.get('longitud')) if request.form.get('longitud') else None
+        # PRIORIDAD 2: Campos de firmware
+        camara.version_firmware = request.form.get('version_firmware')
+        camara.fecha_actualizacion_firmware = datetime.strptime(request.form.get('fecha_actualizacion_firmware'), '%Y-%m-%d').date() if request.form.get('fecha_actualizacion_firmware') else None
+        camara.proxima_revision_firmware = datetime.strptime(request.form.get('proxima_revision_firmware'), '%Y-%m-%d').date() if request.form.get('proxima_revision_firmware') else None
         camara.observaciones = request.form.get('observaciones')
         
         # Registrar cambio de estado

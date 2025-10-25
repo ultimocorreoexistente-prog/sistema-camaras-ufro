@@ -80,6 +80,44 @@
                 <input type="date" class="form-control" name="fecha_instalacion" value="{{ ups.fecha_instalacion if ups and ups.fecha_instalacion else '' }}">
             </div>
         </div>
+        
+        <!-- PRIORIDAD 4: Gestión de Autonomía y Alertas UPS -->
+        <div class="card mt-3 mb-3">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="bi bi-battery-half"></i> Monitoreo de Autonomía y Carga</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Autonomía (minutos)</label>
+                        <input type="number" class="form-control" name="autonomia_minutos" value="{{ ups.autonomia_minutos if ups else '' }}" min="0" placeholder="Ej: 30">
+                        <small class="text-muted">Tiempo de autonomía estimado del UPS</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Porcentaje Carga Actual (%)</label>
+                        <input type="number" step="0.1" class="form-control" name="porcentaje_carga_actual" value="{{ ups.porcentaje_carga_actual if ups else '' }}" min="0" max="100" placeholder="Ej: 85.5">
+                        <small class="text-muted">Porcentaje de carga actual del UPS</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Alerta Batería Baja</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="alertas_bateria_baja" {% if ups and ups.alertas_bateria_baja %}checked{% endif %}>
+                            <label class="form-check-label">Activar alerta de batería baja</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Alerta Sobrecarga</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="alertas_sobrecarga" {% if ups and ups.alertas_sobrecarga %}checked{% endif %}>
+                            <label class="form-check-label">Activar alerta de sobrecarga</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label class="form-label">Latitud</label>
