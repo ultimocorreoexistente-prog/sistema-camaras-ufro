@@ -64,13 +64,18 @@ print(f"🔧 DEBUG: Usando SQLite = {'sqlite' in app.config.get('SQLALCHEMY_DATA
 # Logging del usuario Charles si existe
 try:
     from models import Usuario
-    charles_check = Usuario.query.filter_by(username='charles.jelvez').first()
+    # Verificar Charles por email (campo correcto en la tabla usuarios)
+    charles_check = Usuario.query.filter_by(email='charles.jelvez@ufro.cl').first()
     if charles_check:
-        print(f"✅ Charles encontrado en BD: {charles_check.username} ({charles_check.rol})")
+        print(f"✅ Charles encontrado en BD: {charles_check.email} ({charles_check.rol})")
     else:
         print("❌ Charles NO encontrado en BD")
         total_users = Usuario.query.count()
         print(f"📊 Total usuarios en BD: {total_users}")
+        # Mostrar usuarios existentes
+        all_users = Usuario.query.all()
+        for user in all_users:
+            print(f"   • {user.email} ({user.rol})")
 except Exception as e:
     print(f"❌ Error verificando usuarios: {e}")
 login_manager = LoginManager(app)
@@ -127,16 +132,17 @@ def login():
         return redirect(url_for('dashboard'))
     
     if request.method == 'POST':
-        username = request.form.get('username')
+        # Cambiar de 'username' a 'email' como identificador
+        email = request.form.get('email')
         password = request.form.get('password')
-        user = Usuario.query.filter_by(username=username).first()
+        user = Usuario.query.filter_by(email=email).first()
         
         if user and user.check_password(password) and user.activo:
             login_user(user)
-            flash(f'Bienvenido {user.nombre_completo}', 'success')
+            flash(f'Bienvenido {user.nombre}', 'success')
             return redirect(url_for('dashboard'))
         else:
-            flash('Usuario o contraseña incorrectos', 'danger')
+            flash('Email o contraseña incorrectos', 'danger')
     
     return render_template('login.html')
 
