@@ -98,6 +98,21 @@
                         <a class="nav-link" href="{{ url_for('informes_avanzados') }}"><i class="bi bi-file-earmark-bar-graph"></i> Informes</a>
                     </li>
                     
+                    <!-- TOPOLOGÍA DE RED -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-diagram-3"></i> Topología
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('conexiones_lista') }}"><i class="bi bi-plug"></i> Gestión de Conexiones</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('conexiones_nueva') }}"><i class="bi bi-plus-circle"></i> Nueva Conexión</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Visualización</h6></li>
+                            <li><a class="dropdown-item" href="{{ url_for('mapa_red') }}"><i class="bi bi-diagram-3"></i> Topología de Red</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('mapa_geolocalizacion') }}"><i class="bi bi-geo-alt"></i> Geolocalización</a></li>
+                        </ul>
+                    </li>
+                    
                     <!-- USUARIOS (visible para admin y superadmin) -->
                     {% if current_user.rol in ['superadmin', 'admin'] %}
                     <li class="nav-item">

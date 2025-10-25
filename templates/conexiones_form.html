@@ -1,0 +1,404 @@
+{% extends "base.html" %}
+
+{% block title %}Nueva Conexión de Topología{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3">
+                            <i class="fas fa-plus"></i>
+                            Nueva Conexión de Topología
+                        </h1>
+                        <p class="text-muted">
+                            Crea una nueva conexión boca a boca entre equipos de red
+                        </p>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('conexiones_lista') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver a Conexiones
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-edit"></i> Datos de la Conexión
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <!-- Equipos de origen y destino -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-play text-success"></i> Equipo Origen
+                                </h6>
+                                
+                                <div class="form-group">
+                                    <label for="equipo_origen_tipo" class="form-label">
+                                        <strong>Tipo de Equipo *</strong>
+                                    </label>
+                                    <select name="equipo_origen_tipo" id="equipo_origen_tipo" class="form-control" required>
+                                        <option value="">Seleccionar tipo...</option>
+                                        <option value="Switch">Switch</option>
+                                        <option value="Gabinete">Gabinete</option>
+                                        <option value="Camara">Cámara</option>
+                                        <option value="NVR">NVR/DVR</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="equipo_origen_id" class="form-label">
+                                        <strong>Equipo Origen *</strong>
+                                    </label>
+                                    <select name="equipo_origen_id" id="equipo_origen_id" class="form-control" required>
+                                        <option value="">Seleccionar equipo...</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="puerto_origen" class="form-label">Puerto Origen</label>
+                                    <input type="text" name="puerto_origen" id="puerto_origen" class="form-control" 
+                                           placeholder="Ej: Port 1, eth0, GI1/0/1">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-stop text-danger"></i> Equipo Destino
+                                </h6>
+                                
+                                <div class="form-group">
+                                    <label for="equipo_destino_tipo" class="form-label">
+                                        <strong>Tipo de Equipo *</strong>
+                                    </label>
+                                    <select name="equipo_destino_tipo" id="equipo_destino_tipo" class="form-control" required>
+                                        <option value="">Seleccionar tipo...</option>
+                                        <option value="Switch">Switch</option>
+                                        <option value="Gabinete">Gabinete</option>
+                                        <option value="Camara">Cámara</option>
+                                        <option value="NVR">NVR/DVR</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="equipo_destino_id" class="form-label">
+                                        <strong>Equipo Destino *</strong>
+                                    </label>
+                                    <select name="equipo_destino_id" id="equipo_destino_id" class="form-control" required>
+                                        <option value="">Seleccionar equipo...</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="puerto_destino" class="form-label">Puerto Destino</label>
+                                    <input type="text" name="puerto_destino" id="puerto_destino" class="form-control" 
+                                           placeholder="Ej: Port 2, eth1, GI1/0/2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Tipo de conexión -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tipo_conexion" class="form-label">
+                                        <strong>Tipo de Conexión *</strong>
+                                    </label>
+                                    <select name="tipo_conexion" id="tipo_conexion" class="form-control" required>
+                                        <option value="">Seleccionar tipo...</option>
+                                        <option value="UTP">UTP (Cable de Cobre)</option>
+                                        <option value="FibraOptica">Fibra Óptica</option>
+                                        <option value="EnlaceInalambrico">Enlace Inalámbrico</option>
+                                        <option value="PoE">PoE (Power over Ethernet)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="velocidad_conexion" class="form-label">Velocidad de Conexión</label>
+                                    <select name="velocidad_conexion" id="velocidad_conexion" class="form-control">
+                                        <option value="">Seleccionar velocidad...</option>
+                                        <option value="10Mbps">10 Mbps</option>
+                                        <option value="100Mbps">100 Mbps</option>
+                                        <option value="1Gbps">1 Gbps</option>
+                                        <option value="10Gbps">10 Gbps</option>
+                                        <option value="40Gbps">40 Gbps</option>
+                                        <option value="100Gbps">100 Gbps</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información técnica -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="distancia_metros" class="form-label">Distancia (metros)</label>
+                                    <input type="number" name="distancia_metros" id="distancia_metros" 
+                                           class="form-control" min="0" placeholder="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="estado_conexion" class="form-label">Estado</label>
+                                    <select name="estado_conexion" id="estado_conexion" class="form-control">
+                                        <option value="Activo">Activo</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                        <option value="Averiado">Averiado</option>
+                                        <option value="Desconocido">Desconocido</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fecha_conexion" class="form-label">Fecha de Conexión</label>
+                                    <input type="date" name="fecha_conexion" id="fecha_conexion" 
+                                           class="form-control" value="{{ moment().format('YYYY-MM-DD') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ubicaciones (opcional para conexiones entre gabinetes) -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="origen_ubicacion_id" class="form-label">Ubicación Origen</label>
+                                    <select name="origen_ubicacion_id" id="origen_ubicacion_id" class="form-control">
+                                        <option value="">Seleccionar ubicación...</option>
+                                        {% for ubicacion in ubicaciones %}
+                                        <option value="{{ ubicacion.id }}">
+                                            {{ ubicacion.campus }} - {{ ubicacion.edificio }}
+                                            {% if ubicacion.piso %} ({{ ubicacion.piso }}){% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="destino_ubicacion_id" class="form-label">Ubicación Destino</label>
+                                    <select name="destino_ubicacion_id" id="destino_ubicacion_id" class="form-control">
+                                        <option value="">Seleccionar ubicación...</option>
+                                        {% for ubicacion in ubicaciones %}
+                                        <option value="{{ ubicacion.id }}">
+                                            {{ ubicacion.campus }} - {{ ubicacion.edificio }}
+                                            {% if ubicacion.piso %} ({{ ubicacion.piso }}){% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Observaciones -->
+                        <div class="form-group">
+                            <label for="observaciones" class="form-label">Observaciones</label>
+                            <textarea name="observaciones" id="observaciones" class="form-control" rows="3" 
+                                      placeholder="Información adicional sobre la conexión..."></textarea>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="form-group">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Crear Conexión
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-secondary">
+                                        <i class="fas fa-undo"></i> Limpiar
+                                    </button>
+                                </div>
+                                <a href="{{ url_for('conexiones_lista') }}" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel lateral con ayuda -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle"></i> Información de Ayuda
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h6>Tipos de Conexión:</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <strong><span class="badge badge-info">UTP</span></strong>
+                            <small class="d-block text-muted">Cable de cobre estándar para conexiones Ethernet</small>
+                        </li>
+                        <li class="mb-2">
+                            <strong><span class="badge badge-warning">Fibra Óptica</span></strong>
+                            <small class="d-block text-muted">Conexiones de alta velocidad y larga distancia</small>
+                        </li>
+                        <li class="mb-2">
+                            <strong><span class="badge badge-success">Inalámbrico</span></strong>
+                            <small class="d-block text-muted">Conexiones por radio (WiFi, enlaces punto a punto)</small>
+                        </li>
+                        <li class="mb-2">
+                            <strong><span class="badge badge-primary">PoE</span></strong>
+                            <small class="d-block text-muted">Power over Ethernet (alimentación + datos)</small>
+                        </li>
+                    </ul>
+
+                    <hr>
+
+                    <h6>Consejos:</h6>
+                    <ul class="small text-muted">
+                        <li>Especifique puertos exactos para facilitar el troubleshooting</li>
+                        <li>Use velocidades realistas según el tipo de cable</li>
+                        <li>Las ubicaciones son opcionales pero útiles para mapeo geográfico</li>
+                        <li>Las observaciones pueden incluir detalles de instalación</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Vista previa de la conexión -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-eye"></i> Vista Previa
+                    </h5>
+                </div>
+                <div class="card-body" id="vistaPrevia">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-project-diagram fa-2x mb-2"></i>
+                        <p>Complete los datos para ver la vista previa de la conexión</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Variables para almacenar los equipos
+const equipos = {
+    'Switch': {{ switches|tojson }},
+    'Gabinete': {{ gabinetes|tojson }},
+    'Camara': {{ camaras|tojson }},
+    'NVR': {{ nvr_dvrs|tojson }}
+};
+
+// Función para actualizar la vista previa
+function actualizarVistaPrevia() {
+    const origenTipo = document.getElementById('equipo_origen_tipo').value;
+    const origenId = document.getElementById('equipo_origen_id').value;
+    const destinoTipo = document.getElementById('equipo_destino_tipo').value;
+    const destinoId = document.getElementById('equipo_destino_id').value;
+    const tipoConexion = document.getElementById('tipo_conexion').value;
+
+    const vistaPrevia = document.getElementById('vistaPrevia');
+    
+    if (origenTipo && origenId && destinoTipo && destinoId && tipoConexion) {
+        const origenEquipo = equipos[origenTipo].find(e => e.id == origenId);
+        const destinoEquipo = equipos[destinoTipo].find(e => e.id == destinoId);
+        
+        if (origenEquipo && destinoEquipo) {
+            vistaPrevia.innerHTML = `
+                <div class="text-center">
+                    <div class="mb-3">
+                        <span class="badge badge-info">${origenTipo}</span>
+                        <strong class="mx-2">→</strong>
+                        <span class="badge badge-success">${tipoConexion}</span>
+                        <strong class="mx-2">→</strong>
+                        <span class="badge badge-info">${destinoTipo}</span>
+                    </div>
+                    <div class="border rounded p-3">
+                        <div class="mb-2">
+                            <strong>Origen:</strong><br>
+                            ${origenEquipo.codigo || origenEquipo.nombre}
+                        </div>
+                        <div class="mb-2">
+                            <strong>Destino:</strong><br>
+                            ${destinoEquipo.codigo || destinoEquipo.nombre}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+}
+
+// Event listeners para actualizar equipos según el tipo seleccionado
+document.getElementById('equipo_origen_tipo').addEventListener('change', function() {
+    const tipo = this.value;
+    const selectEquipo = document.getElementById('equipo_origen_id');
+    
+    // Limpiar opciones actuales
+    selectEquipo.innerHTML = '<option value="">Seleccionar equipo...</option>';
+    
+    if (tipo && equipos[tipo]) {
+        equipos[tipo].forEach(equipo => {
+            const option = document.createElement('option');
+            option.value = equipo.id;
+            option.textContent = equipo.codigo || equipo.nombre || `ID: ${equipo.id}`;
+            selectEquipo.appendChild(option);
+        });
+    }
+    
+    actualizarVistaPrevia();
+});
+
+document.getElementById('equipo_destino_tipo').addEventListener('change', function() {
+    const tipo = this.value;
+    const selectEquipo = document.getElementById('equipo_destino_id');
+    
+    // Limpiar opciones actuales
+    selectEquipo.innerHTML = '<option value="">Seleccionar equipo...</option>';
+    
+    if (tipo && equipos[tipo]) {
+        equipos[tipo].forEach(equipo => {
+            const option = document.createElement('option');
+            option.value = equipo.id;
+            option.textContent = equipo.codigo || equipo.nombre || `ID: ${equipo.id}`;
+            selectEquipo.appendChild(option);
+        });
+    }
+    
+    actualizarVistaPrevia();
+});
+
+// Event listeners para actualizar vista previa
+['equipo_origen_id', 'equipo_destino_id', 'tipo_conexion'].forEach(id => {
+    document.getElementById(id).addEventListener('change', actualizarVistaPrevia);
+});
+</script>
+
+<style>
+.badge {
+    font-size: 0.75rem;
+}
+
+#vistaPrevia {
+    min-height: 150px;
+}
+
+.border-left-info { border-left: 4px solid #007bff !important; }
+.border-left-warning { border-left: 4px solid #ffc107 !important; }
+.border-left-success { border-left: 4px solid #28a745 !important; }
+</style>
+{% endblock %}

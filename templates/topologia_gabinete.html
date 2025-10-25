@@ -1,0 +1,566 @@
+{% extends "base.html" %}
+
+{% block title %}Topología Gabinete {{ topologia.gabinete.codigo }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3">
+                            <i class="fas fa-draw-polygon"></i>
+                            Topología Gabinete {{ topologia.gabinete.codigo }}
+                        </h1>
+                        <p class="text-muted">
+                            {{ topologia.gabinete.nombre or 'Sin nombre' }}
+                            {% if topologia.gabinete.ubicacion %}
+                            | {{ topologia.gabinete.ubicacion.campus }} - {{ topologia.gabinete.ubicacion.edificio }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('gabinetes') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver a Gabinetes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas de equipos -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar"></i> Resumen de Equipos en el Gabinete
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-2">
+                            <div class="stat-box">
+                                <h3 class="text-primary">{{ stats.switches }}</h3>
+                                <p>Switches</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="stat-box">
+                                <h3 class="text-warning">{{ stats.nvr_dvrs }}</h3>
+                                <p>NVR/DVR</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="stat-box">
+                                <h3 class="text-success">{{ stats.ups }}</h3>
+                                <p>UPS</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="stat-box">
+                                <h3 class="text-info">{{ stats.fuentes_poder }}</h3>
+                                <p>Fuentes</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="stat-box">
+                                <h3 class="text-secondary">{{ stats.camaras }}</h3>
+                                <p>Cámaras</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="stat-box">
+                                <h3 class="text-danger">{{ stats.conexiones_externas }}</h3>
+                                <p>Conexiones Externas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información del gabinete -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-box"></i> Información del Gabinete
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><td><strong>Código:</strong></td><td>{{ topologia.gabinete.codigo }}</td></tr>
+                        <tr><td><strong>Nombre:</strong></td><td>{{ topologia.gabinete.nombre or 'No asignado' }}</td></tr>
+                        <tr><td><strong>Tipo Ubicación:</strong></td>
+                            <td>
+                                {% if topologia.gabinete.tipo_ubicacion_general %}
+                                    {{ topologia.gabinete.tipo_ubicacion_general }}
+                                {% else %}
+                                    <span class="text-muted">No especificado</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td><strong>Capacidad:</strong></td>
+                            <td>
+                                {% if topologia.gabinete.capacidad %}
+                                    {{ topologia.gabinete.capacidad }} equipos
+                                {% else %}
+                                    <span class="text-muted">No especificada</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td><strong>Estado:</strong></td>
+                            <td>
+                                <span class="badge badge-{{ 'success' if topologia.gabinete.estado == 'Activo' else 'secondary' }}">
+                                    {{ topologia.gabinete.estado }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% if topologia.gabinete.latitud and topologia.gabinete.longitud %}
+                        <tr><td><strong>Coordenadas:</strong></td>
+                            <td>{{ "%.6f"|format(topologia.gabinete.latitud) }}, {{ "%.6f"|format(topologia.gabinete.longitud) }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    
+                    <!-- Características del gabinete -->
+                    <div class="mt-3">
+                        <h6>Características:</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-{{ 'check text-success' if topologia.gabinete.tiene_ups else 'times text-danger' }}"></i>
+                                    UPS
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-{{ 'check text-success' if topologia.gabinete.tiene_switch else 'times text-danger' }}"></i>
+                                    Switch
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-{{ 'check text-success' if topologia.gabinete.tiene_nvr else 'times text-danger' }}"></i>
+                                    NVR
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-{{ 'check text-success' if topologia.gabinete.conexion_fibra else 'times text-danger' }}"></i>
+                                    Fibra Óptica
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-map-marker-alt"></i> Ubicación
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if topologia.gabinete.ubicacion %}
+                    <table class="table table-sm">
+                        <tr><td><strong>Campus:</strong></td><td>{{ topologia.gabinete.ubicacion.campus }}</td></tr>
+                        <tr><td><strong>Edificio:</strong></td><td>{{ topologia.gabinete.ubicacion.edificio }}</td></tr>
+                        {% if topologia.gabinete.ubicacion.piso %}
+                        <tr><td><strong>Piso:</strong></td><td>{{ topologia.gabinete.ubicacion.piso }}</td></tr>
+                        {% endif %}
+                        <tr><td><strong>Descripción:</strong></td><td>{{ topologia.gabinete.ubicacion.descripcion or 'Sin descripción' }}</td></tr>
+                        {% if topologia.gabinete.latitud and topologia.gabinete.longitud %}
+                        <tr><td><strong>GPS:</strong></td>
+                            <td>
+                                <a href="https://www.google.com/maps?q={{ topologia.gabinete.latitud }},{{ topologia.gabinete.longitud }}" 
+                                   target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-external-link-alt"></i> Ver en Maps
+                                </a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    {% else %}
+                    <p class="text-muted">Sin ubicación asignada</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipos dentro del gabinete -->
+    <div class="row mb-4">
+        <!-- Switches -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-server"></i> Switches ({{ stats.switches }})
+                    </h5>
+                    <a href="{{ url_for('switches_nuevo') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Agregar
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if topologia.equipos_dentro.switches %}
+                        <div class="list-group list-group-flush">
+                            {% for switch in topologia.equipos_dentro.switches %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div>
+                                    <strong>{{ switch.codigo }}</strong>
+                                    {% if switch.nombre %}
+                                        <br><small class="text-muted">{{ switch.nombre }}</small>
+                                    {% endif %}
+                                    {% if switch.ip %}
+                                        <br><small class="text-info">{{ switch.ip }}</small>
+                                    {% endif %}
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('topologia_switch', switch_id=switch.id) }}" 
+                                       class="btn btn-outline-info" title="Ver topología">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </a>
+                                    <a href="{{ url_for('switches_editar', id=switch.id) }}" 
+                                       class="btn btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center py-3">
+                            No hay switches en este gabinete
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- NVR/DVR -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-hdd"></i> NVR/DVR ({{ stats.nvr_dvrs }})
+                    </h5>
+                    <a href="{{ url_for('nvr_dvr_nuevo') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Agregar
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if topologia.equipos_dentro.nvr_dvrs %}
+                        <div class="list-group list-group-flush">
+                            {% for nvr in topologia.equipos_dentro.nvr_dvrs %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div>
+                                    <strong>{{ nvr.codigo }}</strong> 
+                                    <span class="badge badge-secondary">{{ nvr.tipo }}</span>
+                                    {% if nvr.modelo %}
+                                        <br><small class="text-muted">{{ nvr.modelo }}</small>
+                                    {% endif %}
+                                    {% if nvr.ip %}
+                                        <br><small class="text-info">{{ nvr.ip }}</small>
+                                    {% endif %}
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('nvr_dvr_editar', id=nvr.id) }}" 
+                                       class="btn btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center py-3">
+                            No hay NVR/DVR en este gabinete
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <!-- UPS -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-battery-full"></i> UPS ({{ stats.ups }})
+                    </h5>
+                    <a href="{{ url_for('ups_nuevo') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Agregar
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if topologia.equipos_dentro.ups %}
+                        <div class="list-group list-group-flush">
+                            {% for ups in topologia.equipos_dentro.ups %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div>
+                                    <strong>{{ ups.codigo }}</strong>
+                                    {% if ups.modelo %}
+                                        <br><small class="text-muted">{{ ups.modelo }}</small>
+                                    {% endif %}
+                                    {% if ups.capacidad_va %}
+                                        <br><small class="text-info">{{ ups.capacidad_va }} VA</small>
+                                    {% endif %}
+                                    {% if ups.autonomia_minutos %}
+                                        <br><small class="text-warning">{{ ups.autonomia_minutos }} min autonomía</small>
+                                    {% endif %}
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('ups_editar', id=ups.id) }}" 
+                                       class="btn btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center py-3">
+                            No hay UPS en este gabinete
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Fuentes de Poder -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-plug"></i> Fuentes de Poder ({{ stats.fuentes_poder }})
+                    </h5>
+                    <a href="{{ url_for('fuentes_poder_nuevo') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Agregar
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if topologia.equipos_dentro.fuentes_poder %}
+                        <div class="list-group list-group-flush">
+                            {% for fuente in topologia.equipos_dentro.fuentes_poder %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div>
+                                    <strong>{{ fuente.codigo }}</strong>
+                                    {% if fuente.modelo %}
+                                        <br><small class="text-muted">{{ fuente.modelo }}</small>
+                                    {% endif %}
+                                    {% if fuente.voltaje and fuente.amperaje %}
+                                        <br><small class="text-info">{{ fuente.voltaje }} / {{ fuente.amperaje }}</small>
+                                    {% endif %}
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('fuentes_poder_editar', id=fuente.id) }}" 
+                                       class="btn btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center py-3">
+                            No hay fuentes de poder en este gabinete
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cámaras -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-video"></i> Cámaras ({{ stats.camaras }})
+                    </h5>
+                    <a href="{{ url_for('camaras_nuevo') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Agregar
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if topologia.equipos_dentro.camaras %}
+                        <div class="row">
+                            {% for camara in topologia.equipos_dentro.camaras %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card border-left-primary">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="card-title mb-1">
+                                                    <i class="fas fa-video text-primary"></i>
+                                                    {{ camara.codigo }}
+                                                </h6>
+                                                {% if camara.nombre %}
+                                                    <p class="card-text text-muted small mb-1">{{ camara.nombre }}</p>
+                                                {% endif %}
+                                                {% if camara.ip %}
+                                                    <p class="card-text text-info small mb-1">{{ camara.ip }}</p>
+                                                {% endif %}
+                                                {% if camara.tipo_camara %}
+                                                    <span class="badge badge-secondary small">{{ camara.tipo_camara }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{ url_for('camaras_editar', id=camara.id) }}" 
+                                                   class="btn btn-outline-warning" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center py-4">
+                            No hay cámaras en este gabinete
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conexiones externas -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-plug"></i> Conexiones Externas ({{ stats.conexiones_externas }})
+                    </h5>
+                    <a href="{{ url_for('conexiones_nueva') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Nueva Conexión
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if topologia.conexiones_externas %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Switch Origen</th>
+                                        <th>Tipo Conexión</th>
+                                        <th>Equipo Destino</th>
+                                        <th>Tipo Equipo</th>
+                                        <th>Velocidad</th>
+                                        <th>Estado</th>
+                                        <th>Distancia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for conn in topologia.conexiones_externas %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ conn['switch'].codigo }}</strong>
+                                            {% if conn['switch'].ip %}
+                                                <br><small class="text-muted">{{ conn['switch'].ip }}</small>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if conn['conexion'].tipo_conexion == 'UTP' %}
+                                                <span class="badge badge-info">UTP</span>
+                                            {% elif conn['conexion'].tipo_conexion == 'FibraOptica' %}
+                                                <span class="badge badge-warning">Fibra Óptica</span>
+                                            {% elif conn['conexion'].tipo_conexion == 'EnlaceInalambrico' %}
+                                                <span class="badge badge-success">Inalámbrico</span>
+                                            {% elif conn['conexion'].tipo_conexion == 'PoE' %}
+                                                <span class="badge badge-primary">PoE</span>
+                                            {% else %}
+                                                <span class="badge badge-secondary">{{ conn['conexion'].tipo_conexion }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if conn['otro_equipo'] %}
+                                                {{ conn['otro_equipo'].codigo }}
+                                                {% if conn['otro_equipo_tipo'] == 'Switch' %}
+                                                    <a href="{{ url_for('topologia_switch', switch_id=conn['otro_equipo'].id) }}" class="btn btn-sm btn-outline-info ml-2">
+                                                        <i class="fas fa-project-diagram"></i>
+                                                    </a>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="text-muted">Equipo no encontrado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ conn['otro_equipo_tipo'] or 'Desconocido' }}</td>
+                                        <td>{{ conn['conexion'].velocidad_conexion or 'No especificada' }}</td>
+                                        <td>
+                                            {% if conn['conexion'].estado_conexion == 'Activo' %}
+                                                <span class="badge badge-success">Activo</span>
+                                            {% elif conn['conexion'].estado_conexion == 'Inactivo' %}
+                                                <span class="badge badge-secondary">Inactivo</span>
+                                            {% elif conn['conexion'].estado_conexion == 'Averiado' %}
+                                                <span class="badge badge-danger">Averiado</span>
+                                            {% else %}
+                                                <span class="badge badge-warning">{{ conn['conexion'].estado_conexion }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if conn['conexion'].distancia_metros %}
+                                                {{ conn['conexion'].distancia_metros }}m
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-plug fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No hay conexiones externas registradas</p>
+                            <a href="{{ url_for('conexiones_nueva') }}" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Crear Primera Conexión
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stat-box {
+    padding: 1rem;
+    border-radius: 8px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.stat-box h3 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.stat-box p {
+    margin: 0.5rem 0 0 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.border-left-primary {
+    border-left: 4px solid #007bff !important;
+}
+</style>
+{% endblock %}

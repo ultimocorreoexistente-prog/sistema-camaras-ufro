@@ -3,12 +3,35 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from functools import wraps
 from datetime import datetime
-from sqlalchemy import or_, func
+from sqlalchemy import or_, and_, func
+
+def obtener_codigo_equipo(tipo_equipo, equipo_id):
+    """Obtiene el código de un equipo según su tipo e ID"""
+    try:
+        if tipo_equipo == 'Switch':
+            equipo = Switch.query.get(equipo_id)
+            return equipo.codigo if equipo else f'Switch-{equipo_id}'
+        elif tipo_equipo == 'Gabinete':
+            equipo = Gabinete.query.get(equipo_id)
+            return equipo.codigo if equipo else f'Gabinete-{equipo_id}'
+        elif tipo_equipo == 'Camara':
+            equipo = Camara.query.get(equipo_id)
+            return equipo.codigo if equipo else f'Camara-{equipo_id}'
+        elif tipo_equipo == 'NVR':
+            equipo = NVR_DVR.query.get(equipo_id)
+            return equipo.codigo if equipo else f'NVR-{equipo_id}'
+        else:
+            return f'{tipo_equipo}-{equipo_id}'
+    except:
+        return f'{tipo_equipo}-{equipo_id}'
+
+# Registrar función como filtro de Jinja
+app.jinja_env.globals['obtener_codigo_equipo'] = obtener_codigo_equipo
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 import uuid
 
-from models import db, Usuario, Ubicacion, Camara, Gabinete, Switch, Puerto_Switch, UPS, NVR_DVR, Fuente_Poder, Catalogo_Tipo_Falla, Falla, Mantenimiento, Equipo_Tecnico, Historial_Estado_Equipo, Enlace, VLAN
+from models import db, Usuario, Ubicacion, Camara, Gabinete, Switch, Puerto_Switch, UPS, NVR_DVR, Fuente_Poder, Catalogo_Tipo_Falla, Falla, Mantenimiento, Equipo_Tecnico, Historial_Estado_Equipo, Enlace, VLAN, ConexionTopologia
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
@@ -569,6 +592,41 @@ def mapa_geolocalizacion():
     return render_template('mapa_geolocalizacion.html',
                          camaras=camaras,
                          gabinetes=gabinetes)
+
+@app.route('/mapa-gabinetes-gps')
+@login_required
+def mapa_gabinetes_gps():
+    """Mapa específico para localizar gabinetes por coordenadas GPS"""
+    gabinetes = Gabinete.query.filter(
+        Gabinete.latitud.isnot(None),
+        Gabinete.longitud.isnot(None),
+        Gabinete.estado == 'Activo'
+    ).all()
+    
+    # Preparar datos para el mapa
+    gabinetes_data = []
+    for gabinete in gabinetes:
+        gabinete_data = {
+            'id': gabinete.id,
+            'codigo': gabinete.codigo,
+            'nombre': gabinete.nombre or '',
+            'lat': gabinete.latitud,
+            'lng': gabinete.longitud,
+            'ubicacion': '',
+            'estado': gabinete.estado,
+            'switches': len(gabinete.switches),
+            'camaras': len(gabinete.camaras),
+            'ups': len(gabinete.ups_list)
+        }
+        
+        if gabinete.ubicacion:
+            gabinete_data['ubicacion'] = f"{gabinete.ubicacion.campus} - {gabinete.ubicacion.edificio}"
+            if gabinete.ubicacion.piso:
+                gabinete_data['ubicacion'] += f" ({gabinete.ubicacion.piso})"
+        
+        gabinetes_data.append(gabinete_data)
+    
+    return render_template('mapa_gabinetes_gps.html', gabinetes=gabinetes_data)
 
 @app.route('/informes-avanzados')
 @login_required
@@ -2016,6 +2074,348 @@ def vlans_eliminar(id):
     db.session.commit()
     flash('VLAN eliminada exitosamente', 'success')
     return redirect(url_for('vlans'))
+
+# ============================================================================
+# GESTIÓN DE TOPOLOGÍA DE RED - CONEXIONES BOCA A BOCA
+# ============================================================================
+
+def obtener_conexiones_switch(switch_id):
+    """Obtiene todas las conexiones de un switch específico"""
+    conexiones = ConexionTopologia.query.filter(
+        or_(
+            and_(ConexionTopologia.equipo_origen_tipo == 'Switch', ConexionTopologia.equipo_origen_id == switch_id),
+            and_(ConexionTopologia.equipo_destino_tipo == 'Switch', ConexionTopologia.equipo_destino_id == switch_id)
+        )
+    ).all()
+    
+    conexiones_detalladas = []
+    for conn in conexiones:
+        detalle = {
+            'conexion': conn,
+            'es_origen': conn.equipo_origen_tipo == 'Switch' and conn.equipo_origen_id == switch_id,
+            'otro_equipo': None,
+            'otro_equipo_tipo': None
+        }
+        
+        # Determinar el otro equipo en la conexión
+        if detalle['es_origen']:
+            if conn.equipo_destino_tipo == 'Switch':
+                detalle['otro_equipo'] = Switch.query.get(conn.equipo_destino_id)
+                detalle['otro_equipo_tipo'] = 'Switch'
+            elif conn.equipo_destino_tipo == 'Camara':
+                detalle['otro_equipo'] = Camara.query.get(conn.equipo_destino_id)
+                detalle['otro_equipo_tipo'] = 'Cámara'
+            elif conn.equipo_destino_tipo == 'NVR':
+                detalle['otro_equipo'] = NVR_DVR.query.get(conn.equipo_destino_id)
+                detalle['otro_equipo_tipo'] = 'NVR/DVR'
+        else:
+            if conn.equipo_origen_tipo == 'Switch':
+                detalle['otro_equipo'] = Switch.query.get(conn.equipo_origen_id)
+                detalle['otro_equipo_tipo'] = 'Switch'
+            elif conn.equipo_origen_tipo == 'Camara':
+                detalle['otro_equipo'] = Camara.query.get(conn.equipo_origen_id)
+                detalle['otro_equipo_tipo'] = 'Cámara'
+            elif conn.equipo_origen_tipo == 'NVR':
+                detalle['otro_equipo'] = NVR_DVR.query.get(conn.equipo_origen_id)
+                detalle['otro_equipo_tipo'] = 'NVR/DVR'
+        
+        conexiones_detalladas.append(detalle)
+    
+    return conexiones_detalladas
+
+def calcular_topologia_gabinete(gabinete_id, max_profundidad=10):
+    """Calcula la topología completa hasta un gabinete específico"""
+    gabinete = Gabinete.query.get_or_404(gabinete_id)
+    
+    topologia = {
+        'gabinete': gabinete,
+        'equipos_dentro': [],
+        'conexiones_externas': [],
+        'ruta_completa': []
+    }
+    
+    # Equipos dentro del gabinete
+    switches = Switch.query.filter_by(gabinete_id=gabinete_id, estado='Activo').all()
+    nvr_dvrs = NVR_DVR.query.filter_by(gabinete_id=gabinete_id, estado='Activo').all()
+    ups = UPS.query.filter_by(gabinete_id=gabinete_id, estado='Activo').all()
+    fuentes = Fuente_Poder.query.filter_by(gabinete_id=gabinete_id, estado='Activo').all()
+    camaras = Camara.query.filter_by(gabinete_id=gabinete_id, estado='Activo').all()
+    
+    topologia['equipos_dentro'] = {
+        'switches': switches,
+        'nvr_dvrs': nvr_dvrs,
+        'ups': ups,
+        'fuentes_poder': fuentes,
+        'camaras': camaras
+    }
+    
+    # Conexiones externas del gabinete
+    for switch in switches:
+        conexiones = obtener_conexiones_switch(switch.id)
+        for conn in conexiones:
+            if conn['otro_equipo']:
+                topologia['conexiones_externas'].append({
+                    'switch': switch,
+                    'conexion': conn['conexion'],
+                    'otro_equipo': conn['otro_equipo'],
+                    'otro_equipo_tipo': conn['otro_equipo_tipo']
+                })
+    
+    # Construir ruta desde Core
+    topologia['ruta_completa'] = construir_ruta_hacia_core(switches)
+    
+    return topologia
+
+def construir_ruta_hacia_core(switches):
+    """Construye la ruta desde los switches hacia el core"""
+    ruta = []
+    
+    # Esto es una versión simplificada - en un sistema real necesitarías 
+    # una jerarquía más compleja de switches
+    for switch in switches:
+        if switch.gabinete_id:  # Tiene gabinete asignado
+            gabinete = Gabinete.query.get(switch.gabinete_id)
+            if gabinete:
+                ruta.append({
+                    'nivel': 1,
+                    'tipo': 'Gabinete',
+                    'equipo': gabinete,
+                    'descripcion': f"Gabinete {gabinete.codigo} - {gabinete.nombre or ''}"
+                })
+            
+            ruta.append({
+                'nivel': 2,
+                'tipo': 'Switch',
+                'equipo': switch,
+                'descripcion': f"Switch {switch.codigo} - {switch.ip or 'Sin IP'}"
+            })
+            
+            # Cámaras conectadas
+            camaras = Camara.query.filter_by(switch_id=switch.id, estado='Activo').all()
+            for camara in camaras:
+                ruta.append({
+                    'nivel': 3,
+                    'tipo': 'Cámara',
+                    'equipo': camara,
+                    'descripcion': f"Cámara {camara.codigo} - {camara.ip or 'Sin IP'}"
+                })
+            
+            # NVR/DVR conectados
+            for puerto in switch.puertos:
+                if puerto.nvr_id:
+                    nvr = NVR_DVR.query.get(puerto.nvr_id)
+                    if nvr:
+                        ruta.append({
+                            'nivel': 3,
+                            'tipo': 'NVR/DVR',
+                            'equipo': nvr,
+                            'descripcion': f"NVR {nvr.codigo} - {nvr.ip or 'Sin IP'}"
+                        })
+    
+    return ruta
+
+# Rutas para gestión de topología
+@app.route('/topologia/switch/<int:switch_id>')
+@login_required
+def topologia_switch(switch_id):
+    """Muestra la topología de conexiones de un switch específico"""
+    switch = Switch.query.get_or_404(switch_id)
+    conexiones = obtener_conexiones_switch(switch_id)
+    
+    # Estadísticas de conexiones
+    stats = {
+        'total_conexiones': len(conexiones),
+        'switches_conectados': sum(1 for c in conexiones if c['otro_equipo_tipo'] == 'Switch'),
+        'camaras_conectadas': sum(1 for c in conexiones if c['otro_equipo_tipo'] == 'Cámara'),
+        'nvr_conectados': sum(1 for c in conexiones if c['otro_equipo_tipo'] == 'NVR/DVR')
+    }
+    
+    return render_template('topologia_switch.html', 
+                         switch=switch, 
+                         conexiones=conexiones, 
+                         stats=stats)
+
+@app.route('/topologia/gabinete/<int:gabinete_id>')
+@login_required
+def topologia_gabinete(gabinete_id):
+    """Muestra la topología completa hasta un gabinete específico"""
+    topologia = calcular_topologia_gabinete(gabinete_id)
+    
+    # Contar equipos
+    stats = {
+        'switches': len(topologia['equipos_dentro']['switches']),
+        'nvr_dvrs': len(topologia['equipos_dentro']['nvr_dvrs']),
+        'ups': len(topologia['equipos_dentro']['ups']),
+        'fuentes_poder': len(topologia['equipos_dentro']['fuentes_poder']),
+        'camaras': len(topologia['equipos_dentro']['camaras']),
+        'conexiones_externas': len(topologia['conexiones_externas'])
+    }
+    
+    return render_template('topologia_gabinete.html', 
+                         topologia=topologia, 
+                         stats=stats)
+
+@app.route('/conexiones')
+@login_required
+def conexiones_lista():
+    """Lista todas las conexiones de topología"""
+    conexiones = ConexionTopologia.query.order_by(ConexionTopologia.fecha_conexion.desc()).all()
+    
+    # Agrupar por tipo de conexión
+    conexiones_agrupadas = {
+        'UTP': [],
+        'FibraOptica': [],
+        'EnlaceInalambrico': [],
+        'PoE': []
+    }
+    
+    for conn in conexiones:
+        tipo = conn.tipo_conexion
+        if tipo in conexiones_agrupadas:
+            conexiones_agrupadas[tipo].append(conn)
+    
+    return render_template('conexiones_lista.html', 
+                         conexiones=conexiones,
+                         conexiones_agrupadas=conexiones_agrupadas)
+
+# API para obtener detalle de conexión
+@app.route('/api/conexiones/<int:conexion_id>/detalle')
+@login_required
+def api_conexion_detalle(conexion_id):
+    """API para obtener detalle de una conexión específica"""
+    try:
+        conexion = ConexionTopologia.query.get_or_404(conexion_id)
+        
+        html = f"""
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-success">Equipo Origen</h6>
+                <p><strong>Tipo:</strong> {conexion.equipo_origen_tipo}</p>
+                <p><strong>Equipo:</strong> {obtener_codigo_equipo(conexion.equipo_origen_tipo, conexion.equipo_origen_id)}</p>
+                <p><strong>Puerto:</strong> {conexion.puerto_origen or 'No especificado'}</p>
+            </div>
+            <div class="col-md-6">
+                <h6 class="text-danger">Equipo Destino</h6>
+                <p><strong>Tipo:</strong> {conexion.equipo_destino_tipo}</p>
+                <p><strong>Equipo:</strong> {obtener_codigo_equipo(conexion.equipo_destino_tipo, conexion.equipo_destino_id)}</p>
+                <p><strong>Puerto:</strong> {conexion.puerto_destino or 'No especificado'}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Tipo de Conexión:</strong> {conexion.tipo_conexion}</p>
+                <p><strong>Velocidad:</strong> {conexion.velocidad_conexion or 'No especificada'}</p>
+                <p><strong>Distancia:</strong> {conexion.distancia_metros or 0} metros</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Estado:</strong> <span class="badge badge-{'success' if conexion.estado_conexion == 'Activo' else 'secondary' if conexion.estado_conexion == 'Inactivo' else 'danger'}">{conexion.estado_conexion}</span></p>
+                <p><strong>Fecha Conexión:</strong> {conexion.fecha_conexion.strftime('%d/%m/%Y') if conexion.fecha_conexion else 'No especificada'}</p>
+            </div>
+        </div>
+        """
+        
+        if conexion.observaciones:
+            html += f"""
+            <hr>
+            <h6>Observaciones:</h6>
+            <p>{conexion.observaciones}</p>
+            """
+        
+        return jsonify({'html': html})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/conexiones/<int:id>/editar', methods=['GET', 'POST'])
+@login_required
+@role_required('admin', 'superadmin')
+def conexiones_editar(id):
+    """Editar una conexión existente"""
+    conexion = ConexionTopologia.query.get_or_404(id)
+    
+    if request.method == 'POST':
+        # Lógica de edición similar a la creación
+        conexion.equipo_origen_tipo = request.form['equipo_origen_tipo']
+        conexion.equipo_origen_id = int(request.form['equipo_origen_id'])
+        conexion.puerto_origen = request.form.get('puerto_origen')
+        conexion.equipo_destino_tipo = request.form['equipo_destino_tipo']
+        conexion.equipo_destino_id = int(request.form['equipo_destino_id'])
+        conexion.puerto_destino = request.form.get('puerto_destino')
+        conexion.tipo_conexion = request.form['tipo_conexion']
+        conexion.distancia_metros = int(request.form.get('distancia_metros', 0)) if request.form.get('distancia_metros') else None
+        conexion.velocidad_conexion = request.form.get('velocidad_conexion')
+        conexion.estado_conexion = request.form.get('estado_conexion', 'Activo')
+        conexion.origen_ubicacion_id = int(request.form['origen_ubicacion_id']) if request.form.get('origen_ubicacion_id') else None
+        conexion.destino_ubicacion_id = int(request.form['destino_ubicacion_id']) if request.form.get('destino_ubicacion_id') else None
+        conexion.observaciones = request.form.get('observaciones')
+        
+        db.session.commit()
+        flash('Conexión actualizada exitosamente', 'success')
+        return redirect(url_for('conexiones_lista'))
+    
+    # Para GET: obtener datos para formularios
+    switches = Switch.query.filter_by(estado='Activo').all()
+    gabinetes = Gabinete.query.filter_by(estado='Activo').all()
+    camaras = Camara.query.filter_by(estado='Activo').all()
+    nvr_dvrs = NVR_DVR.query.filter_by(estado='Activo').all()
+    ubicaciones = Ubicacion.query.filter_by(activo=True).all()
+    
+    return render_template('conexiones_form.html', conexion=conexion,
+                         switches=switches, gabinetes=gabinetes,
+                         camaras=camaras, nvr_dvrs=nvr_dvrs, ubicaciones=ubicaciones)
+
+@app.route('/conexiones/<int:id>/eliminar', methods=['POST'])
+@login_required
+@role_required('admin', 'superadmin')
+def conexiones_eliminar(id):
+    """Eliminar una conexión"""
+    conexion = ConexionTopologia.query.get_or_404(id)
+    db.session.delete(conexion)
+    db.session.commit()
+    flash('Conexión eliminada exitosamente', 'success')
+    return redirect(url_for('conexiones_lista'))
+
+@app.route('/conexiones/nueva', methods=['GET', 'POST'])
+@login_required
+@role_required('admin', 'superadmin')
+def conexiones_nueva():
+    """Crear nueva conexión de topología"""
+    if request.method == 'POST':
+        tipo_conexion = request.form['tipo_conexion']
+        
+        nueva_conexion = ConexionTopologia(
+            equipo_origen_tipo=request.form['equipo_origen_tipo'],
+            equipo_origen_id=int(request.form['equipo_origen_id']),
+            puerto_origen=request.form.get('puerto_origen'),
+            equipo_destino_tipo=request.form['equipo_destino_tipo'],
+            equipo_destino_id=int(request.form['equipo_destino_id']),
+            puerto_destino=request.form.get('puerto_destino'),
+            tipo_conexion=tipo_conexion,
+            distancia_metros=int(request.form.get('distancia_metros', 0)) if request.form.get('distancia_metros') else None,
+            velocidad_conexion=request.form.get('velocidad_conexion'),
+            origen_ubicacion_id=int(request.form['origen_ubicacion_id']) if request.form.get('origen_ubicacion_id') else None,
+            destino_ubicacion_id=int(request.form['destino_ubicacion_id']) if request.form.get('destino_ubicacion_id') else None,
+            observaciones=request.form.get('observaciones')
+        )
+        
+        db.session.add(nueva_conexion)
+        db.session.commit()
+        flash('Conexión creada exitosamente', 'success')
+        return redirect(url_for('conexiones_lista'))
+    
+    # Obtener datos para formularios
+    switches = Switch.query.filter_by(estado='Activo').all()
+    gabinetes = Gabinete.query.filter_by(estado='Activo').all()
+    camaras = Camara.query.filter_by(estado='Activo').all()
+    nvr_dvrs = NVR_DVR.query.filter_by(estado='Activo').all()
+    ubicaciones = Ubicacion.query.filter_by(activo=True).all()
+    
+    return render_template('conexiones_form.html',
+                         switches=switches,
+                         gabinetes=gabinetes,
+                         camaras=camaras,
+                         nvr_dvrs=nvr_dvrs,
+                         ubicaciones=ubicaciones)
 
 # ============================================================================
 # DASHBOARD DE CONECTIVIDAD - Métricas de Enlaces

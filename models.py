@@ -326,3 +326,37 @@ class Historial_Estado_Equipo(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     
     usuario = db.relationship('Usuario', backref='cambios_estado')
+
+# NUEVO: Modelo para gestión de topología de red boca a boca
+class ConexionTopologia(db.Model):
+    __tablename__ = 'conexion_topologia'
+    id = db.Column(db.Integer, primary_key=True)
+    
+    # Equipos de origen y destino
+    equipo_origen_tipo = db.Column(db.String(50), nullable=False)  # Switch/Gabinete/Camara/NVR
+    equipo_origen_id = db.Column(db.Integer, nullable=False)
+    puerto_origen = db.Column(db.String(50))  # Puerto específico de origen
+    
+    # Equipos de destino y su puerto
+    equipo_destino_tipo = db.Column(db.String(50), nullable=False)  # Switch/Gabinete/Camara/NVR
+    equipo_destino_id = db.Column(db.Integer, nullable=False)
+    puerto_destino = db.Column(db.String(50))  # Puerto específico de destino
+    
+    # Tipo de conexión física
+    tipo_conexion = db.Column(db.String(30), nullable=False)  # UTP/FibraOptica/EnlaceInalambrico/PoE
+    distancia_metros = db.Column(db.Integer)  # Distancia estimada en metros
+    estado_conexion = db.Column(db.String(20), default='Activo')  # Activo/Inactivo/Averiado/Desconocido
+    
+    # Información adicional
+    fecha_conexion = db.Column(db.Date, default=datetime.utcnow)
+    fecha_ultima_verificacion = db.Column(db.Date)
+    velocidad_conexion = db.Column(db.String(20))  # 100Mbps/1Gbps/10Gbps/etc
+    
+    # Ubicaciones (para conexiones entre gabinetes)
+    origen_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    destino_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    
+    observaciones = db.Column(db.Text)
+    
+    origen_ubicacion = db.relationship('Ubicacion', foreign_keys=[origen_ubicacion_id], backref='conexiones_origen')
+    destino_ubicacion = db.relationship('Ubicacion', foreign_keys=[destino_ubicacion_id], backref='conexiones_destino')
