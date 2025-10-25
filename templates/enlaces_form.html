@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar' if enlace else 'Nuevo' }} Enlace - Sistema UFRO{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><i class="bi bi-diagram-3"></i> {{ 'Editar' if enlace else 'Nuevo' }} Enlace</h2>
+            <hr>
+        </div>
+    </div>
+
+    <form method="POST" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="codigo" class="form-label">Código <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="codigo" name="codigo" value="{{ enlace.codigo if enlace else '' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ enlace.nombre if enlace else '' }}">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="tipo_enlace" class="form-label">Tipo de Enlace <span class="text-danger">*</span></label>
+                    <select class="form-select" id="tipo_enlace" name="tipo_enlace" required>
+                        <option value="Fibra" {% if enlace and enlace.tipo_enlace == 'Fibra' %}selected{% endif %}>Fibra Óptica</option>
+                        <option value="Inalambrico" {% if enlace and enlace.tipo_enlace == 'Inalambrico' %}selected{% endif %}>Inalámbrico</option>
+                        <option value="Cobre" {% if enlace and enlace.tipo_enlace == 'Cobre' %}selected{% endif %}>Cobre (Ethernet)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="estado_conexion" class="form-label">Estado Conexión <span class="text-danger">*</span></label>
+                    <select class="form-select" id="estado_conexion" name="estado_conexion" required>
+                        <option value="Activo" {% if enlace and enlace.estado_conexion == 'Activo' %}selected{% endif %}>Activo</option>
+                        <option value="Inactivo" {% if enlace and enlace.estado_conexion == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                        <option value="Degradado" {% if enlace and enlace.estado_conexion == 'Degradado' %}selected{% endif %}>Degradado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="origen_ubicacion_id" class="form-label">Ubicación Origen</label>
+                    <select class="form-select" id="origen_ubicacion_id" name="origen_ubicacion_id">
+                        <option value="">Seleccionar...</option>
+                        {% for ubicacion in ubicaciones %}
+                        <option value="{{ ubicacion.id }}" {% if enlace and enlace.origen_ubicacion_id == ubicacion.id %}selected{% endif %}>
+                            {{ ubicacion.campus }} - {{ ubicacion.edificio }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="destino_ubicacion_id" class="form-label">Ubicación Destino</label>
+                    <select class="form-select" id="destino_ubicacion_id" name="destino_ubicacion_id">
+                        <option value="">Seleccionar...</option>
+                        {% for ubicacion in ubicaciones %}
+                        <option value="{{ ubicacion.id }}" {% if enlace and enlace.destino_ubicacion_id == ubicacion.id %}selected{% endif %}>
+                            {{ ubicacion.campus }} - {{ ubicacion.edificio }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="switch_origen_id" class="form-label">Switch Origen</label>
+                    <select class="form-select" id="switch_origen_id" name="switch_origen_id">
+                        <option value="">Seleccionar...</option>
+                        {% for switch in switches %}
+                        <option value="{{ switch.id }}" {% if enlace and enlace.switch_origen_id == switch.id %}selected{% endif %}>
+                            {{ switch.codigo }} - {{ switch.nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="switch_destino_id" class="form-label">Switch Destino</label>
+                    <select class="form-select" id="switch_destino_id" name="switch_destino_id">
+                        <option value="">Seleccionar...</option>
+                        {% for switch in switches %}
+                        <option value="{{ switch.id }}" {% if enlace and enlace.switch_destino_id == switch.id %}selected{% endif %}>
+                            {{ switch.codigo }} - {{ switch.nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="latencia_ms" class="form-label">Latencia (ms)</label>
+                    <input type="number" step="0.01" class="form-control" id="latencia_ms" name="latencia_ms" value="{{ enlace.latencia_ms if enlace else '' }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="porcentaje_perdida_paquetes" class="form-label">Pérdida Paquetes (%)</label>
+                    <input type="number" step="0.01" class="form-control" id="porcentaje_perdida_paquetes" name="porcentaje_perdida_paquetes" value="{{ enlace.porcentaje_perdida_paquetes if enlace else '' }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="ancho_banda_mbps" class="form-label">Ancho Banda (Mbps)</label>
+                    <input type="number" class="form-control" id="ancho_banda_mbps" name="ancho_banda_mbps" value="{{ enlace.ancho_banda_mbps if enlace else '' }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="proveedor" class="form-label">Proveedor</label>
+                    <input type="text" class="form-control" id="proveedor" name="proveedor" value="{{ enlace.proveedor if enlace else '' }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="fecha_instalacion" class="form-label">Fecha Instalación</label>
+                    <input type="date" class="form-control" id="fecha_instalacion" name="fecha_instalacion" value="{{ enlace.fecha_instalacion if enlace and enlace.fecha_instalacion else '' }}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="fecha_ultimo_testeo" class="form-label">Fecha Último Testeo</label>
+                    <input type="date" class="form-control" id="fecha_ultimo_testeo" name="fecha_ultimo_testeo" value="{{ enlace.fecha_ultimo_testeo if enlace and enlace.fecha_ultimo_testeo else '' }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label for="observaciones" class="form-label">Observaciones</label>
+                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3">{{ enlace.observaciones if enlace else '' }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+                <a href="{{ url_for('enlaces') }}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

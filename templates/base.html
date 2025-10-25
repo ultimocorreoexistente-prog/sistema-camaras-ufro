@@ -46,6 +46,9 @@
                             <li><a class="dropdown-item" href="{{ url_for('gabinetes_list') }}"><i class="bi bi-box"></i> Gabinetes</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/switches"><i class="bi bi-hdd-network"></i> Switches</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('vlans') }}"><i class="bi bi-diagram-3"></i> VLANs</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('enlaces') }}"><i class="bi bi-arrows-angle-expand"></i> Enlaces</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/nvr"><i class="bi bi-server"></i> NVR/DVR</a></li>
                             <li><a class="dropdown-item" href="/ups"><i class="bi bi-battery-charging"></i> UPS</a></li>
                             <li><a class="dropdown-item" href="/fuentes"><i class="bi bi-plug"></i> Fuentes de Poder</a></li>
@@ -85,6 +88,8 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url_for('mapa_red') }}"><i class="bi bi-diagram-3"></i> Topología de Red</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('mapa_geolocalizacion') }}"><i class="bi bi-geo-alt"></i> Geolocalización</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('dashboard_conectividad') }}"><i class="bi bi-speedometer2"></i> Dashboard Conectividad</a></li>
                         </ul>
                     </li>
                     

@@ -94,8 +94,53 @@ class Puerto_Switch(db.Model):
     tipo_conexion = db.Column(db.String(20))  # PoE/Fibra/Normal
     nvr_id = db.Column(db.Integer, db.ForeignKey('nvr_dvr.id'))
     puerto_nvr = db.Column(db.String(20))
+    # PRIORIDAD 3: Relación con VLAN
+    vlan_id = db.Column(db.Integer, db.ForeignKey('vlan.id'))
     
     switch = db.relationship('Switch', backref='puertos')
+    vlan = db.relationship('VLAN', backref='puertos')
+
+# PRIORIDAD 3: Modelo VLAN para gestión de redes virtuales
+class VLAN(db.Model):
+    __tablename__ = 'vlan'
+    id = db.Column(db.Integer, primary_key=True)
+    vlan_id = db.Column(db.Integer, unique=True, nullable=False)
+    vlan_nombre = db.Column(db.String(100), nullable=False)
+    vlan_descripcion = db.Column(db.Text)
+    red = db.Column(db.String(45))  # Ej: 192.168.10.0
+    mascara = db.Column(db.String(45))  # Ej: 255.255.255.0
+    gateway = db.Column(db.String(45))  # Ej: 192.168.10.1
+    switch_id = db.Column(db.Integer, db.ForeignKey('switch.id'))
+    estado = db.Column(db.String(20), default='Activo')
+    fecha_creacion = db.Column(db.Date)
+    observaciones = db.Column(db.Text)
+    
+    switch = db.relationship('Switch', backref='vlans')
+
+# PRIORIDAD 1: Modelo Enlace para gestión de conectividad
+class Enlace(db.Model):
+    __tablename__ = 'enlace'
+    id = db.Column(db.Integer, primary_key=True)
+    codigo = db.Column(db.String(50), unique=True, nullable=False)
+    nombre = db.Column(db.String(200))
+    tipo_enlace = db.Column(db.String(50), nullable=False)  # Fibra/Inalambrico/Cobre
+    origen_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    destino_ubicacion_id = db.Column(db.Integer, db.ForeignKey('ubicacion.id'))
+    switch_origen_id = db.Column(db.Integer, db.ForeignKey('switch.id'))
+    switch_destino_id = db.Column(db.Integer, db.ForeignKey('switch.id'))
+    latencia_ms = db.Column(db.Float)
+    porcentaje_perdida_paquetes = db.Column(db.Float)
+    estado_conexion = db.Column(db.String(20), default='Activo')  # Activo/Inactivo/Degradado
+    ancho_banda_mbps = db.Column(db.Integer)
+    proveedor = db.Column(db.String(200))
+    fecha_instalacion = db.Column(db.Date)
+    fecha_ultimo_testeo = db.Column(db.Date)
+    observaciones = db.Column(db.Text)
+    
+    origen_ubicacion = db.relationship('Ubicacion', foreign_keys=[origen_ubicacion_id], backref='enlaces_origen')
+    destino_ubicacion = db.relationship('Ubicacion', foreign_keys=[destino_ubicacion_id], backref='enlaces_destino')
+    switch_origen = db.relationship('Switch', foreign_keys=[switch_origen_id], backref='enlaces_origen')
+    switch_destino = db.relationship('Switch', foreign_keys=[switch_destino_id], backref='enlaces_destino')
 
 class UPS(db.Model):
     __tablename__ = 'ups'
@@ -117,6 +162,11 @@ class UPS(db.Model):
     observaciones = db.Column(db.Text)
     latitud = db.Column(db.Float)
     longitud = db.Column(db.Float)
+    # PRIORIDAD 4: Campos de autonomía y alertas UPS
+    autonomia_minutos = db.Column(db.Integer)
+    porcentaje_carga_actual = db.Column(db.Float)
+    alertas_bateria_baja = db.Column(db.Boolean, default=False)
+    alertas_sobrecarga = db.Column(db.Boolean, default=False)
     
     ubicacion = db.relationship('Ubicacion', backref='ups_list')
     gabinete = db.relationship('Gabinete', backref='ups_list')
@@ -189,6 +239,10 @@ class Camara(db.Model):
     observaciones = db.Column(db.Text)
     latitud = db.Column(db.Float)
     longitud = db.Column(db.Float)
+    # PRIORIDAD 2: Campos de firmware en cámaras
+    version_firmware = db.Column(db.String(50))
+    fecha_actualizacion_firmware = db.Column(db.Date)
+    proxima_revision_firmware = db.Column(db.Date)
     
     ubicacion = db.relationship('Ubicacion', backref='camaras')
     gabinete = db.relationship('Gabinete', backref='camaras')

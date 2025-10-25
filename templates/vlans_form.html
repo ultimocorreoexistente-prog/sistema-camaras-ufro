@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar' if vlan else 'Nueva' }} VLAN - Sistema UFRO{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><i class="bi bi-hdd-network"></i> {{ 'Editar' if vlan else 'Nueva' }} VLAN</h2>
+            <hr>
+        </div>
+    </div>
+
+    <form method="POST" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="vlan_id" class="form-label">VLAN ID <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="vlan_id" name="vlan_id" value="{{ vlan.vlan_id if vlan else '' }}" required min="1" max="4094">
+                    <small class="form-text text-muted">Rango válido: 1-4094</small>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label for="vlan_nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="vlan_nombre" name="vlan_nombre" value="{{ vlan.vlan_nombre if vlan else '' }}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label for="vlan_descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="vlan_descripcion" name="vlan_descripcion" rows="2">{{ vlan.vlan_descripcion if vlan else '' }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="red" class="form-label">Red</label>
+                    <input type="text" class="form-control" id="red" name="red" value="{{ vlan.red if vlan else '' }}" placeholder="192.168.10.0">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="mascara" class="form-label">Máscara</label>
+                    <input type="text" class="form-control" id="mascara" name="mascara" value="{{ vlan.mascara if vlan else '' }}" placeholder="255.255.255.0">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="gateway" class="form-label">Gateway</label>
+                    <input type="text" class="form-control" id="gateway" name="gateway" value="{{ vlan.gateway if vlan else '' }}" placeholder="192.168.10.1">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="switch_id" class="form-label">Switch</label>
+                    <select class="form-select" id="switch_id" name="switch_id">
+                        <option value="">Seleccionar...</option>
+                        {% for switch in switches %}
+                        <option value="{{ switch.id }}" {% if vlan and vlan.switch_id == switch.id %}selected{% endif %}>
+                            {{ switch.codigo }} - {{ switch.nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="estado" class="form-label">Estado <span class="text-danger">*</span></label>
+                    <select class="form-select" id="estado" name="estado" required>
+                        <option value="Activo" {% if vlan and vlan.estado == 'Activo' %}selected{% endif %}>Activo</option>
+                        <option value="Inactivo" {% if vlan and vlan.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="fecha_creacion" class="form-label">Fecha Creación</label>
+                    <input type="date" class="form-control" id="fecha_creacion" name="fecha_creacion" value="{{ vlan.fecha_creacion if vlan and vlan.fecha_creacion else '' }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label for="observaciones" class="form-label">Observaciones</label>
+                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3">{{ vlan.observaciones if vlan else '' }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+                <a href="{{ url_for('vlans') }}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

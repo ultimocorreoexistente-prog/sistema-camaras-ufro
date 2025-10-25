@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Conectividad - Sistema UFRO{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2><i class="bi bi-speedometer2"></i> Dashboard de Conectividad</h2>
+            <p class="text-muted">Monitoreo en tiempo real de enlaces de red</p>
+        </div>
+    </div>
+
+    <!-- Estadísticas generales -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Enlaces Activos</h6>
+                    <h2>{{ enlaces_activos }}</h2>
+                    <small>{{ "%.1f"|format((enlaces_activos / total_enlaces * 100) if total_enlaces > 0 else 0) }}% del total</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Enlaces Degradados</h6>
+                    <h2>{{ enlaces_degradados }}</h2>
+                    <small>{{ "%.1f"|format((enlaces_degradados / total_enlaces * 100) if total_enlaces > 0 else 0) }}% del total</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Enlaces Inactivos</h6>
+                    <h2>{{ enlaces_inactivos }}</h2>
+                    <small>{{ "%.1f"|format((enlaces_inactivos / total_enlaces * 100) if total_enlaces > 0 else 0) }}% del total</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Total Enlaces</h6>
+                    <h2>{{ total_enlaces }}</h2>
+                    <small>Toda la infraestructura</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Métricas de rendimiento -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="bi bi-clock"></i> Latencia Promedio</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h1>
+                        {% if latencia_promedio < 10 %}
+                        <span class="text-success">{{ latencia_promedio }}</span>
+                        {% elif latencia_promedio < 50 %}
+                        <span class="text-warning">{{ latencia_promedio }}</span>
+                        {% else %}
+                        <span class="text-danger">{{ latencia_promedio }}</span>
+                        {% endif %}
+                        <small>ms</small>
+                    </h1>
+                    <p class="text-muted">
+                        {% if latencia_promedio < 10 %}
+                        Excelente rendimiento de red
+                        {% elif latencia_promedio < 50 %}
+                        Rendimiento aceptable
+                        {% else %}
+                        Requiere atención inmediata
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="bi bi-bar-chart"></i> Pérdida Paquetes Promedio</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h1>
+                        {% if perdida_promedio < 1 %}
+                        <span class="text-success">{{ perdida_promedio }}</span>
+                        {% elif perdida_promedio < 5 %}
+                        <span class="text-warning">{{ perdida_promedio }}</span>
+                        {% else %}
+                        <span class="text-danger">{{ perdida_promedio }}</span>
+                        {% endif %}
+                        <small>%</small>
+                    </h1>
+                    <p class="text-muted">
+                        {% if perdida_promedio < 1 %}
+                        Óptima calidad de enlace
+                        {% elif perdida_promedio < 5 %}
+                        Calidad aceptable
+                        {% else %}
+                        Requiere revisión urgente
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de enlaces con alertas -->
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5><i class="bi bi-exclamation-triangle"></i> Monitoreo de Enlaces</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Latencia (ms)</th>
+                            <th>Pérdida (%)</th>
+                            <th>Ancho Banda (Mbps)</th>
+                            <th>Estado</th>
+                            <th>Alerta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for enlace in enlaces %}
+                        <tr {% if enlace.estado_conexion != 'Activo' or (enlace.latencia_ms and enlace.latencia_ms > 50) or (enlace.porcentaje_perdida_paquetes and enlace.porcentaje_perdida_paquetes > 5) %}class="table-danger"{% endif %}>
+                            <td><strong>{{ enlace.codigo }}</strong></td>
+                            <td>{{ enlace.nombre or 'N/A' }}</td>
+                            <td>
+                                {% if enlace.tipo_enlace == 'Fibra' %}
+                                <span class="badge bg-success">{{ enlace.tipo_enlace }}</span>
+                                {% elif enlace.tipo_enlace == 'Inalambrico' %}
+                                <span class="badge bg-info">{{ enlace.tipo_enlace }}</span>
+                                {% else %}
+                                <span class="badge bg-secondary">{{ enlace.tipo_enlace }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if enlace.latencia_ms %}
+                                    {% if enlace.latencia_ms < 10 %}
+                                    <span class="badge bg-success">{{ "%.1f"|format(enlace.latencia_ms) }}</span>
+                                    {% elif enlace.latencia_ms < 50 %}
+                                    <span class="badge bg-warning">{{ "%.1f"|format(enlace.latencia_ms) }}</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">{{ "%.1f"|format(enlace.latencia_ms) }}</span>
+                                    {% endif %}
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if enlace.porcentaje_perdida_paquetes is not none %}
+                                    {% if enlace.porcentaje_perdida_paquetes < 1 %}
+                                    <span class="badge bg-success">{{ "%.2f"|format(enlace.porcentaje_perdida_paquetes) }}</span>
+                                    {% elif enlace.porcentaje_perdida_paquetes < 5 %}
+                                    <span class="badge bg-warning">{{ "%.2f"|format(enlace.porcentaje_perdida_paquetes) }}</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">{{ "%.2f"|format(enlace.porcentaje_perdida_paquetes) }}</span>
+                                    {% endif %}
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
+                            <td>{{ enlace.ancho_banda_mbps or 'N/A' }}</td>
+                            <td>
+                                {% if enlace.estado_conexion == 'Activo' %}
+                                <span class="badge bg-success">{{ enlace.estado_conexion }}</span>
+                                {% elif enlace.estado_conexion == 'Inactivo' %}
+                                <span class="badge bg-danger">{{ enlace.estado_conexion }}</span>
+                                {% else %}
+                                <span class="badge bg-warning">{{ enlace.estado_conexion }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if enlace.estado_conexion != 'Activo' %}
+                                <span class="badge bg-danger">ENLACE CAÍDO</span>
+                                {% elif enlace.latencia_ms and enlace.latencia_ms > 50 %}
+                                <span class="badge bg-danger">LATENCIA ALTA</span>
+                                {% elif enlace.porcentaje_perdida_paquetes and enlace.porcentaje_perdida_paquetes > 5 %}
+                                <span class="badge bg-danger">PÉRDIDA ALTA</span>
+                                {% elif (enlace.latencia_ms and enlace.latencia_ms > 10) or (enlace.porcentaje_perdida_paquetes and enlace.porcentaje_perdida_paquetes > 1) %}
+                                <span class="badge bg-warning">ADVERTENCIA</span>
+                                {% else %}
+                                <span class="badge bg-success">OK</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center">No hay enlaces registrados</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <a href="{{ url_for('enlaces') }}" class="btn btn-primary">
+                <i class="bi bi-diagram-3"></i> Ver Todos los Enlaces
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
