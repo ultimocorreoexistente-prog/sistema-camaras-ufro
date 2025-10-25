@@ -29,10 +29,8 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Usuario</th>
-                                    <th>Nombre Completo</th>
                                     <th>Email</th>
-                                    <th>Teléfono</th>
+                                    <th>Nombre</th>
                                     <th>Rol</th>
                                     <th>Estado</th>
                                     <th>Fecha Creación</th>
@@ -44,14 +42,12 @@
                                 <tr>
                                     <td>{{ usuario.id }}</td>
                                     <td>
-                                        <strong>{{ usuario.username }}</strong>
-                                        {% if usuario.username == current_user.username %}
+                                        <strong>{{ usuario.email }}</strong>
+                                        {% if usuario.email == current_user.email %}
                                             <span class="badge bg-info">Tú</span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ usuario.nombre_completo or '-' }}</td>
-                                    <td>{{ usuario.email or '-' }}</td>
-                                    <td>{{ usuario.telefono or '-' }}</td>
+                                    <td>{{ usuario.nombre or '-' }}</td>
                                     <td>
                                         <span class="badge bg-{{ 
                                             'danger' if usuario.rol == 'superadmin' else
@@ -79,7 +75,7 @@
                                             </a>
                                             {% if usuario.id != current_user.id %}
                                             <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                    onclick="confirmarEliminacion({{ usuario.id }}, '{{ usuario.username }}')" 
+                                                    onclick="confirmarEliminacion({{ usuario.id }}, '{{ usuario.email }}')" 
                                                     title="Eliminar">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -129,8 +125,8 @@
 
 {% block scripts %}
 <script>
-function confirmarEliminacion(usuarioId, username) {
-    document.getElementById('usuarioAEliminar').textContent = username;
+function confirmarEliminacion(usuarioId, email) {
+    document.getElementById('usuarioAEliminar').textContent = email;
     document.getElementById('formEliminar').action = '/admin/usuarios/' + usuarioId + '/eliminar';
     var modal = new bootstrap.Modal(document.getElementById('modalEliminar'));
     modal.show();

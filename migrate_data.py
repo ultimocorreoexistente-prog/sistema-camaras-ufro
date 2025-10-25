@@ -456,9 +456,9 @@ def migrar_datos():
             camara = Camara(
                 codigo=codigo,
                 nombre=safe_str(row.get('Nombre')),
-                ip=safe_str(row.get('IP')),
+                ip_address=safe_str(row.get('IP')),
                 modelo=safe_str(row.get('Modelo')),
-                fabricante=safe_str(row.get('Fabricante')),
+                marca=safe_str(row.get('Fabricante')),
                 tipo_camara=safe_str(row.get('Tipo_Camara', 'Domo')),
                 ubicacion_id=safe_int(row.get('ID_Ubicacion')),
                 gabinete_id=safe_int(row.get('ID_Gabinete')),
@@ -488,13 +488,13 @@ def migrar_datos():
         print("11. Migrando Fallas (con validación anti-duplicados)...")
         
         # Obtener usuario admin para reportado_por
-        admin_user = Usuario.query.filter_by(username='admin').first()
+        admin_user = Usuario.query.filter_by(email='admin').first()
         if not admin_user:
             print("   ⚠ Usuario admin no existe, creando...")
             admin_user = Usuario(
-                username='admin',
+                email='admin',
                 rol='admin',
-                nombre_completo='Administrador',
+                nombre='Administrador',
                 activo=True
             )
             admin_user.set_password('admin123')
@@ -630,10 +630,10 @@ if __name__ == '__main__':
         if Usuario.query.count() == 0:
             print("Creando usuarios por defecto...\n")
             usuarios = [
-                Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
-                Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
-                Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
-                Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
+                Usuario(email='admin', rol='admin', nombre='Administrador', activo=True),
+                Usuario(email='supervisor', rol='supervisor', nombre='Supervisor', activo=True),
+                Usuario(email='tecnico1', rol='tecnico', nombre='Técnico 1', activo=True),
+                Usuario(email='visualizador', rol='visualizador', nombre='Visualizador', activo=True)
             ]
             
             passwords = ['admin123', 'super123', 'tecnico123', 'viz123']

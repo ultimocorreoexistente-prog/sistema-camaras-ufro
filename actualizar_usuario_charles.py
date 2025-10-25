@@ -18,7 +18,7 @@ def crear_usuario_charles_jelvez():
     
     with app.app_context():
         # Verificar si Charles Jélvez ya existe
-        charles = Usuario.query.filter_by(username='charles.jelvez').first()
+        charles = Usuario.query.filter_by(email='charles.jelvez@ufro.cl').first()
         
         if charles:
             print("✅ Charles Jélvez ya existe en el sistema")
@@ -28,10 +28,9 @@ def crear_usuario_charles_jelvez():
         
         # Crear nuevo usuario SUPERADMIN
         charles = Usuario(
-            username='charles.jelvez',
-            rol='superadmin',
-            nombre_completo='Charles Jélvez',
             email='charles.jelvez@ufro.cl',
+            rol='superadmin',
+            nombre='Charles Jélvez',
             activo=True
         )
         charles.set_password('charles123')
@@ -40,23 +39,22 @@ def crear_usuario_charles_jelvez():
         db.session.commit()
         
         print("✅ Charles Jélvez creado exitosamente como SUPERADMIN")
-        print(f"   Username: {charles.username}")
-        print(f"   Rol: {charles.rol}")
         print(f"   Email: {charles.email}")
+        print(f"   Rol: {charles.rol}")
         return charles
 
 def listar_todos_usuarios():
     """Lista todos los usuarios del sistema"""
     
     with app.app_context():
-        usuarios = Usuario.query.order_by(Usuario.rol.desc(), Usuario.username).all()
+        usuarios = Usuario.query.order_by(Usuario.rol.desc(), Usuario.email).all()
         
         print("\n👥 USUARIOS DEL SISTEMA:")
         print("=" * 60)
         
         for usuario in usuarios:
             estado = "✅ Activo" if usuario.activo else "❌ Inactivo"
-            print(f"{usuario.id:2d}. {usuario.username:20s} | {usuario.rol:12s} | {estado}")
+            print(f"{usuario.id:2d}. {usuario.email:20s} | {usuario.rol:12s} | {estado}")
         
         print(f"\nTotal usuarios: {len(usuarios)}")
         
@@ -86,7 +84,7 @@ def main():
         
         print("\n🎉 PROCESO COMPLETADO EXITOSAMENTE")
         print(f"\n🔑 CREDENCIALES DE CHARLES JÉLVEZ:")
-        print(f"   Usuario: {charles.username}")
+        print(f"   Email: {charles.email}")
         print(f"   Contraseña: charles123")
         print(f"   Rol: {charles.rol.upper()}")
         print(f"\n🌐 Sistema disponible en: https://gestion-camaras-ufro.up.railway.app/")

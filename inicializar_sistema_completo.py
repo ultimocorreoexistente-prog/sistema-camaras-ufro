@@ -34,38 +34,33 @@ def crear_usuarios_completos():
         # Lista de usuarios a crear
         usuarios_data = [
             {
-                'username': 'charles.jelvez',
-                'rol': 'superadmin',
-                'nombre_completo': 'Charles Jélvez',
                 'email': 'charles.jelvez@ufro.cl',
+                'nombre': 'Charles Jélvez',
+                'rol': 'superadmin',
                 'password': 'charles123'
             },
             {
-                'username': 'admin',
-                'rol': 'admin',
-                'nombre_completo': 'Administrador',
                 'email': 'admin@ufro.cl',
+                'nombre': 'Administrador',
+                'rol': 'admin',
                 'password': 'admin123'
             },
             {
-                'username': 'supervisor',
-                'rol': 'supervisor',
-                'nombre_completo': 'Supervisor',
                 'email': 'supervisor@ufro.cl',
+                'nombre': 'Supervisor',
+                'rol': 'supervisor',
                 'password': 'super123'
             },
             {
-                'username': 'tecnico1',
-                'rol': 'tecnico',
-                'nombre_completo': 'Técnico 1',
                 'email': 'tecnico1@ufro.cl',
+                'nombre': 'Técnico 1',
+                'rol': 'tecnico',
                 'password': 'tecnico123'
             },
             {
-                'username': 'visualizador',
-                'rol': 'visualizador',
-                'nombre_completo': 'Visualizador',
                 'email': 'visualizador@ufro.cl',
+                'nombre': 'Visualizador',
+                'rol': 'visualizador',
                 'password': 'viz123'
             }
         ]
@@ -74,25 +69,24 @@ def crear_usuarios_completos():
         
         for user_data in usuarios_data:
             # Verificar si el usuario ya existe
-            usuario_existente = Usuario.query.filter_by(username=user_data['username']).first()
+            usuario_existente = Usuario.query.filter_by(email=user_data['email']).first()
             
             if usuario_existente:
-                print(f"⚠️  {user_data['username']} ya existe ({user_data['rol']})")
+                print(f"⚠️  {user_data['email']} ya existe ({user_data['rol']})")
                 continue
             
             # Crear nuevo usuario
             usuario = Usuario(
-                username=user_data['username'],
-                rol=user_data['rol'],
-                nombre_completo=user_data['nombre_completo'],
                 email=user_data['email'],
+                nombre=user_data['nombre'],
+                rol=user_data['rol'],
                 activo=True
             )
             usuario.set_password(user_data['password'])
             
             db.session.add(usuario)
             usuarios_creados += 1
-            print(f"✅ Creado: {user_data['username']} ({user_data['rol']})")
+            print(f"✅ Creado: {user_data['email']} ({user_data['rol']})")
         
         # Guardar cambios
         if usuarios_creados > 0:
@@ -107,7 +101,7 @@ def listar_usuarios_final():
     """Lista todos los usuarios finales"""
     
     with app.app_context():
-        usuarios = Usuario.query.order_by(Usuario.rol.desc(), Usuario.username).all()
+        usuarios = Usuario.query.order_by(Usuario.rol.desc(), Usuario.email).all()
         
         print("\n👥 USUARIOS FINALES DEL SISTEMA:")
         print("=" * 60)
@@ -122,7 +116,7 @@ def listar_usuarios_final():
                 'visualizador': '👁️‍🗨️'
             }.get(usuario.rol, '❓')
             
-            print(f"{usuario.id:2d}. {usuario.username:20s} | {rol_badge} {usuario.rol:12s} | {estado}")
+            print(f"{usuario.id:2d}. {usuario.email:20s} | {rol_badge} {usuario.rol:12s} | {estado}")
         
         print(f"\nTotal usuarios: {len(usuarios)}")
 
@@ -142,17 +136,17 @@ def main():
         
         print("\n🎉 PROCESO COMPLETADO EXITOSAMENTE")
         print(f"\n🔑 ACCESO SUPERADMIN (Charles Jélvez):")
-        print(f"   👤 Usuario: charles.jelvez")
+        print(f"   👤 Usuario: charles.jelvez@ufro.cl")
         print(f"   🔑 Contraseña: charles123")
         print(f"   👑 Rol: SUPERADMIN")
         print(f"\n🌐 Sistema disponible en: https://gestion-camaras-ufro.up.railway.app/")
         
         print(f"\n📋 TODOS LOS USUARIOS DISPONIBLES:")
-        print(f"   charles.jelvez / charles123     (SUPERADMIN)")
-        print(f"   admin / admin123               (ADMIN)")
-        print(f"   supervisor / super123          (SUPERVISOR)")
-        print(f"   tecnico1 / tecnico123          (TÉCNICO)")
-        print(f"   visualizador / viz123          (VISUALIZADOR)")
+        print(f"   charles.jelvez@ufro.cl / charles123     (SUPERADMIN)")
+        print(f"   admin@ufro.cl / admin123               (ADMIN)")
+        print(f"   supervisor@ufro.cl / super123          (SUPERVISOR)")
+        print(f"   tecnico1@ufro.cl / tecnico123          (TÉCNICO)")
+        print(f"   visualizador@ufro.cl / viz123          (VISUALIZADOR)")
         
     except Exception as e:
         print(f"\n❌ ERROR: {e}")

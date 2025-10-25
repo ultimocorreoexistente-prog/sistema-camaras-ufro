@@ -103,7 +103,7 @@
                     
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i> {{ current_user.nombre_completo }}
+                            <i class="bi bi-person-circle"></i> {{ current_user.nombre }}
                             {% if current_user.rol == 'superadmin' %}
                                 <span class="badge bg-warning ms-1">SUPERADMIN</span>
                             {% else %}

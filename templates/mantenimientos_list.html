@@ -24,7 +24,7 @@
                             <td><span class="badge bg-primary">{{ mant.tipo }}</span></td>
                             <td>{{ mant.equipo_tipo }} #{{ mant.equipo_id }}</td>
                             <td>{{ mant.descripcion[:50] }}...</td>
-                            <td>{{ mant.tecnico.nombre_completo if mant.tecnico else 'N/A' }}</td>
+                            <td>{{ mant.tecnico.email if mant.tecnico else 'N/A' }}</td>
                             <td>${{ mant.costo or 0 }}</td>
                         </tr>
                         {% endfor %}

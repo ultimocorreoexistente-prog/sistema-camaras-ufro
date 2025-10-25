@@ -24,25 +24,24 @@ def verificar_y_crear_usuarios():
         print(f"Usuarios actuales en la BD: {len(usuarios_existentes)}")
         
         for usuario in usuarios_existentes:
-            print(f"  - {usuario.username} ({usuario.rol}) - {'✅' if usuario.activo else '❌'}")
+            print(f"  - {usuario.email} ({usuario.rol}) - {'✅' if usuario.activo else '❌'}")
         
         # Crear Charles como SUPERADMIN si no existe
-        charles = Usuario.query.filter_by(username='charles.jelvez').first()
+        charles = Usuario.query.filter_by(email='charles.jelvez@ufro.cl').first()
         
         if not charles:
             print("\n👑 Creando Charles Jélvez como SUPERADMIN...")
             charles = Usuario(
-                username='charles.jelvez',
-                rol='superadmin',
-                nombre_completo='Charles Jélvez',
                 email='charles.jelvez@ufro.cl',
+                nombre='Charles Jélvez',
+                rol='superadmin',
                 activo=True
             )
             charles.set_password('charles123')
             db.session.add(charles)
             print("✅ Charles Jélvez creado exitosamente")
         else:
-            print(f"\n✅ Charles ya existe: {charles.username} ({charles.rol})")
+            print(f"\n✅ Charles ya existe: {charles.email} ({charles.rol})")
             # Asegurar que tiene la contraseña correcta
             charles.set_password('charles123')
         
@@ -55,15 +54,14 @@ def verificar_y_crear_usuarios():
         ]
         
         for username, password, rol, nombre in usuarios_default:
-            usuario = Usuario.query.filter_by(username=username).first()
+            usuario = Usuario.query.filter_by(email=f'{username}@ufro.cl').first()
             
             if not usuario:
                 print(f"➕ Creando {username} ({rol})...")
                 usuario = Usuario(
-                    username=username,
-                    rol=rol,
-                    nombre_completo=nombre,
                     email=f'{username}@ufro.cl',
+                    nombre=nombre,
+                    rol=rol,
                     activo=True
                 )
                 usuario.set_password(password)
@@ -82,14 +80,14 @@ def verificar_y_crear_usuarios():
         print("Usuarios configurados:")
         
         for usuario in usuarios_finales:
-            print(f"  👤 {usuario.username:12} | {usuario.rol:10} | {usuario.nombre_completo:15} | {'✅' if usuario.activo else '❌'}")
+            print(f"  👤 {usuario.email:12} | {usuario.rol:10} | {usuario.nombre:15} | {'✅' if usuario.activo else '❌'}")
         
         print(f"\n🎯 CREDENCIALES VERIFICADAS:")
-        print("  SUPERADMIN: charles.jelvez / charles123")
-        print("  ADMIN: admin / admin123")
-        print("  SUPERVISOR: supervisor / super123")
-        print("  TÉCNICO: tecnico1 / tecnico123")
-        print("  VISUALIZADOR: visualizador / viz123")
+        print("  SUPERADMIN: charles.jelvez@ufro.cl / charles123")
+        print("  ADMIN: admin@ufro.cl / admin123")
+        print("  SUPERVISOR: supervisor@ufro.cl / super123")
+        print("  TÉCNICO: tecnico1@ufro.cl / tecnico123")
+        print("  VISUALIZADOR: visualizador@ufro.cl / viz123")
 
 if __name__ == '__main__':
     verificar_y_crear_usuarios()

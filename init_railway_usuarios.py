@@ -31,29 +31,28 @@ def init_usuarios_railway():
         
         # Crear usuarios en orden de prioridad
         usuarios_data = [
-            ('charles.jelvez', 'charles123', 'superadmin', 'Charles Jélvez', 'charles.jelvez@ufro.cl'),
-            ('admin', 'admin123', 'admin', 'Administrador', 'admin@ufro.cl'),
-            ('supervisor', 'super123', 'supervisor', 'Supervisor', 'supervisor@ufro.cl'),
-            ('tecnico1', 'tecnico123', 'tecnico', 'Técnico 1', 'tecnico1@ufro.cl'),
-            ('visualizador', 'viz123', 'visualizador', 'Visualizador', 'visualizador@ufro.cl')
+            ('charles.jelvez@ufro.cl', 'charles123', 'superadmin', 'Charles Jélvez'),
+            ('admin@ufro.cl', 'admin123', 'admin', 'Administrador'),
+            ('supervisor@ufro.cl', 'super123', 'supervisor', 'Supervisor'),
+            ('tecnico1@ufro.cl', 'tecnico123', 'tecnico', 'Técnico 1'),
+            ('visualizador@ufro.cl', 'viz123', 'visualizador', 'Visualizador')
         ]
         
         print("\n👥 Creando usuarios:")
-        for username, password, rol, nombre, email in usuarios_data:
+        for email, password, rol, nombre in usuarios_data:
             try:
                 usuario = Usuario(
-                    username=username,
-                    rol=rol,
-                    nombre_completo=nombre,
                     email=email,
+                    nombre=nombre,
+                    rol=rol,
                     activo=True
                 )
                 usuario.set_password(password)
                 db.session.add(usuario)
                 db.session.commit()
-                print(f"  ✅ {username} ({rol}) - {nombre}")
+                print(f"  ✅ {email} ({rol}) - {nombre}")
             except Exception as e:
-                print(f"  ❌ Error creando {username}: {e}")
+                print(f"  ❌ Error creando {email}: {e}")
                 db.session.rollback()
         
         # Verificar resultado final
@@ -65,19 +64,19 @@ def init_usuarios_railway():
         print("URL: https://gestion-camaras-ufro.up.railway.app/")
         print("=" * 50)
         for usuario in usuarios:
-            # Obtener contraseña según rol
-            if usuario.username == 'charles.jelvez':
+            # Obtener contraseña según email
+            if usuario.email == 'charles.jelvez@ufro.cl':
                 pwd = 'charles123'
-            elif usuario.username == 'admin':
+            elif usuario.email == 'admin@ufro.cl':
                 pwd = 'admin123'
-            elif usuario.username == 'supervisor':
+            elif usuario.email == 'supervisor@ufro.cl':
                 pwd = 'super123'
-            elif usuario.username == 'tecnico1':
+            elif usuario.email == 'tecnico1@ufro.cl':
                 pwd = 'tecnico123'
             else:
                 pwd = 'viz123'
             
-            print(f"{usuario.username:15} | {usuario.rol:10} | {pwd}")
+            print(f"{usuario.email:25} | {usuario.rol:10} | {pwd}")
         print("=" * 50)
         
         return True

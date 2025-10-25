@@ -8,11 +8,11 @@ with app.app_context():
     
     if Usuario.query.count() == 0:
         usuarios = [
-            Usuario(username='charles.jelvez', rol='superadmin', nombre_completo='Charles Jélvez', email='charles.jelvez@ufro.cl', activo=True),
-            Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
-            Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
-            Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
-            Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
+            Usuario(email='charles.jelvez@ufro.cl', rol='superadmin', nombre='Charles Jélvez', activo=True),
+            Usuario(email='admin@ufro.cl', rol='admin', nombre='Administrador', activo=True),
+            Usuario(email='supervisor@ufro.cl', rol='supervisor', nombre='Supervisor', activo=True),
+            Usuario(email='tecnico1@ufro.cl', rol='tecnico', nombre='Técnico 1', activo=True),
+            Usuario(email='visualizador@ufro.cl', rol='visualizador', nombre='Visualizador', activo=True)
         ]
         
         passwords = ['charles123', 'admin123', 'super123', 'tecnico123', 'viz123']

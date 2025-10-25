@@ -54,7 +54,7 @@ class Camara(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Relationships
-    ubicacion = db.relationship('Ubicacion', backref='camaras')
+    ubicacion = db.relationship('Ubicacion', backref='camaras_ubicacion')
     nvr = db.relationship('NVR_DVR', backref='camaras')
     
     def __repr__(self):
@@ -146,7 +146,7 @@ class UPS(db.Model):
     longitud = db.Column(db.Float)
     
     # Relationships
-    ubicacion = db.relationship('Ubicacion', backref='ups')
+    ubicacion = db.relationship('Ubicacion', backref='ups_ubicacion')
     gabinete = db.relationship('Gabinete', backref='ups')
 
 class NVR_DVR(db.Model):
@@ -170,7 +170,7 @@ class NVR_DVR(db.Model):
     longitud = db.Column(db.Float)
     
     # Relationships
-    ubicacion = db.relationship('Ubicacion', backref='nvr_dvr')
+    ubicacion = db.relationship('Ubicacion', backref='nvr_dvr_ubicacion')
     gabinete = db.relationship('Gabinete', backref='nvr_dvr')
 
 class Fuente_Poder(db.Model):
@@ -190,7 +190,7 @@ class Fuente_Poder(db.Model):
     observaciones = db.Column(db.Text)
     
     # Relationships
-    ubicacion = db.relationship('Ubicacion', backref='fuentes_poder')
+    ubicacion = db.relationship('Ubicacion', backref='fuentes_poder_ubicacion')
     gabinete = db.relationship('Gabinete', backref='fuentes_poder')
 
 

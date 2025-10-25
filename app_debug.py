@@ -26,9 +26,9 @@ print(f"🔧 DEBUG: Usando SQLite = {'sqlite' in app.config.get('SQLALCHEMY_DATA
 
 # Logging del usuario Charles si existe
 try:
-    charles_check = Usuario.query.filter_by(username='charles.jelvez').first()
+    charles_check = Usuario.query.filter_by(email='charles.jelvez').first()
     if charles_check:
-        print(f"✅ Charles encontrado en BD: {charles_check.username} ({charles_check.rol})")
+        print(f"✅ Charles encontrado en BD: {charles_check.email} ({charles_check.rol})")
     else:
         print("❌ Charles NO encontrado en BD")
         total_users = Usuario.query.count()
@@ -93,11 +93,11 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        user = Usuario.query.filter_by(username=username).first()
+        user = Usuario.query.filter_by(email=username).first()
         
         if user and user.check_password(password) and user.activo:
             login_user(user)
-            flash(f'Bienvenido {user.nombre_completo}', 'success')
+            flash(f'Bienvenido {user.nombre}', 'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Usuario o contraseña incorrectos', 'danger')
@@ -613,11 +613,10 @@ def admin_usuarios_nuevo():
         rol = request.form.get('rol')
         nombre_completo = request.form.get('nombre_completo')
         email = request.form.get('email')
-        telefono = request.form.get('telefono')
         
         # Validaciones
-        if Usuario.query.filter_by(username=username).first():
-            flash('El nombre de usuario ya existe', 'danger')
+        if Usuario.query.filter_by(email=username).first():
+            flash('El email ya existe', 'danger')
             return render_template('admin_usuarios_form.html')
         
         # Solo SUPERADMIN puede crear otros SUPERADMIN
@@ -626,11 +625,9 @@ def admin_usuarios_nuevo():
             return render_template('admin_usuarios_form.html')
         
         usuario = Usuario(
-            username=username,
+            email=username,
             rol=rol,
-            nombre_completo=nombre_completo,
-            email=email,
-            telefono=telefono,
+            nombre=nombre_completo,
             activo=True
         )
         usuario.set_password(password)
@@ -659,12 +656,11 @@ def admin_usuarios_editar(id):
         rol = request.form.get('rol')
         nombre_completo = request.form.get('nombre_completo')
         email = request.form.get('email')
-        telefono = request.form.get('telefono')
         activo = request.form.get('activo') == 'on'
         
         # Validaciones
-        if username != usuario.username and Usuario.query.filter_by(username=username).first():
-            flash('El nombre de usuario ya existe', 'danger')
+        if username != usuario.email and Usuario.query.filter_by(email=username).first():
+            flash('El email ya existe', 'danger')
             return render_template('admin_usuarios_form.html', usuario=usuario)
         
         # Solo SUPERADMIN puede asignar rol SUPERADMIN
@@ -677,11 +673,10 @@ def admin_usuarios_editar(id):
             flash('No se puede desactivar el último SUPERADMIN del sistema', 'danger')
             return render_template('admin_usuarios_form.html', usuario=usuario)
         
-        usuario.username = username
+        usuario.email = username
         usuario.rol = rol
-        usuario.nombre_completo = nombre_completo
+        usuario.nombre = nombre_completo
         usuario.email = email
-        usuario.telefono = telefono
         usuario.activo = activo
         
         db.session.commit()
@@ -746,11 +741,11 @@ def init_db():
     # Verificar si ya existen usuarios
     if Usuario.query.count() == 0:
         usuarios = [
-            Usuario(username='charles.jelvez', rol='superadmin', nombre_completo='Charles Jélvez', email='charles.jelvez@ufro.cl', activo=True),
-            Usuario(username='admin', rol='admin', nombre_completo='Administrador', activo=True),
-            Usuario(username='supervisor', rol='supervisor', nombre_completo='Supervisor', activo=True),
-            Usuario(username='tecnico1', rol='tecnico', nombre_completo='Técnico 1', activo=True),
-            Usuario(username='visualizador', rol='visualizador', nombre_completo='Visualizador', activo=True)
+            Usuario(email='charles.jelvez', rol='superadmin', nombre='Charles Jélvez', activo=True),
+            Usuario(email='admin', rol='admin', nombre='Administrador', activo=True),
+            Usuario(email='supervisor', rol='supervisor', nombre='Supervisor', activo=True),
+            Usuario(email='tecnico1', rol='tecnico', nombre='Técnico 1', activo=True),
+            Usuario(email='visualizador', rol='visualizador', nombre='Visualizador', activo=True)
         ]
         
         passwords = ['charles123', 'admin123', 'super123', 'tecnico123', 'viz123']
@@ -786,7 +781,7 @@ def init_usuarios_temporal():
             usuario = Usuario(
                 username=username,
                 rol=rol,
-                nombre_completo=nombre,
+                nombre=nombre,
                 email=email,
                 activo=True
             )
@@ -817,7 +812,7 @@ def crear_charles_superadmin():
     """Ruta para crear específicamente Charles como SUPERADMIN"""
     try:
         # Verificar si Charles ya existe
-        charles = Usuario.query.filter_by(username='charles.jelvez').first()
+        charles = Usuario.query.filter_by(email='charles.jelvez').first()
         
         if charles:
             # Actualizar contraseña y rol
@@ -825,20 +820,20 @@ def crear_charles_superadmin():
             charles.rol = 'superadmin'
             charles.activo = True
             db.session.commit()
-            mensaje = f"✅ Charles actualizado: {charles.username} ({charles.rol})"
+            mensaje = f"✅ Charles actualizado: {charles.email} ({charles.rol})"
         else:
             # Crear nuevo Charles
             charles = Usuario(
                 username='charles.jelvez',
                 rol='superadmin',
-                nombre_completo='Charles Jélvez',
+                nombre='Charles Jélvez',
                 email='charles.jelvez@ufro.cl',
                 activo=True
             )
             charles.set_password('charles123')
             db.session.add(charles)
             db.session.commit()
-            mensaje = f"✅ Charles creado: {charles.username} ({charles.rol})"
+            mensaje = f"✅ Charles creado: {charles.email} ({charles.rol})"
         
         # Mostrar todos los usuarios
         usuarios = Usuario.query.order_by(Usuario.rol.desc()).all()
@@ -853,8 +848,8 @@ def crear_charles_superadmin():
         }
         
         for usuario in usuarios:
-            pwd = credenciales.get(usuario.username, 'N/A')
-            usuarios_html += f"<tr><td>{usuario.username}</td><td>{usuario.rol}</td><td>{pwd}</td><td>{'✅' if usuario.activo else '❌'}</td></tr>"
+            pwd = credenciales.get(usuario.email, 'N/A')
+            usuarios_html += f"<tr><td>{usuario.email}</td><td>{usuario.rol}</td><td>{pwd}</td><td>{'✅' if usuario.activo else '❌'}</td></tr>"
         
         return f"""
         <h1>👑 Configuración SUPERADMIN</h1>

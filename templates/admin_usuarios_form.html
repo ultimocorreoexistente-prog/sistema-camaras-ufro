@@ -47,10 +47,10 @@
                             </div>
                             
                             <div class="col-md-6 mb-3">
-                                <label for="username" class="form-label">Nombre de Usuario *</label>
-                                <input type="text" class="form-control" id="username" name="username" 
-                                       value="{{ usuario.username if usuario else '' }}" required>
-                                <div class="form-text">Nombre único para iniciar sesión</div>
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       value="{{ usuario.email if usuario else '' }}" required>
+                                <div class="form-text">Email único para iniciar sesión</div>
                             </div>
                             
                             <div class="col-md-6 mb-3">
@@ -93,21 +93,10 @@
                             </div>
 
                             <div class="col-md-8 mb-3">
-                                <label for="nombre_completo" class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" 
-                                       value="{{ usuario.nombre_completo if usuario else '' }}">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" 
+                                       value="{{ usuario.nombre if usuario else '' }}">
                             </div>
-                            
-                            <div class="col-md-4 mb-3">
-                                <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="telefono" name="telefono" 
-                                       value="{{ usuario.telefono if usuario else '' }}">
-                            </div>
-                            
-                            <div class="col-12 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" 
-                                       value="{{ usuario.email if usuario else '' }}">
                             </div>
 
                             <!-- Estado -->

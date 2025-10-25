@@ -91,7 +91,7 @@ def login():
         return redirect(url_for('dashboard'))
     
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = request.form.get('email')
         password = request.form.get('password')
         user = Usuario.query.filter_by(email=username).first()
         
@@ -156,7 +156,7 @@ def camaras_list():
         query = query.filter(or_(
             Camara.codigo.like(f'%{busqueda}%'),
             Camara.nombre.like(f'%{busqueda}%'),
-            Camara.ip.like(f'%{busqueda}%')
+            Camara.ip_address.like(f'%{busqueda}%')
         ))
     
     camaras = query.all()
@@ -176,18 +176,14 @@ def camaras_nuevo():
         camara = Camara(
             codigo=request.form.get('codigo'),
             nombre=request.form.get('nombre'),
-            ip=request.form.get('ip'),
+            ip_address=request.form.get('ip'),
             modelo=request.form.get('modelo'),
-            fabricante=request.form.get('fabricante'),
-            tipo_camara=request.form.get('tipo_camara'),
+            marca=request.form.get('fabricante'),
+            tipo=request.form.get('tipo_camara'),
             ubicacion_id=request.form.get('ubicacion_id'),
-            gabinete_id=request.form.get('gabinete_id') or None,
-            switch_id=request.form.get('switch_id') or None,
             nvr_id=request.form.get('nvr_id') or None,
             estado=request.form.get('estado', 'Activo'),
-            fecha_alta=datetime.strptime(request.form.get('fecha_alta'), '%Y-%m-%d').date() if request.form.get('fecha_alta') else None,
-            latitud=float(request.form.get('latitud')) if request.form.get('latitud') else None,
-            longitud=float(request.form.get('longitud')) if request.form.get('longitud') else None,
+            fecha_instalacion=datetime.strptime(request.form.get('fecha_instalacion'), '%Y-%m-%d').date() if request.form.get('fecha_instalacion') else None,
             observaciones=request.form.get('observaciones')
         )
         db.session.add(camara)
@@ -232,14 +228,13 @@ def camaras_editar(id):
         
         camara.codigo = request.form.get('codigo')
         camara.nombre = request.form.get('nombre')
-        camara.ip = request.form.get('ip')
+        camara.ip_address = request.form.get('ip')
         camara.modelo = request.form.get('modelo')
-        camara.fabricante = request.form.get('fabricante')
-        camara.tipo_camara = request.form.get('tipo_camara')
+        camara.marca = request.form.get('fabricante')
+        camara.tipo = request.form.get('tipo_camara')
         camara.ubicacion_id = request.form.get('ubicacion_id')
         camara.estado = request.form.get('estado')
-        camara.latitud = float(request.form.get('latitud')) if request.form.get('latitud') else None
-        camara.longitud = float(request.form.get('longitud')) if request.form.get('longitud') else None
+        camara.fecha_instalacion = datetime.strptime(request.form.get('fecha_instalacion'), '%Y-%m-%d').date() if request.form.get('fecha_instalacion') else None
         camara.observaciones = request.form.get('observaciones')
         
         # Registrar cambio de estado
@@ -497,7 +492,7 @@ def mapa_red():
 @app.route('/mapa-geolocalizacion')
 @login_required
 def mapa_geolocalizacion():
-    camaras = Camara.query.filter(Camara.latitud.isnot(None), Camara.longitud.isnot(None)).all()
+    camaras = Camara.query.filter(Camara.observaciones.isnot(None)).all()  # Usar campo que existe en el modelo
     gabinetes = Gabinete.query.filter(Gabinete.latitud.isnot(None), Gabinete.longitud.isnot(None)).all()
     
     return render_template('mapa_geolocalizacion.html',
@@ -608,12 +603,11 @@ def admin_usuarios():
 def admin_usuarios_nuevo():
     """Crear nuevo usuario"""
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = request.form.get('email')
         password = request.form.get('password')
         rol = request.form.get('rol')
-        nombre_completo = request.form.get('nombre_completo')
+        nombre_completo = request.form.get('nombre')
         email = request.form.get('email')
-        telefono = request.form.get('telefono')
         
         # Validaciones
         if Usuario.query.filter_by(email=username).first():
@@ -653,11 +647,10 @@ def admin_usuarios_editar(id):
         return redirect(url_for('admin_usuarios'))
     
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = request.form.get('email')
         rol = request.form.get('rol')
-        nombre_completo = request.form.get('nombre_completo')
+        nombre_completo = request.form.get('nombre')
         email = request.form.get('email')
-        telefono = request.form.get('telefono')
         activo = request.form.get('activo') == 'on'
         
         # Validaciones
@@ -781,10 +774,9 @@ def init_usuarios_temporal():
         
         for username, password, rol, nombre, email in usuarios_data:
             usuario = Usuario(
-                username=username,
+                email=username,
                 rol=rol,
                 nombre=nombre,
-                email=email,
                 activo=True
             )
             usuario.set_password(password)
@@ -814,7 +806,7 @@ def crear_charles_superadmin():
     """Ruta para crear específicamente Charles como SUPERADMIN"""
     try:
         # Verificar si Charles ya existe
-        charles = Usuario.query.filter_by(username='charles.jelvez').first()
+        charles = Usuario.query.filter_by(email='charles.jelvez').first()
         
         if charles:
             # Actualizar contraseña y rol
@@ -826,10 +818,9 @@ def crear_charles_superadmin():
         else:
             # Crear nuevo Charles
             charles = Usuario(
-                username='charles.jelvez',
+                email='charles.jelvez',
                 rol='superadmin',
                 nombre='Charles Jélvez',
-                email='charles.jelvez@ufro.cl',
                 activo=True
             )
             charles.set_password('charles123')

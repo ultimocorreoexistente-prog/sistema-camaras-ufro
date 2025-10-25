@@ -18,19 +18,18 @@ try:
         print("🚀 Creando Charles Jélvez como SUPERADMIN en Railway...")
         
         # Verificar si Charles ya existe
-        charles = Usuario.query.filter_by(username='charles.jelvez').first()
+        charles = Usuario.query.filter_by(email='charles.jelvez@ufro.cl').first()
         
         if charles:
-            print(f"✅ Charles ya existe: {charles.username} ({charles.rol})")
+            print(f"✅ Charles ya existe: {charles.email} ({charles.rol})")
             charles.set_password('charles123')
             db.session.commit()
         else:
             print("👑 Creando nuevo usuario Charles Jélvez...")
             charles = Usuario(
-                username='charles.jelvez',
-                rol='superadmin',
-                nombre_completo='Charles Jélvez',
                 email='charles.jelvez@ufro.cl',
+                nombre='Charles Jélvez',
+                rol='superadmin',
                 activo=True
             )
             charles.set_password('charles123')
@@ -44,7 +43,7 @@ try:
         
         print("\n🎯 CREDENCIALES DISPONIBLES:")
         credenciales = {
-            'charles.jelvez': 'charles123',
+            'charles.jelvez@ufro.cl': 'charles123',
             'admin': 'admin123',
             'supervisor': 'super123',
             'tecnico1': 'tecnico123',
@@ -52,11 +51,11 @@ try:
         }
         
         for usuario in usuarios:
-            pwd = credenciales.get(usuario.username, 'N/A')
-            print(f"  {usuario.username:15} | {usuario.rol:10} | {pwd}")
+            pwd = credenciales.get(usuario.email, 'N/A')
+            print(f"  {usuario.email:15} | {usuario.rol:10} | {pwd}")
         
         print(f"\n✅ CREDENCIALES VERIFICADAS:")
-        print(f"🔑 SUPERADMIN: charles.jelvez / charles123")
+        print(f"🔑 SUPERADMIN: charles.jelvez@ufro.cl / charles123")
         print(f"🌐 URL: https://gestion-camaras-ufro.up.railway.app/")
 
 except Exception as e:
