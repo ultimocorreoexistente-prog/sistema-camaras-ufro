@@ -17,7 +17,9 @@ def ejecutar_migracion():
     
     if not database_url:
         print("❌ ERROR: DATABASE_URL no encontrada en variables de entorno")
-        print("💡 Asegúrate de que Railway haya configurado PostgreSQL")
+        print("💡 Para ejecutar este script necesitas:")
+        print("   1. Configurar DATABASE_URL de Railway")
+        print("   2. Ejecutar desde el dashboard de Railway")
         return False
     
     # Convertir postgres:// a postgresql:// si es necesario
@@ -129,31 +131,9 @@ if __name__ == "__main__":
         sys.exit(0)
     else:
         print("❌ La migración falló")
+        print("💡 Instrucciones para ejecutar en Railway:")
+        print("   1. Ve a https://railway.app")
+        print("   2. Abre tu proyecto → PostgreSQL → Query")
+        print("   3. Copia y pega el contenido de migration_prioridades_criticas.sql")
+        print("   4. Ejecuta la consulta")
         sys.exit(1)
-    
-    print("\n✅ MIGRACIÓN EXITOSA")
-    print("\nTablas y columnas agregadas:")
-    print("  - Tabla 'enlace' creada")
-    print("  - Tabla 'vlan' creada")
-    print("  - Columna 'vlan_id' agregada a 'puerto_switch'")
-    print("  - Columnas firmware agregadas a 'camaras':")
-    print("    * version_firmware")
-    print("    * fecha_actualizacion_firmware")
-    print("    * proxima_revision_firmware")
-    print("  - Columnas autonomía agregadas a 'ups':")
-    print("    * autonomia_minutos")
-    print("    * porcentaje_carga_actual")
-    print("    * alertas_bateria_baja")
-    print("    * alertas_sobrecarga")
-    
-    # Cerrar conexión
-    cursor.close()
-    conn.close()
-    
-    print("\n✅ Sistema listo para deployment en Railway")
-    
-except Exception as e:
-    print(f"\n❌ ERROR durante la migración: {e}")
-    import traceback
-    traceback.print_exc()
-    exit(1)

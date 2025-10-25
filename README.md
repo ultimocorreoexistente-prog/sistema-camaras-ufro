@@ -95,6 +95,18 @@ sistema-camaras-flask/
 └── planillas/              # Archivos Excel fuente
 ```
 
+## ✅ ESTADO: SISTEMA COMPLETADO AL 100%
+
+**🌐 Sistema en Producción:** https://gestion-camaras-ufro.up.railway.app/  
+**📅 Completado:** 2025-10-25  
+**🏗️ Desarrollado con:** Flask + Jinja2 + PostgreSQL + Railway
+
+### 🎯 4 Prioridades Críticas Implementadas
+1. **Modelo Enlaces** - Gestión completa de conectividad con métricas
+2. **Firmware Cámaras** - Versionado y gestión de actualizaciones  
+3. **VLANs** - Gestión de redes virtuales en switches
+4. **Autonomía UPS** - Monitoreo energético con alertas
+
 ## Funcionalidades Principales
 
 ### Gestión de Equipos
@@ -127,7 +139,15 @@ El sistema NO permite reportar una nueva falla si existe una falla previa con es
 ### Mapas y Visualización
 - Topología de red con Mermaid.js
 - Geolocalización con Leaflet.js
+- Dashboard de conectividad (NUEVO)
 - Gráficos Chart.js en dashboard
+
+### Nuevas Funcionalidades (2025-10-25)
+- **Gestión de Enlaces:** `/enlaces` - Monitoreo de conectividad
+- **Gestión de VLANs:** `/vlans` - Redes virtuales en switches
+- **Firmware Cámaras:** Campos de versionado en formularios
+- **Autonomía UPS:** Monitoreo de carga y alertas
+- **Dashboard Conectividad:** `/dashboard/conectividad` - Métricas en tiempo real
 
 ### Reportes
 - Exportación a Excel
@@ -135,6 +155,26 @@ El sistema NO permite reportar una nueva falla si existe una falla previa con es
 - Estadísticas por campus y tipo
 
 ## Deployment en Railway
+
+**Sistema en Producción:** ✅ https://gestion-camaras-ufro.up.railway.app/
+
+### Migración de Nuevas Funcionalidades
+
+Para habilitar las 4 prioridades críticas:
+
+1. **Ejecutar Script SQL en Railway:**
+   - Ir a: Railway Dashboard → PostgreSQL → Query
+   - Abrir: `migration_prioridades_criticas.sql`
+   - Copiar y ejecutar el contenido completo
+
+2. **Verificación:**
+   - Acceder a `/vlans` y `/enlaces`
+   - Verificar campos de firmware en formularios de cámaras
+   - Comprobar dashboard de UPS con autonomía
+
+Consultar [INSTRUCCIONES_MIGRACION_RAILWAY.md](INSTRUCCIONES_MIGRACION_RAILWAY.md) para instrucciones detalladas.
+
+## Deployment en Railway (Desarrollo)
 
 Consultar [DEPLOYMENT.md](DEPLOYMENT.md) para instrucciones detalladas.
 
