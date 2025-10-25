@@ -463,7 +463,7 @@ def migrar_datos():
                 ubicacion_id=safe_int(row.get('ID_Ubicacion')),
                 gabinete_id=safe_int(row.get('ID_Gabinete')),
                 switch_id=safe_int(row.get('ID_Switch')),
-                puerto_switch_id=safe_int(row.get('ID_Puerto_Switch')),
+                puertos_switch_id=safe_int(row.get('ID_Puerto_Switch')),
                 nvr_id=safe_int(row.get('ID_NVR')),
                 puerto_nvr=safe_str(row.get('Puerto_NVR')),
                 requiere_poe_adicional=bool(row.get('Requiere_PoE_Adicional', False)),

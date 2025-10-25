@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS vlan (
 );
 
 -- PRIORIDAD 3: Agregar relación VLAN a Puerto_Switch
-ALTER TABLE puerto_switch ADD COLUMN IF NOT EXISTS vlan_id INTEGER REFERENCES vlan(id);
+ALTER TABLE puertos_switch ADD COLUMN IF NOT EXISTS vlan_id INTEGER REFERENCES vlan(id);
 
 -- PRIORIDAD 1: Crear tabla Enlace
 CREATE TABLE IF NOT EXISTS enlace (

@@ -46,7 +46,7 @@ class Camara(db.Model):
     tipo = db.Column(db.String(50))
     marca = db.Column(db.String(50))
     modelo = db.Column(db.String(50))
-    nvr_id = db.Column(db.Integer, db.ForeignKey('nvr_dvr.id'))
+    nvr_id = db.Column(db.Integer, db.ForeignKey('nvr_dvrs.id'))
     puerto = db.Column(db.Integer)
     observaciones = db.Column(db.Text)
     fecha_instalacion = db.Column(db.Date)
@@ -86,7 +86,7 @@ class Gabinete(db.Model):
     ubicacion = db.relationship('Ubicacion', backref='gabinetes')
 
 class Switch(db.Model):
-    __tablename__ = 'switch'
+    __tablename__ = 'switches'
     id = db.Column(db.Integer, primary_key=True)
     codigo = db.Column(db.String(50), unique=True, nullable=False)
     nombre = db.Column(db.String(200))
@@ -108,24 +108,24 @@ class Switch(db.Model):
     latitud = db.Column(db.Float)
     longitud = db.Column(db.Float)
     
-    gabinete = db.relationship('Gabinete', backref='switches')
+    gabinete = db.relationship('Gabinete', backref='switches_gabinete')
 
 class Puerto_Switch(db.Model):
-    __tablename__ = 'puerto_switch'
+    __tablename__ = 'puertos_switch'
     id = db.Column(db.Integer, primary_key=True)
-    switch_id = db.Column(db.Integer, db.ForeignKey('switch.id'), nullable=False)
+    switch_id = db.Column(db.Integer, db.ForeignKey('switches.id'), nullable=False)
     numero_puerto = db.Column(db.Integer, nullable=False)
     camara_id = db.Column(db.Integer, nullable=True)  # Campo directo sin FK
     ip_dispositivo = db.Column(db.String(45))
     estado = db.Column(db.String(20), default='Disponible')  # En uso/Disponible/Averiado
     tipo_conexion = db.Column(db.String(20))  # PoE/Fibra/Normal
-    nvr_id = db.Column(db.Integer, db.ForeignKey('nvr_dvr.id'))
+    nvr_id = db.Column(db.Integer, db.ForeignKey('nvr_dvrs.id'))
     puerto_nvr = db.Column(db.String(20))
     
     switch = db.relationship('Switch', backref='puertos')
 
 class UPS(db.Model):
-    __tablename__ = 'ups'
+    __tablename__ = 'upss'
     id = db.Column(db.Integer, primary_key=True)
     codigo = db.Column(db.String(50), unique=True, nullable=False)
     modelo = db.Column(db.String(100))
@@ -146,11 +146,11 @@ class UPS(db.Model):
     longitud = db.Column(db.Float)
     
     # Relationships
-    ubicacion = db.relationship('Ubicacion', backref='ups_ubicacion')
-    gabinete = db.relationship('Gabinete', backref='ups')
+    ubicacion = db.relationship('Ubicacion', backref='upss_ubicacion')
+    gabinete = db.relationship('Gabinete', backref='upss')
 
 class NVR_DVR(db.Model):
-    __tablename__ = 'nvr_dvr'
+    __tablename__ = 'nvr_dvrs'
     id = db.Column(db.Integer, primary_key=True)
     codigo = db.Column(db.String(50), unique=True, nullable=False)
     tipo = db.Column(db.String(10), nullable=False)  # NVR/DVR
@@ -174,7 +174,7 @@ class NVR_DVR(db.Model):
     gabinete = db.relationship('Gabinete', backref='nvr_dvr')
 
 class Fuente_Poder(db.Model):
-    __tablename__ = 'fuente_poder'
+    __tablename__ = 'fuentes_poder'
     id = db.Column(db.Integer, primary_key=True)
     codigo = db.Column(db.String(50), unique=True, nullable=False)
     modelo = db.Column(db.String(100))

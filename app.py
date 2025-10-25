@@ -572,7 +572,7 @@ def api_gabinete_equipos(id):
             'modelo': n.modelo,
             'estado': n.estado
         } for n in nvrs],
-        'ups': [{
+        'upss': [{
             'id': u.id,
             'codigo': u.codigo,
             'modelo': u.modelo,

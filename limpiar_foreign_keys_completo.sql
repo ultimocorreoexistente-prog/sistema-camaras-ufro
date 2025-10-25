@@ -14,7 +14,7 @@ ALTER TABLE historial_estado_equipo DROP CONSTRAINT IF EXISTS historial_estado_e
 ALTER TABLE mantenimiento DROP CONSTRAINT IF EXISTS mantenimiento_tecnico_id_fkey;
 
 -- Dependencias de la tabla 'camara':
-ALTER TABLE puerto_switch DROP CONSTRAINT IF EXISTS fk_puerto_switch_camara;
+ALTER TABLE puertos_switch DROP CONSTRAINT IF EXISTS fk_puerto_switch_camara;
 
 -- Dependencias de la tabla 'ubicacion':
 ALTER TABLE camara DROP CONSTRAINT IF EXISTS camara_ubicacion_id_fkey;
